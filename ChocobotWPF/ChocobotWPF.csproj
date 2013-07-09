@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FE08B02F-1656-43E8-8D3E-DAE0BCB41067}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Chocobot</RootNamespace>
+    <AssemblyName>Chocobot</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MahApps.Metro, Version=0.11.0.36, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MahApps.Metro.0.11.0.36-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MahApps.Metro.0.11.0.36-ALPHA\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Controls\ChatlogControl.xaml.cs">
+      <DependentUpon>ChatlogControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\vp_Map.xaml.cs">
+      <DependentUpon>vp_Map.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\vp_Radar.xaml.cs">
+      <DependentUpon>vp_Radar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Datatypes\Constants.cs" />
+    <Compile Include="Datatypes\Coordinate.cs" />
+    <Compile Include="Datatypes\Enums.cs" />
+    <Compile Include="Datatypes\Keys.cs" />
+    <Compile Include="Dialogs\dlgExpBot.xaml.cs">
+      <DependentUpon>dlgExpBot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\dlgInputBox.xaml.cs">
+      <DependentUpon>dlgInputBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\dlgMap.xaml.cs">
+      <DependentUpon>dlgMap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\dlgNavigation.xaml.cs">
+      <DependentUpon>dlgNavigation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\dlgOnEvent.xaml.cs">
+      <DependentUpon>dlgOnEvent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\dlgRadar.xaml.cs">
+      <DependentUpon>dlgRadar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MemoryStructures\Abilities\Ability.cs" />
+    <Compile Include="MemoryStructures\Abilities\Recast.cs" />
+    <Compile Include="MemoryStructures\Aggro\AggroHelper.cs" />
+    <Compile Include="MemoryStructures\Character\Character.cs" />
+    <Compile Include="MemoryStructures\Chat\ChatCleaner.cs" />
+    <Compile Include="MemoryStructures\Chat\ChatEntry.cs" />
+    <Compile Include="MemoryStructures\Chat\ChatPointers.cs" />
+    <Compile Include="MemoryStructures\Chat\ChatWorker.cs" />
+    <Compile Include="MemoryStructures\Chat\ChatWorkerDelegate.cs" />
+    <Compile Include="MemoryStructures\Chat\XmlHelper.cs" />
+    <Compile Include="MemoryStructures\Chat\XValuePair.cs" />
+    <Compile Include="MemoryStructures\Map\Map.cs" />
+    <Compile Include="Utilities\Input\clsInput.cs" />
+    <Compile Include="Utilities\Keyboard\KeyboardHelper.cs" />
+    <Compile Include="Utilities\Keyboard\WindowsMessageEvents.cs" />
+    <Compile Include="Utilities\MathMod\Calculations.cs" />
+    <Compile Include="Utilities\Memory\MemoryFunctions.cs" />
+    <Compile Include="Utilities\Memory\MemoryHandler.cs" />
+    <Compile Include="Utilities\Memory\MemoryLocations2.cs" />
+    <Compile Include="Utilities\Memory\Pointers.cs" />
+    <Compile Include="Utilities\Memory\SigFinder.cs" />
+    <Compile Include="Utilities\Memory\UnsafeNativeMethods.cs" />
+    <Compile Include="Utilities\Navigation\NavigationHelper.cs" />
+    <Page Include="Controls\ChatlogControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\vp_Map.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\vp_Radar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgExpBot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgInputBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgMap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgNavigation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgOnEvent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgRadar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Entypo.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\config_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\monster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\monster_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\player.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\player_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\radar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\sheep.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\sheep_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\skull.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\skull_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\npc_16x16.png" />
+    <Resource Include="Resources\wood_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\radar_heading.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\monsterclaimed_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\question_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\fate_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

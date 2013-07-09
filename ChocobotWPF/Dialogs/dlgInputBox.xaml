@@ -1,0 +1,25 @@
+﻿<Controls:MetroWindow x:Name="dlg_InputBox" x:Class="Chocobot.Dialogs.dlgInputBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" Title="Input Box" Height="159" Width="469" Icon="/Chocobot;component/Resources/Icon.ico" Closing="dlg_InputBox_Closing" Topmost="True" ShowMaxRestoreButton="False" ShowMinButton="False" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="46" Margin="10,10,0,0" VerticalAlignment="Top" Width="46" Source="/Chocobot;component/Resources/question_64x64.png"/>
+        <Label x:Name="lbl_Question" Content="What is the question?" HorizontalAlignment="Left" Margin="61,16,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="txt_Input" HorizontalAlignment="Left" Height="22" Margin="70,52,0,0" TextWrapping="Wrap" Text="Default Value" VerticalAlignment="Top" Width="381"/>
+        <Button x:Name="btn_OK" Content="OK" HorizontalAlignment="Left" Height="31" Margin="70,87,0,0" VerticalAlignment="Top" Width="144" Click="btn_OK_Click"/>
+        <Button x:Name="btn_Cancel" Content="CANCEL" HorizontalAlignment="Left" Height="31" Margin="307,87,0,0" VerticalAlignment="Top" Width="144" Click="btn_Cancel_Click"/>
+
+    </Grid>
+</Controls:MetroWindow>

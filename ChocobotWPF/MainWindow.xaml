@@ -1,0 +1,142 @@
+﻿<Controls:MetroWindow x:Class="Chocobot.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      Title="Chocobot"
+                      Width="514"
+                      Height="315"
+                      Icon="Resources/Icon.ico"
+                      ResizeMode="NoResize"
+                      ShowIconOnTitleBar="True" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid RenderTransformOrigin="0.509,0.516">
+        <Button x:Name="btn_Refresh"
+                Width="106"
+                Height="39"
+                Margin="284,156,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btn_Refresh_Click"
+                Content="Refresh"
+                FontSize="14"
+                FontWeight="Bold"
+                RenderTransformOrigin="0.704,2.077" />
+        <Button x:Name="btn_Radar"
+                Width="111"
+                Height="39"
+                Margin="395,54,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btn_Radar_Click"
+                Content="Radar"
+                FontSize="14"
+                FontWeight="Bold"
+                RenderTransformOrigin="0.704,2.077" />
+        <Button x:Name="btn_Navigation"
+                Width="106"
+                Height="39"
+                Margin="284,54,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btn_Navigation_Click"
+                Content="Navigation"
+                FontSize="14"
+                FontWeight="Bold"
+                RenderTransformOrigin="0.704,2.077" />
+        <Button x:Name="btn_ExpBot"
+                Width="106"
+                Height="39"
+                Margin="284,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btn_ExpBot_Click"
+                Content="EXP BOT"
+                FontSize="14"
+                FontWeight="Bold" />
+        <Button x:Name="btn_OnEvent"
+                Width="111"
+                Height="39"
+                Margin="395,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btn_OnEvent_Click"
+                Content="OnEvent"
+                FontSize="14"
+                FontWeight="Bold" />
+        <GroupBox Width="274"
+                  Height="115"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Header="User Information" Margin="5,5,0,0">
+            <Grid>
+                <Label x:Name="lbl_Name"
+                       Width="252"
+                       Height="28"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Content="Name:" Margin="0,-3,0,0" />
+                <Label x:Name="lbl_Health"
+                       Width="141"
+                       Height="28"
+                       Margin="0,25,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Content="Health:" />
+                <Label x:Name="lbl_TP"
+                       Width="106"
+                       Height="28"
+                       Margin="146,25,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Content="TP:" />
+                <Label x:Name="lbl_Coords"
+                	Width="257"
+                	Height="28"
+                	Margin="0,53,0,-5"
+                	HorizontalAlignment="Left"
+                	VerticalAlignment="Top"
+                	Content="Coords:" />
+            </Grid>
+        </GroupBox>
+        <Button x:Name="btn_ShowTarget"
+        	Width="106"
+        	Height="39"
+        	Margin="284,112,0,0"
+        	HorizontalAlignment="Left"
+        	VerticalAlignment="Top"
+        	Content="Get Target"
+        	FontSize="14"
+        	FontWeight="Bold"
+        	RenderTransformOrigin="0.704,2.077" Click="btn_ShowTarget_Click" />
+        <Button x:Name="btn_Map"
+        	Width="111"
+        	Height="39"
+        	Margin="397,112,0,0"
+        	HorizontalAlignment="Left"
+        	VerticalAlignment="Top"
+        	Click="btn_Map_Click"
+        	Content="MAP"
+        	FontSize="14"
+        	FontWeight="Bold"
+        	RenderTransformOrigin="0.704,2.077" />
+        <GroupBox Header="Characters" HorizontalAlignment="Left" Height="155" Margin="5,0,0,6" VerticalAlignment="Bottom" Width="274">
+            <ListBox x:Name="lst_Characters"
+        		Width="264"
+        		Height="117"
+        		HorizontalAlignment="Left"
+        		VerticalAlignment="Top"
+        		SelectionChanged="lst_Characters_SelectionChanged" Margin="0,0,-2,-1" />
+        </GroupBox>
+
+    </Grid>
+</Controls:MetroWindow>

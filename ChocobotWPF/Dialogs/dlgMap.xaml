@@ -1,0 +1,21 @@
+﻿<Controls1:MetroWindow 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:Chocobot.Controls"
+        xmlns:Controls1="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" x:Class="Chocobot.Dialogs.dlgMap"
+        Title="Map Hax" Height="1067" Width="1044.5" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="../Resources/Icon.ico">
+    <Controls1:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Controls1:MetroWindow.Resources>
+    <Grid>
+        <Controls:vp_Map x:Name="vp_map" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1024" Height="1024"/>
+    </Grid>
+</Controls1:MetroWindow >

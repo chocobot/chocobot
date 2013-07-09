@@ -1,0 +1,29 @@
+﻿<Controls:MetroWindow x:Class="Chocobot.Dialogs.dlgOnEvent"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:Controls1="clr-namespace:Chocobot.Controls"
+                      Title="OnEvent"
+                      Width="591"
+                      Height="327"
+                      ResizeMode="NoResize"
+                      ShowIconOnTitleBar="True">
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+    <Grid RenderTransformOrigin="0.509,0.516">
+        <Controls1:ChatlogControl Width="565"
+                                  Height="266"
+                                  Margin="10,10,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top" />
+    </Grid>
+</Controls:MetroWindow>

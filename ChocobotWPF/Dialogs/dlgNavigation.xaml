@@ -1,0 +1,75 @@
+﻿<Controls:MetroWindow x:Class="Chocobot.Dialogs.dlgNavigation"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      Title="Navigation"
+                      Width="298"
+                      Height="255"
+                      Icon="/Chocobot;component/Resources/Icon.ico"
+                      ResizeMode="NoResize"
+                      ShowIconOnTitleBar="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Button x:Name="btn_Record"
+                Width="119"
+                Height="38"
+                Margin="10,131,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btn_Record_Click"
+                Content="Record"
+                FontWeight="Bold" />
+        <Button x:Name="btn_Play"
+                Width="119"
+                Height="38"
+                Margin="163,131,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btn_Play_Click"
+                Content="Play"
+                FontWeight="Bold" />
+        <Button x:Name="btn_Save"
+                Width="119"
+                Height="38"
+                Margin="10,179,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btn_Save_Click"
+                Content="Save"
+                FontWeight="Bold" />
+        <Button x:Name="btn_Load"
+                Width="119"
+                Height="38"
+                Margin="163,179,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="btn_Load_Click"
+                Content="Load"
+                FontWeight="Bold" />
+        <GroupBox Width="272"
+                  Height="111"
+                  Margin="10,10,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Header="Waypoints">
+            <ListBox x:Name="lst_Coordinates"
+                     Width="262"
+                     Height="73"
+                     Margin="0,0,-2,-1"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top"
+                     BorderBrush="Black"
+                     BorderThickness="1" />
+        </GroupBox>
+    </Grid>
+</Controls:MetroWindow>
