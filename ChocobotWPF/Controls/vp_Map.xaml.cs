@@ -31,6 +31,8 @@ namespace Chocobot.Controls
         private readonly List<Character> _monsters = new List<Character>();
         private readonly List<Character> _npcs = new List<Character>();
         private readonly List<Character> _fate = new List<Character>();
+        private MapInfo _mapinfo;
+
         public bool ShowMonsters = true;
         public bool ShowNpc = true;
         public bool ShowPlayers = true;
@@ -45,7 +47,7 @@ namespace Chocobot.Controls
 
             Uri filePath = new Uri(@"Maps\" + _mapIndex + ".gif", UriKind.Relative);
             _map = System.IO.File.Exists(@"Maps\" + _mapIndex + ".gif") ? new BitmapImage(filePath) : new BitmapImage(new Uri(@"Maps\0.gif", UriKind.Relative));
-
+            _mapinfo = Map.Instance.GetMapInfo();
         }
 
         public vp_Map()
@@ -85,7 +87,7 @@ namespace Chocobot.Controls
 
             try
             {
-                newCoord = new Coordinate { X = (float)((coord.X * 0.5) + origin.X), Y = (float)((coord.Y * 0.5) + origin.Y) };
+                newCoord = new Coordinate { X = (float)((coord.X * _mapinfo.XScale) + origin.X), Y = (float)((coord.Y * _mapinfo.YScale) + origin.Y) };
 
             }
             catch (Exception)
@@ -107,7 +109,7 @@ namespace Chocobot.Controls
 
             try
             {
-                newCoord = new Coordinate { X = (float)((coord.X - origin.X) / 0.5), Y = (float)((coord.Y - origin.Y) / 0.5) };
+                newCoord = new Coordinate { X = (float)((coord.X - origin.X) / _mapinfo.XScale), Y = (float)((coord.Y - origin.Y) / _mapinfo.YScale) };
 
             }
             catch (Exception)

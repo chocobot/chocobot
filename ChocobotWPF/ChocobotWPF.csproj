@@ -113,6 +113,8 @@
     <Compile Include="MemoryStructures\Chat\XmlHelper.cs" />
     <Compile Include="MemoryStructures\Chat\XValuePair.cs" />
     <Compile Include="MemoryStructures\Map\Map.cs" />
+    <Compile Include="MemoryStructures\Map\MapInfo.cs" />
+    <Compile Include="Utilities\FileIO\IniParser.cs" />
     <Compile Include="Utilities\Input\clsInput.cs" />
     <Compile Include="Utilities\Keyboard\KeyboardHelper.cs" />
     <Compile Include="Utilities\Keyboard\WindowsMessageEvents.cs" />
