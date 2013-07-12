@@ -43,6 +43,10 @@ namespace Chocobot.Utilities.Navigation
 
         public NavigationHelper()
         {
+
+            if (MemoryLocations.Database.Count == 0)
+                return;
+
             _recordcoordinates.Tick += thread_Record_Tick;
             _recordcoordinates.Interval = new TimeSpan(0, 0, 0, 0, 100);
 

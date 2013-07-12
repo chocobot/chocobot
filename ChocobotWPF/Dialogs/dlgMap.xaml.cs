@@ -27,5 +27,24 @@ namespace Chocobot.Dialogs
         {
             vp_map.Refresh();
         }
+
+        private void btn_RecordNav_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+            if ((string)btn_RecordNav.Content == "Record")
+            {
+                btn_RecordNav.Content = "Stop";
+                vp_map.StartRecord();
+            }
+            else
+            {
+                btn_RecordNav.Content = "Record";
+                vp_map.StopRecording();
+            }
+
+
+            
+
+        }
     }
 }

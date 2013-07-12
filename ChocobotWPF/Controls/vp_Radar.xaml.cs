@@ -63,11 +63,8 @@ namespace Chocobot.Controls
         {
             InitializeComponent();
 
-            if (DesignerProperties.GetIsInDesignMode(this))
-            {
-                // Design-mode specific functionality
+            if (MemoryLocations.Database.Count == 0)
                 return;
-            }
 
             try // Added this because the designer was going crazy without it.
             {
@@ -79,6 +76,8 @@ namespace Chocobot.Controls
                 _npcicon = new BitmapImage(new Uri("pack://application:,,/Resources/npc_16x16.png"));
                 _woodicon = new BitmapImage(new Uri("pack://application:,,/Resources/wood_16x16.png"));
                 _radarheading = new BitmapImage(new Uri("pack://application:,,/Resources/radar_heading.png")); 
+
+                
             } catch
             {
                 
@@ -86,6 +85,8 @@ namespace Chocobot.Controls
 
 
             this.IsHitTestVisible = false;
+            Background = null;
+
         }
 
         public void Refresh()
@@ -98,12 +99,9 @@ namespace Chocobot.Controls
         {
             base.OnRender(drawingContext);
 
-            if (DesignerProperties.GetIsInDesignMode(this))
-            {
-                // Design-mode specific functionality
+            if (MemoryLocations.Database.Count == 0)
                 return;
-            }
-  
+
             Coordinate origin = new Coordinate((float) ((this.ActualWidth/2)),
                                                (float) ((this.ActualHeight/2)), 0);
 
@@ -133,7 +131,8 @@ namespace Chocobot.Controls
             drawingContext.DrawImage(_radarheading,
                             new Rect(new Point(origin.X - 128, origin.Y - 256),
                                     new Size(256, 256)));
-            
+
+
             if (ShowPlayers)
             {
 

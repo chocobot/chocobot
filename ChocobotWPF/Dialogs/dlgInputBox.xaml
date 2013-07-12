@@ -17,7 +17,7 @@
     <Grid>
         <Image HorizontalAlignment="Left" Height="46" Margin="10,10,0,0" VerticalAlignment="Top" Width="46" Source="/Chocobot;component/Resources/question_64x64.png"/>
         <Label x:Name="lbl_Question" Content="What is the question?" HorizontalAlignment="Left" Margin="61,16,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
-        <TextBox x:Name="txt_Input" HorizontalAlignment="Left" Height="22" Margin="70,52,0,0" TextWrapping="Wrap" Text="Default Value" VerticalAlignment="Top" Width="381"/>
+        <TextBox x:Name="txt_Input" HorizontalAlignment="Left" Height="22" Margin="70,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="381" KeyUp="txt_Input_Keyup"/>
         <Button x:Name="btn_OK" Content="OK" HorizontalAlignment="Left" Height="31" Margin="70,87,0,0" VerticalAlignment="Top" Width="144" Click="btn_OK_Click"/>
         <Button x:Name="btn_Cancel" Content="CANCEL" HorizontalAlignment="Left" Height="31" Margin="307,87,0,0" VerticalAlignment="Top" Width="144" Click="btn_Cancel_Click"/>
 

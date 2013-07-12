@@ -30,7 +30,7 @@ namespace Chocobot.Dialogs
             InitializeComponent();
             _callback = callback;
             lbl_Question.Content = question;
-
+            txt_Input.Focus();
 
         }
 
@@ -49,5 +49,17 @@ namespace Chocobot.Dialogs
         {
             this.DialogResult = false;
         }
+
+        private void txt_Input_Keyup(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                _callback.Invoke(txt_Input.Text);
+                this.DialogResult = true;
+            }
+        }
+
+
+
     }
 }

@@ -148,7 +148,7 @@ namespace Chocobot
         private void btn_ShowTarget_Click(object sender, RoutedEventArgs e)
         {
             int targetID = MemoryFunctions.GetTarget();
-
+            System.Diagnostics.Debug.Print(targetID.ToString("X"));
             foreach (Character monster in _monsters)
             {
                 if (monster.Address == targetID)

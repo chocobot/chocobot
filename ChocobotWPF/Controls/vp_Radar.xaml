@@ -7,5 +7,5 @@
              d:DesignWidth="300"
              mc:Ignorable="d"
              IsHitTestVisible="False">
-    <Grid />
+    <Grid IsHitTestVisible="false"/>
 </UserControl>
