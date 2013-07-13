@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Threading;
+using Chocobot.Datatypes;
 using MahApps.Metro.Controls;
 
 namespace Chocobot.Dialogs
@@ -45,6 +46,25 @@ namespace Chocobot.Dialogs
 
             
 
+        }
+
+        private void btn_PlayPath_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if ((string)btn_PlayPath.Content == "Play")
+            {
+                btn_PlayPath.Content = "Stop";
+                vp_map.PlaySelectedPath();
+            }
+            else
+            {
+                btn_PlayPath.Content = "Play";
+                vp_map.StopSelectedPath();
+            }
+        }
+
+        private void btn_SaveNav_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            vp_map.SaveNav();
         }
     }
 }

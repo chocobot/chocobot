@@ -49,9 +49,9 @@ namespace Chocobot.Datatypes
             return new Coordinate(X / length, Y / length, Z / length);
         }
 
-        public Coordinate Normalize(Coordinate Origin)
+        public Coordinate Normalize(Coordinate origin)
         {
-            Coordinate nCoordinate = this.Subtract(Origin);
+            Coordinate nCoordinate = this.Subtract(origin);
 
             return nCoordinate.Normalize();
         }
@@ -62,10 +62,17 @@ namespace Chocobot.Datatypes
             return (float) Math.Atan2(tmp.X, tmp.Y);
         }
 
-        public float Distance(Coordinate Coordinate2)
+        public float Distance(Coordinate coordinate2)
         {
 
-            return (float)Math.Sqrt(Math.Pow(X - Coordinate2.X, 2) + Math.Pow(Y - Coordinate2.Y, 2) + Math.Pow(Z - Coordinate2.Z, 2));
+            return (float)Math.Sqrt(Math.Pow(X - coordinate2.X, 2) + Math.Pow(Y - coordinate2.Y, 2) + Math.Pow(Z - coordinate2.Z, 2));
+
+        }
+
+        public float Distance2D(Coordinate coordinate2)
+        {
+
+            return (float)Math.Sqrt(Math.Pow(X - coordinate2.X, 2) + Math.Pow(Y - coordinate2.Y, 2));
 
         }
 

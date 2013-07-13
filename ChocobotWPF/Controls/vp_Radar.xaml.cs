@@ -142,7 +142,7 @@ namespace Chocobot.Controls
                     if (player.Valid == false)
                         continue;
 
-                    if (player.Name.Contains(Filter) == false)
+                    if (player.Name.ToLower().Contains(Filter) == false)
                         continue;
 
                     if (_user.Valid == false)
@@ -189,7 +189,7 @@ namespace Chocobot.Controls
             if (ShowMonsters){
                 foreach (Character monster in _monsters)
                 {
-                    if (monster.Name.Contains(Filter) == false)
+                    if (monster.Name.ToLower().Contains(Filter) == false)
                         continue;
 
                     Coordinate offset;
@@ -256,7 +256,7 @@ namespace Chocobot.Controls
 
                 foreach (Character monster in _fate)
                 {
-                    if (monster.Name.Contains(Filter) == false)
+                    if (monster.Name.ToLower().Contains(Filter) == false)
                         continue;
 
                     Coordinate offset;
@@ -321,7 +321,7 @@ namespace Chocobot.Controls
             {
                 foreach (Character NPC in _npcs)
                 {
-                    if (NPC.Name.Contains(Filter) == false)
+                    if (NPC.Name.ToLower().Contains(Filter) == false)
                         continue;
 
                     if (NPC.Type == CharacterType.NPC && ShowNPCs == false)

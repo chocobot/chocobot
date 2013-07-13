@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Algorithms;
 using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Character;
 using Chocobot.Utilities.Memory;
@@ -35,10 +36,11 @@ namespace Chocobot.Controls
         private MapInfo _mapinfo;
 
         private readonly NavigationHelper _navigation = new NavigationHelper();
+        private readonly NavigationHelper _pathWalker = new NavigationHelper();
 
-        public bool ShowMonsters = true;
-        public bool ShowNpc = true;
-        public bool ShowPlayers = true;
+        public bool ShowMonsters = false;
+        public bool ShowNpc = false;
+        public bool ShowPlayers = false;
 
         private const short XPixelCount = 1024;
         private const short YPixelCount = 1024;
@@ -46,6 +48,9 @@ namespace Chocobot.Controls
         private double _mapScaleY = 1.0;
 
         private ushort _mapIndex;
+        private MapNavArr _mapArr;
+        private IPathFinder _pathFinder = null;
+        private List<PathFinderNode> _selectedPath = null;
 
         private void RefreshMap()
         {
@@ -55,6 +60,10 @@ namespace Chocobot.Controls
             Uri filePath = new Uri(@"Maps\" + _mapIndex + ".gif", UriKind.Relative);
             _map = System.IO.File.Exists(@"Maps\" + _mapIndex + ".gif") ? new BitmapImage(filePath) : new BitmapImage(new Uri(@"Maps\0.gif", UriKind.Relative));
             _mapinfo = Map.Instance.GetMapInfo();
+
+            _mapArr = _mapinfo.HasNavCoordinates ? _mapArr = new MapNavArr(_mapinfo.WaypointGroups) : null;
+                
+            
         }
 
         public vp_Map()
@@ -91,6 +100,9 @@ namespace Chocobot.Controls
             _mapinfo.WaypointGroups.Add(_navigation.Waypoints.ToList());
             _navigation.Waypoints = new ObservableCollection<Coordinate>();
 
+            _mapinfo.HasNavCoordinates = true;
+
+            _mapArr = _mapinfo.HasNavCoordinates ? _mapArr = new MapNavArr(_mapinfo.WaypointGroups) : null;
         }
 
         public void Refresh()
@@ -236,6 +248,8 @@ namespace Chocobot.Controls
         private void DrawPaths(DrawingContext drawingContext)
         {
             Pen p = new Pen(Brushes.MediumAquamarine, 2);
+            Pen p2 = new Pen(Brushes.Magenta, 3);
+
             foreach (List<Coordinate> waypointgroup in _mapinfo.WaypointGroups)
             {
                 for(int i = 1; i < waypointgroup.Count; i++)
@@ -256,6 +270,22 @@ namespace Chocobot.Controls
 
                     drawingContext.DrawLine(p, new Point(pnt1.X, pnt1.Y), new Point(pnt2.X, pnt2.Y));
             }
+
+
+
+            if(_selectedPath != null)
+            {
+
+                for (int i = 1; i < _selectedPath.Count; i++)
+                {
+
+                    Coordinate pnt1 = WorldToMap(new Coordinate(_selectedPath[i - 1].X / MapNavArr.ArrScale + _mapArr.Min.X, _selectedPath[i - 1].Y / MapNavArr.ArrScale + _mapArr.Min.Y, 0));
+                    Coordinate pnt2 = WorldToMap(new Coordinate(_selectedPath[i].X / MapNavArr.ArrScale + _mapArr.Min.X, _selectedPath[i].Y / MapNavArr.ArrScale + _mapArr.Min.Y, 0));
+
+                    drawingContext.DrawLine(p2, new Point(pnt1.X, pnt1.Y), new Point(pnt2.X, pnt2.Y));
+                }
+
+            }
             
         }
 
@@ -263,11 +293,87 @@ namespace Chocobot.Controls
         {
 
             Point p = e.GetPosition(this);
-            Coordinate coords = MapToWorld(new Coordinate((float) p.X, (float) p.Y, 0));
-            System.Diagnostics.Debug.Print(coords.X + "," + coords.Y);
+            Coordinate clickCoordinate = MapToWorld(new Coordinate((float) p.X, (float) p.Y, 0));
+            System.Diagnostics.Debug.Print(clickCoordinate.X + "," + clickCoordinate.Y);
+
+            if(_mapArr != null)
+            {
+                CoordinateInt startIndex = _mapArr.GetClosestIndex(_user.Coordinate);
+                CoordinateInt endIndex = _mapArr.GetClosestIndex(clickCoordinate);
+
+                _pathFinder = new PathFinderFast(_mapArr.MapArr)
+                                  {
+                                      Formula = HeuristicFormula.Manhattan,
+                                      Diagonals = true,
+                                      HeavyDiagonals = false,
+                                      HeuristicEstimate = (int) 2,
+                                      PunishChangeDirection = false,
+                                      TieBreaker = true,
+                                      SearchLimit = (int) 100000,
+                                      DebugProgress = false,
+                                      DebugFoundPath = false
+                                  };
+
+
+
+                _selectedPath = _pathFinder.FindPath(new System.Drawing.Point(startIndex.X, startIndex.Y), new System.Drawing.Point(endIndex.X, endIndex.Y));
+
+                _mapArr.Save(startIndex, endIndex);
+
+                if (_selectedPath == null)
+                {
+                    MessageBox.Show("No Path Found");
+                }
+
+                _selectedPath.Reverse();
+
+
+            }
             
         }
 
+
+        public void PlaySelectedPath()
+        {
+            if (_selectedPath == null)
+                return;
+
+            _pathWalker.Waypoints.Clear();
+
+            _pathWalker.Loop = false;
+            _pathWalker.Sensitivity = 2.0;
+
+            for (int i = 0; i < _selectedPath.Count; i++)
+            {
+
+                Coordinate pnt1 =
+                    (new Coordinate(_selectedPath[i].X / MapNavArr.ArrScale + _mapArr.Min.X,
+                                              _selectedPath[i].Y / MapNavArr.ArrScale + _mapArr.Min.Y, 0));
+
+                _pathWalker.Waypoints.Add(pnt1);
+            }
+
+            _pathWalker.CleanWaypoints(4.0);
+
+
+            //_pathWalker.Save("D:\\test.nav");
+            _pathWalker.Start();
+        }
+
+
+
+        public void StopSelectedPath()
+        {
+
+
+            _pathWalker.Stop();
+
+        }
+
+        public void SaveNav()
+        {
+            _mapinfo.SaveNav();
+        }
 
 
     }

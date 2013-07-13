@@ -24,6 +24,9 @@ namespace Chocobot.Utilities.Navigation
         private Character _user;
 
         public event WaypointChangedEventHandler WaypointIndexChanged;
+        public double Sensitivity = 1.0;
+        public bool Loop = true;
+
 
         // Invoke the Changed event; called whenever list changes
         protected virtual void OnWaypointChanged()
@@ -36,9 +39,20 @@ namespace Chocobot.Utilities.Navigation
         private void GrabUser()
         {
 
-            uint StartAddress = MemoryLocations.Database["charmap"];
-            _user = new Character(StartAddress);
+            uint startAddress = MemoryLocations.Database["charmap"];
+            _user = new Character(startAddress);
 
+        }
+
+        public void CleanWaypoints(double sensitivity)
+        {
+            for(int i = Waypoints.Count - 1; i > 0; i--)
+            {
+                if (Waypoints[i].Distance2D(Waypoints[i - 1]) < sensitivity)
+                {
+                    Waypoints.RemoveAt(i-1);
+                }
+            }
         }
 
         public NavigationHelper()
@@ -66,11 +80,11 @@ namespace Chocobot.Utilities.Navigation
 
             foreach (Coordinate currcoordinate in Waypoints)
             {
-                float CurrDistance = currcoordinate.Distance(_user.Coordinate);
+                float currDistance = currcoordinate.Distance2D(_user.Coordinate);
 
-                if (CurrDistance < MinDistance)
+                if (currDistance < MinDistance)
                 {
-                    MinDistance = CurrDistance;
+                    MinDistance = currDistance;
                     i = Waypoints.IndexOf(currcoordinate);
                 }
             }
@@ -157,16 +171,23 @@ namespace Chocobot.Utilities.Navigation
 
             if (_currentindex >= Waypoints.Count)
             {
-                _currentindex = 0;
-                OnWaypointChanged();
+                if (Loop)
+                {
+                    _currentindex = 0;
+                    OnWaypointChanged();
+                } else
+                {
+                    Stop();
+                    return;
+                }
             }
 
             _user.Refresh();
 
-            float NewHeading = _user.Coordinate.AngleTo(Waypoints[_currentindex]);
-            _user.Heading = NewHeading;
+            float newHeading = _user.Coordinate.AngleTo(Waypoints[_currentindex]);
+            _user.Heading = newHeading;
 
-            if (_user.Coordinate.Distance(Waypoints[_currentindex]) < 1.0)
+            if (_user.Coordinate.Distance2D(Waypoints[_currentindex]) < Sensitivity)
             {
                 _currentindex++;
                 OnWaypointChanged();

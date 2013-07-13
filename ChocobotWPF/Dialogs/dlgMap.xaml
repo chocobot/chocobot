@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:Chocobot.Controls"
         xmlns:Controls1="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" x:Class="Chocobot.Dialogs.dlgMap"
-        Title="Map Hax" Height="1130.761" Width="1044.5" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="../Resources/Icon.ico">
+        Title="Map Hax" Height="655.761" Width="583.5" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="../Resources/Icon.ico">
     <Controls1:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,6 +17,8 @@
     </Controls1:MetroWindow.Resources>
     <Grid>
         <Controls:vp_Map x:Name="vp_map" HorizontalAlignment="Left" VerticalAlignment="Top" Width="512" Height="512"/>
-        <Button x:Name="btn_RecordNav" Content="Record" HorizontalAlignment="Left" Height="54" Margin="10,10,0,0" VerticalAlignment="Top" Width="267" Click="btn_RecordNav_Click"/>
+        <Button x:Name="btn_RecordNav" Content="Record" HorizontalAlignment="Left" Height="30" Margin="10,10,0,0" VerticalAlignment="Top" Width="114" Click="btn_RecordNav_Click"/>
+        <Button x:Name="btn_PlayPath" Content="Play" HorizontalAlignment="Left" Height="30" Margin="129,10,0,0" VerticalAlignment="Top" Width="114" Click="btn_PlayPath_Click"/>
+        <Button x:Name="btn_SaveNav" Content="Save" HorizontalAlignment="Left" Height="30" Margin="10,45,0,0" VerticalAlignment="Top" Width="114" Click="btn_SaveNav_Click"/>
     </Grid>
 </Controls1:MetroWindow >

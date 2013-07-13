@@ -23,10 +23,11 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -81,6 +82,7 @@
     </Compile>
     <Compile Include="Datatypes\Constants.cs" />
     <Compile Include="Datatypes\Coordinate.cs" />
+    <Compile Include="Datatypes\CoordinateInt.cs" />
     <Compile Include="Datatypes\Enums.cs" />
     <Compile Include="Datatypes\Keys.cs" />
     <Compile Include="Dialogs\dlgExpBot.xaml.cs">
@@ -114,6 +116,7 @@
     <Compile Include="MemoryStructures\Chat\XValuePair.cs" />
     <Compile Include="MemoryStructures\Map\Map.cs" />
     <Compile Include="MemoryStructures\Map\MapInfo.cs" />
+    <Compile Include="MemoryStructures\Map\MapNavArr.cs" />
     <Compile Include="Utilities\FileIO\IniParser.cs" />
     <Compile Include="Utilities\Input\clsInput.cs" />
     <Compile Include="Utilities\Keyboard\KeyboardHelper.cs" />
@@ -126,6 +129,12 @@
     <Compile Include="Utilities\Memory\SigFinder.cs" />
     <Compile Include="Utilities\Memory\UnsafeNativeMethods.cs" />
     <Compile Include="Utilities\Navigation\NavigationHelper.cs" />
+    <Compile Include="Utilities\PathFinder\AuthorAttribute.cs" />
+    <Compile Include="Utilities\PathFinder\HighResolutionTime.cs" />
+    <Compile Include="Utilities\PathFinder\IPathFinder.cs" />
+    <Compile Include="Utilities\PathFinder\PathFinder.cs" />
+    <Compile Include="Utilities\PathFinder\PathFinderFast.cs" />
+    <Compile Include="Utilities\PathFinder\PriorityQueueB.cs" />
     <Page Include="Controls\ChatlogControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
