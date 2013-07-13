@@ -26,6 +26,7 @@ namespace Chocobot.Utilities.Navigation
         public event WaypointChangedEventHandler WaypointIndexChanged;
         public double Sensitivity = 1.0;
         public bool Loop = true;
+        public bool IsPlaying = false;
 
 
         // Invoke the Changed event; called whenever list changes
@@ -108,6 +109,8 @@ namespace Chocobot.Utilities.Navigation
         {
             _recordcoordinates.Stop();
 
+            IsPlaying = true;
+
             _currentindex = FindNearestIndex();
             OnWaypointChanged();
 
@@ -118,6 +121,8 @@ namespace Chocobot.Utilities.Navigation
 
         public void Stop()
         {
+
+            IsPlaying = false;
             _navigate.Stop();
             Keyboard.KeyBoardHelper.KeyUp(Keys.W);
         }
@@ -125,6 +130,7 @@ namespace Chocobot.Utilities.Navigation
         public void Resume()
         {
 
+            IsPlaying = true;
             Keyboard.KeyBoardHelper.KeyDown(Keys.W);
             _navigate.Start();
 

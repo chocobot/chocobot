@@ -51,7 +51,7 @@ namespace Chocobot.Controls
         private MapNavArr _mapArr;
         private IPathFinder _pathFinder = null;
         private List<PathFinderNode> _selectedPath = null;
-
+        private List<Coordinate> _selectedPathCoords; 
         private void RefreshMap()
         {
 
@@ -247,16 +247,31 @@ namespace Chocobot.Controls
 
         private void DrawPaths(DrawingContext drawingContext)
         {
+
+
             Pen p = new Pen(Brushes.MediumAquamarine, 2);
             Pen p2 = new Pen(Brushes.Magenta, 3);
 
-            foreach (List<Coordinate> waypointgroup in _mapinfo.WaypointGroups)
+            if (_pathWalker.IsPlaying == false)
             {
-                for(int i = 1; i < waypointgroup.Count; i++)
+                foreach (List<Coordinate> waypointgroup in _mapinfo.WaypointGroups)
                 {
+                    for (int i = 5; i < waypointgroup.Count; i += 5)
+                    {
 
-                    Coordinate pnt1 = WorldToMap(waypointgroup[i - 1]);
-                    Coordinate pnt2 = WorldToMap(waypointgroup[i]);
+                        Coordinate pnt1 = WorldToMap(waypointgroup[i - 5]);
+                        Coordinate pnt2 = WorldToMap(waypointgroup[i]);
+
+                        drawingContext.DrawLine(p, new Point(pnt1.X, pnt1.Y), new Point(pnt2.X, pnt2.Y));
+                    }
+
+                }
+
+
+                for (int i = 5; i < _navigation.Waypoints.Count; i += 5)
+                {
+                    Coordinate pnt1 = WorldToMap(_navigation.Waypoints[i - 5]);
+                    Coordinate pnt2 = WorldToMap(_navigation.Waypoints[i]);
 
                     drawingContext.DrawLine(p, new Point(pnt1.X, pnt1.Y), new Point(pnt2.X, pnt2.Y));
                 }
@@ -264,29 +279,21 @@ namespace Chocobot.Controls
             }
 
 
-            for (int i = 1; i < _navigation.Waypoints.Count; i++){
-                    Coordinate pnt1 = WorldToMap(_navigation.Waypoints[i - 1]);
-                    Coordinate pnt2 = WorldToMap(_navigation.Waypoints[i]);
-
-                    drawingContext.DrawLine(p, new Point(pnt1.X, pnt1.Y), new Point(pnt2.X, pnt2.Y));
-            }
-
-
-
-            if(_selectedPath != null)
+            if (_selectedPath != null)
             {
 
-                for (int i = 1; i < _selectedPath.Count; i++)
+                for (int i = 5; i < _selectedPathCoords.Count; i += 5)
                 {
 
-                    Coordinate pnt1 = WorldToMap(new Coordinate(_selectedPath[i - 1].X / MapNavArr.ArrScale + _mapArr.Min.X, _selectedPath[i - 1].Y / MapNavArr.ArrScale + _mapArr.Min.Y, 0));
-                    Coordinate pnt2 = WorldToMap(new Coordinate(_selectedPath[i].X / MapNavArr.ArrScale + _mapArr.Min.X, _selectedPath[i].Y / MapNavArr.ArrScale + _mapArr.Min.Y, 0));
+                    Coordinate pnt1 = _selectedPathCoords[i - 5];
+                    Coordinate pnt2 = _selectedPathCoords[i];
+
 
                     drawingContext.DrawLine(p2, new Point(pnt1.X, pnt1.Y), new Point(pnt2.X, pnt2.Y));
                 }
 
             }
-            
+
         }
 
         private void map_MouseUp(object sender, MouseButtonEventArgs e)
@@ -320,12 +327,28 @@ namespace Chocobot.Controls
 
                 _mapArr.Save(startIndex, endIndex);
 
+                _selectedPathCoords = new List<Coordinate>();
+
                 if (_selectedPath == null)
                 {
                     MessageBox.Show("No Path Found");
+                    return;
                 }
 
                 _selectedPath.Reverse();
+
+               
+
+                for (int i = 0; i < _selectedPath.Count; i += 1)
+                {
+
+                    Coordinate pnt1 =
+                        WorldToMap(new Coordinate(_selectedPath[i].X / MapNavArr.ArrScale + _mapArr.Min.X,
+                                                  _selectedPath[i].Y / MapNavArr.ArrScale + _mapArr.Min.Y, 0));
+
+                    _selectedPathCoords.Add(pnt1);
+
+                }
 
 
             }
@@ -353,10 +376,10 @@ namespace Chocobot.Controls
                 _pathWalker.Waypoints.Add(pnt1);
             }
 
-            _pathWalker.CleanWaypoints(4.0);
+            _pathWalker.CleanWaypoints(3.0);
 
 
-            //_pathWalker.Save("D:\\test.nav");
+            _pathWalker.Save("D:\\test.nav");
             _pathWalker.Start();
         }
 

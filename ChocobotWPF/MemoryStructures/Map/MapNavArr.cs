@@ -12,7 +12,7 @@ namespace Chocobot.MemoryStructures.Map
     {
         public const int ArrSize = 4096;
         public readonly byte[,] MapArr;
-        public const float ArrScale = 2;
+        public const float ArrScale = 4;
         public CoordinateInt Min = new CoordinateInt();
 
         private static T[,] GetNew2DArray<T>(int x, int y, T initialValue)
@@ -77,7 +77,7 @@ namespace Chocobot.MemoryStructures.Map
                     {
                         double a = Math.Abs(xCoord - prevX);
                         double b = Math.Abs(yCoord - prevY);
-                        double blendVal = 0.05;
+                        double blendVal = 0.01;
                         double dist = Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
 
                         if (dist > 1.0)
@@ -88,7 +88,7 @@ namespace Chocobot.MemoryStructures.Map
                                 int tmpY = (int)(yCoord + (blendVal * (prevY - yCoord)));
 
                                 MapArr[tmpX - minX, tmpY - minY] = 1;
-                                blendVal += 0.05;
+                                blendVal += 0.01;
                             }
 
                         }
