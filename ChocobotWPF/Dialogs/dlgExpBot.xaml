@@ -1,14 +1,15 @@
-﻿<Controls:MetroWindow x:Class="Chocobot.Dialogs.dlgExpBot"
+﻿<Controls:MetroWindow
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:Controls1="clr-namespace:Chocobot.Controls" x:Class="Chocobot.Dialogs.dlgExpBot"
                       Title="Exp Bot"
-                      Width="522"
+                      Width="373"
                       Height="319"
                       Icon="/Chocobot;component/Resources/Icon.ico"
                       ResizeMode="NoResize"
                       ShowIconOnTitleBar="True">
-    <Window.Resources>
+    <Controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
@@ -18,77 +19,86 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>
+    </Controls:MetroWindow.Resources>
 
     <Grid>
-        <TabControl Width="516"
-                    Height="291"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top">
+        <TabControl Width="367"
+			Height="290"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Top">
             <TabItem Header="Waypoints">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFF9F9F9">
                     <Button x:Name="btn_LoadPath"
-                            Width="100"
-                            Height="23"
-                            Margin="27,17,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Click="btn_LoadPath_Click"
-                            Content="Load Path" />
+						Width="100"
+						Height="23"
+						Margin="10,10,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Click="btn_LoadPath_Click"
+						Content="Load Path" />
                     <Label x:Name="lbl_PathWaypoints"
-                           Width="129"
-                           Height="26"
-                           Margin="40,42,0,0"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Content="Waypoints: 0" />
+						Width="129"
+						Height="26"
+						Margin="10,35,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Content="Waypoints: 0" FontWeight="Bold" />
+                    <Controls1:vp_Map x:Name="vp_map" HorizontalAlignment="Left" Height="230" Margin="130,5,0,0" VerticalAlignment="Top" Width="230" NavigationEnabled="false"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Monsters">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFF9F9F9">
                     <TextBox x:Name="txt_MonsterName"
-                             Width="126"
-                             Height="26"
-                             Margin="10,10,0,0"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             Text="Giant Gnat"
-                             TextWrapping="Wrap" />
+						Width="169"
+						Height="26"
+						Margin="10,10,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Text="Giant Gnat"
+						TextWrapping="Wrap" />
                     <Button x:Name="btn_AddMonster"
-                            Width="53"
-                            Height="26"
-                            Margin="141,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Click="btn_AddMonster_Click"
-                            Content="Add" />
-                    <ListBox x:Name="lst_Monsters"
-                             Width="184"
-                             Height="183"
-                             Margin="10,41,0,0"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             MouseDoubleClick="lst_Monsters_DoubleClick" />
+						Width="53"
+						Height="26"
+						Margin="184,10,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Click="btn_AddMonster_Click"
+						Content="Add" />
+                    <GroupBox Header="Selected Monsters" HorizontalAlignment="Left" Height="187" Margin="10,43,0,0" VerticalAlignment="Top" Width="341">
+                        <ListBox x:Name="lst_Monsters"
+                    		Width="331"
+                    		Height="149"
+                    		Margin="0,0,-2,-1"
+                    		HorizontalAlignment="Left"
+                    		VerticalAlignment="Top"
+                    		MouseDoubleClick="lst_Monsters_DoubleClick" />
+                    </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Exp Bot">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFF9F9F9">
                     <Button x:Name="btn_Start"
-                            Width="135"
-                            Height="34"
-                            Margin="10,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Click="btn_Start_Click"
-                            Content="Start" />
+						Width="341"
+						Height="34"
+						Margin="10,113,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Click="btn_Start_Click"
+						Content="Start" />
                     <Button x:Name="btn_Stop"
-                            Width="135"
-                            Height="34"
-                            Margin="10,49,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Content="Stop" Click="btn_Stop_Click" />
-                    <CheckBox x:Name="chk_IsMage" Content="Mage" HorizontalAlignment="Left" Margin="248,17,0,0" VerticalAlignment="Top"/>
+						Width="341"
+						Height="34"
+						Margin="10,152,0,0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Content="Stop" Click="btn_Stop_Click" />
+                    <GroupBox Header="Options" HorizontalAlignment="Left" Height="98" Margin="10,10,0,0" VerticalAlignment="Top" Width="341">
+                        <Grid>
+                            <ComboBox x:Name="lst_Classes" HorizontalAlignment="Left" VerticalAlignment="Top" Width="264" Margin="55,2,0,0" SelectionChanged="lst_Classes_SelectionChanged"/>
+                            <Label Content="Class:" Margin="4,2,0,0" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Width="46"></Label>
+                            <CheckBox x:Name="chk_HasCure" Content="Has Cure" HorizontalAlignment="Left" Margin="11,38,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
         </TabControl>

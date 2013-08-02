@@ -22,6 +22,13 @@ namespace Chocobot.Dialogs
             thread_Refresh.Interval = new TimeSpan(0, 0, 0, 0, 100);
             thread_Refresh.Start();
 
+            vp_map.ControlNavigationFinished += NavigationFinished;
+
+        }
+
+        private void NavigationFinished(object sender)
+        {
+            btn_PlayPath.Content = "Play";
         }
 
         private void thread_Refresh_Tick(object sender, EventArgs e)
@@ -65,6 +72,11 @@ namespace Chocobot.Dialogs
         private void btn_SaveNav_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             vp_map.SaveNav();
+        }
+
+        private void dlgMap_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            thread_Refresh.Stop();
         }
     }
 }

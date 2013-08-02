@@ -16,7 +16,8 @@ namespace Chocobot.MemoryStructures.Map
         public bool             HasNavCoordinates = false;
         public ushort           Index;
         public List<List<Coordinate>> WaypointGroups = new List<List<Coordinate>>();
-        public bool Valid = false;
+        public bool             Valid = false;
+        public int              Resolution = 1;
         
         public MapInfo(ushort index)
         {
@@ -33,7 +34,10 @@ namespace Chocobot.MemoryStructures.Map
                     YScale = float.Parse(parser.GetSetting("map", "y_scale"));
                     XOffset = float.Parse(parser.GetSetting("map", "x_offset"));
                     YOffset = float.Parse(parser.GetSetting("map", "y_offset"));
+                    bool result = int.TryParse(parser.GetSetting("map", "resolution"),out Resolution);
 
+                    if (result == false)
+                        Resolution = 4;
 
                     if (File.Exists(@"Maps\" + index + ".nav"))
                     {
@@ -48,8 +52,6 @@ namespace Chocobot.MemoryStructures.Map
                     System.Diagnostics.Debug.Print("Problem reading map ini file. " + ex.Message);
                     Valid = false;
                 }
-
-
             }
 
         }

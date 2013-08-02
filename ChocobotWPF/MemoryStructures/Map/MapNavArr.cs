@@ -10,10 +10,12 @@ namespace Chocobot.MemoryStructures.Map
 {
     class MapNavArr
     {
-        public const int ArrSize = 4096;
+        public int ArrSizeX = 4096;
+        public int ArrSizeY = 4096;
         public readonly byte[,] MapArr;
-        public const float ArrScale = 4;
+        public float ArrScale = 4;
         public CoordinateInt Min = new CoordinateInt();
+        //public int Resolution;
 
         private static T[,] GetNew2DArray<T>(int x, int y, T initialValue)
         {
@@ -23,11 +25,14 @@ namespace Chocobot.MemoryStructures.Map
         }
 
 
-        public MapNavArr(List<List<Coordinate>> waypointGroups)
+        public MapNavArr(List<List<Coordinate>> waypointGroups, int resolution)
         {
-            MapArr = GetNew2DArray(MapNavArr.ArrSize, MapNavArr.ArrSize, (byte)0); //new byte[16384,16384];
-            Coordinate minCoord = new Coordinate((float)9999.0, (float)9999.0, (float)9999.0);
-
+            
+            const double blendAmount = 0.001;
+            MapArr = GetNew2DArray(ArrSizeX, ArrSizeY, (byte)0); //new byte[16384,16384];
+            Coordinate minCoord = new Coordinate(float.MaxValue, float.MaxValue, float.MaxValue);
+            ArrScale = resolution;
+            
 
             foreach (List<Coordinate> waypointgroup in waypointGroups)
             {
@@ -58,7 +63,7 @@ namespace Chocobot.MemoryStructures.Map
                     int xCoord = (int)(waypoint.X * ArrScale);
                     int yCoord = (int)(waypoint.Y * ArrScale);
 
-                    if (xCoord >= MapNavArr.ArrSize || yCoord >= MapNavArr.ArrSize)
+                    if (xCoord >= ArrSizeX || yCoord >= ArrSizeX)
                     {
                         System.Diagnostics.Debug.Print("Coordinate to large. " + xCoord + " " + yCoord);
                         continue;
@@ -77,7 +82,7 @@ namespace Chocobot.MemoryStructures.Map
                     {
                         double a = Math.Abs(xCoord - prevX);
                         double b = Math.Abs(yCoord - prevY);
-                        double blendVal = 0.01;
+                        double blendVal = blendAmount;
                         double dist = Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
 
                         if (dist > 1.0)
@@ -88,7 +93,7 @@ namespace Chocobot.MemoryStructures.Map
                                 int tmpY = (int)(yCoord + (blendVal * (prevY - yCoord)));
 
                                 MapArr[tmpX - minX, tmpY - minY] = 1;
-                                blendVal += 0.01;
+                                blendVal += blendAmount;
                             }
 
                         }
@@ -111,9 +116,9 @@ namespace Chocobot.MemoryStructures.Map
             CoordinateInt minIndex = new CoordinateInt();
             float minDistance = (float) 9999.0;
 
-            for (int i = 0; i < ArrSize; i++)
+            for (int i = 0; i < ArrSizeX; i++)
             {
-                for (int j = 0; j < ArrSize; j++)
+                for (int j = 0; j < ArrSizeX; j++)
                 {
 
                     if (MapArr[i, j] == 0)

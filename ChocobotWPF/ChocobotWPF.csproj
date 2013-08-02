@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
@@ -71,6 +72,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CombatAI\Classes\BasicAI.cs" />
+    <Compile Include="CombatAI\Classes\ThermAI.cs" />
+    <Compile Include="CombatAI\GenericAI.cs" />
+    <Compile Include="CombatAI\Classes\RangerAI.cs" />
     <Compile Include="Controls\ChatlogControl.xaml.cs">
       <DependentUpon>ChatlogControl.xaml</DependentUpon>
     </Compile>
@@ -273,6 +278,7 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

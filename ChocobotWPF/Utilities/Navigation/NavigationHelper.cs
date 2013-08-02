@@ -12,6 +12,7 @@ namespace Chocobot.Utilities.Navigation
 {
 
     public delegate void WaypointChangedEventHandler(object sender, int Index);
+    public delegate void FinishedEventHandler(object sender);
 
     class NavigationHelper
     {
@@ -24,6 +25,7 @@ namespace Chocobot.Utilities.Navigation
         private Character _user;
 
         public event WaypointChangedEventHandler WaypointIndexChanged;
+        public event FinishedEventHandler NavigationFinished;
         public double Sensitivity = 1.0;
         public bool Loop = true;
         public bool IsPlaying = false;
@@ -184,6 +186,10 @@ namespace Chocobot.Utilities.Navigation
                 } else
                 {
                     Stop();
+
+                    if (NavigationFinished != null)
+                        NavigationFinished(this);
+
                     return;
                 }
             }

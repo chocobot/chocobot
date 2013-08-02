@@ -119,10 +119,12 @@ namespace Chocobot.Utilities.Memory
             Database.Add("npcmap", 0xF79FB8 + MemoryHandler.Instance.BaseAddress + 208);
             Database.Add("aggro", 0xF620DC + MemoryHandler.Instance.BaseAddress + 3408);
             Database.Add("target", 0xE1A100 + MemoryHandler.Instance.BaseAddress + 272);
-            Database.Add("recast", 0xF73FB8 + MemoryHandler.Instance.BaseAddress + 392);
-            Database.Add("recast_ws", 0xF73FB8 + MemoryHandler.Instance.BaseAddress + 1532);
-            Database.Add("map", 0xE1DEB0 + MemoryHandler.Instance.BaseAddress + 336);
 
+            Database.Add("recast", 0xF73FB8 + MemoryHandler.Instance.BaseAddress + 412);
+            Database.Add("recast_ws", 0xF73FB8 + MemoryHandler.Instance.BaseAddress + 1532);
+
+            Database.Add("map", 0xE1DEB0 + MemoryHandler.Instance.BaseAddress + 336);
+            
 
             Database.Add("chatlog", MemoryHandler.Instance.GetUInt32(Database["GAMEMAIN"]) + 12);
 

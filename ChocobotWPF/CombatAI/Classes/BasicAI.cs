@@ -4,30 +4,26 @@ using Chocobot.MemoryStructures.Character;
 
 namespace Chocobot.CombatAI.Classes
 {
-    class RangerAI : GenericAI
+    class BasicAI : GenericAI
     {
-        public RangerAI(Character user, Character monster, Recast recast) : base(user, monster, recast)
+        public BasicAI()
+            : base()
         {
-            IsRanged = true;
-            Name = "Ranger";
+            IsRanged = false;
+            Name = "Basic Fighter";
         }
 
-        public override void Fight()
+        public override void Fight(Character user, Character monster, Recast recast)
         {
-            Monster.Target();
-            Recast.Refresh();
 
-            if (Recast.WeaponSpecials.Count == 0)
+            base.Fight(user, monster, recast);
+
+            monster.Target();
+            recast.Refresh();
+
+            if (recast.WeaponSpecials.Count == 0)
             {
-
-                if(Monster.Health_Percent >= 20)
-                {
-                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
-                } else
-                {
-                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D5);
-                }
-
+                Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
             }
 
         }

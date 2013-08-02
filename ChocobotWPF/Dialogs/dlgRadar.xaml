@@ -8,7 +8,7 @@
         AllowsTransparency="True"
         Icon="/Chocobot;component/Resources/Icon.ico"
         Topmost="True"
-        WindowStyle="None" WindowStartupLocation="CenterScreen">
+        WindowStyle="None" WindowStartupLocation="CenterScreen" Closing="dlgRadar_Closing">
 
     <Window.Resources>
         <Image x:Key="Monsters"

@@ -5,60 +5,73 @@ namespace Chocobot.MemoryStructures.Abilities
 {
     class Recast
     {
-        public List<Ability> Abilities = new List<Ability>();
-        public List<Ability> WeaponSpecials = new List<Ability>();
+        public List<int> Abilities = new List<int>();
+        public List<int> WeaponSpecials = new List<int>();
 
         private readonly uint _address;
         private readonly uint _address2;
+
+        public enum eAbilities:int
+        {
+            MiserysEnd = 16704,
+            RagingStrikes = 17204
+        }
+
+
 
         public Recast()
         {
             _address = Utilities.Memory.MemoryLocations.Database["recast"];
             _address2 = Utilities.Memory.MemoryLocations.Database["recast_ws"];
-            System.Diagnostics.Debug.Print("Recast2: " + _address2.ToString("X"));
+
         }
 
         public void Refresh()
         {
 
-            uint Counter = 0;
-            const int MaxAbilities = 3;
-            const int MaxWS = 3;
+            uint counter = 0;
+            const int maxAbilities = 6;
+            const int maxWS = 3;
             int i = 0;
 
             Abilities.Clear();
             WeaponSpecials.Clear();
 
-            while(i < MaxAbilities)
+            while(i < maxAbilities)
             {
-                float recasttimer = Utilities.Memory.MemoryHandler.Instance.GetFloat(_address + Counter);
-                int recastid = Utilities.Memory.MemoryHandler.Instance.GetInt32(_address + Counter + 4);
+                float recasttimer = Utilities.Memory.MemoryHandler.Instance.GetFloat(_address + counter);
+                int recastid = Utilities.Memory.MemoryHandler.Instance.GetInt32(_address + counter + 6);
 
                 if (Math.Abs(recasttimer) < 0.00001)
-                    break;
+                {
+                    i++;
+                    counter += 20;
+                    continue;
+                }
 
-                Abilities.Add(new Ability(recastid, "Unknown", recasttimer));
+                Abilities.Add(recastid);
 
-                Counter += 16;
+                counter += 20;
                 i++;
             }
 
+            
 
             // Get weapon specials
             i = 0;
-            Counter = 0;
+            counter = 0;
 
-            while (i < MaxWS)
+            while (i < maxWS)
             {
-                float recasttimer = Utilities.Memory.MemoryHandler.Instance.GetFloat(_address2 + Counter);
-                int recastid = Utilities.Memory.MemoryHandler.Instance.GetInt32(_address2 + Counter + 4);
+                float recasttimer = Utilities.Memory.MemoryHandler.Instance.GetFloat(_address2 + counter);
+                int recastid = Utilities.Memory.MemoryHandler.Instance.GetInt32(_address2 + counter + 6);
 
                 if (Math.Abs(recasttimer) < 0.00001)
                     break;
 
-                WeaponSpecials.Add(new Ability(recastid, "Unknown WS", recasttimer));
+                WeaponSpecials.Add(recastid);
 
-                Counter += 16;
+                counter += 16;
                 i++;
             }
 

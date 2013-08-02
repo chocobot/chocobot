@@ -115,6 +115,11 @@ namespace Chocobot.Dialogs
             this.Height = 510 * 2;
         }
 
+        private void dlgRadar_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            thread_Refresh.Stop();
+        }
+
 
     }
 }

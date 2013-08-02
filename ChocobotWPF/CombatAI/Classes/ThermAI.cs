@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Chocobot.CombatAI.Classes
 {
-    class ThermAI
+    class ThermAI : GenericAI
     {
+
     }
 }
