@@ -7,7 +7,7 @@ namespace Chocobot.Utilities.FileIO
     class IniParser
     {
 
-        private Hashtable keyPairs = new Hashtable();
+        private readonly Hashtable keyPairs = new Hashtable();
         private String iniFilePath;
 
         private struct SectionPair
