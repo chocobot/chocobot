@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Algorithms;
 using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Character;
+using Chocobot.Utilities.FileIO;
 using Chocobot.Utilities.Memory;
 using Chocobot.MemoryStructures.Map;
 using Chocobot.Utilities.Navigation;
@@ -27,6 +30,13 @@ namespace Chocobot.Controls
     /// </summary>
     public partial class vp_Map : UserControl
     {
+        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
+
+
+        
+
+
         private BitmapImage _map;
 
         private Character _user;
@@ -56,7 +66,8 @@ namespace Chocobot.Controls
         private IPathFinder _pathFinder = null;
         private List<PathFinderNode> _selectedPath = null;
         private List<Coordinate> _selectedPathCoords = null;
-
+        private List<MapMarker> _markers = new List<MapMarker>();
+ 
         public event FinishedEventHandler ControlNavigationFinished;
 
         public bool NavigationEnabled
@@ -64,7 +75,26 @@ namespace Chocobot.Controls
             get { return _navigationEnabled; }
             set { _navigationEnabled = value; }
         }
-        
+
+
+
+        private void GetMarkers(string filePath)
+        {
+            IniParser parser = new IniParser(filePath);
+
+            short markerCount = short.Parse(parser.GetSetting("map", "markers"));
+
+            _markers.Clear();
+
+            for(short i = 0; i < markerCount; i++)
+            {
+                Coordinate coordinate = new Coordinate(float.Parse(parser.GetSetting("Marker" + (i + 1), "markers")), float.Parse(parser.GetSetting("Marker" + (i + 1), "markers")), 0);
+                MapMarker marker = new MapMarker(coordinate, (MapMarker.MarkerIcon)short.Parse(parser.GetSetting("Marker" + (i + 1), "markers")));
+                _markers.Add(marker);
+            }
+
+
+        }
         private void RefreshMap()
         {
 
@@ -84,7 +114,18 @@ namespace Chocobot.Controls
                 _mapinfo.WaypointGroups.Clear();
                 _mapinfo.HasNavCoordinates = false;
             }
-       
+
+            GetMarkers(@"Maps\" + _mapIndex + ".ini");
+
+            //Bitmap bm = BitmapImage2Bitmap(_map);
+            //Graphics g = Graphics.FromImage(bm);
+
+            
+            //g.DrawImage(Properties.Resources.town, new PointF(1,1));
+
+            //_map = Bitmap2BitmapImage(bm);
+            //g.Dispose();
+
         }
 
         public vp_Map()
@@ -231,6 +272,7 @@ namespace Chocobot.Controls
             if (_mapIndex == 0)
                 return;
 
+            DrawMarkers(drawingContext);
             DrawPaths(drawingContext);
             DrawMonsters(drawingContext);
             DrawPlayers(drawingContext);
@@ -264,6 +306,21 @@ namespace Chocobot.Controls
                     }
                 }
             }
+
+
+        }
+
+        private void DrawMarkers(DrawingContext drawingContext)
+        {
+
+            foreach (MapMarker marker in _markers)
+            {
+                Coordinate markerMapCoord = WorldToMap(marker.Coordinate);
+                markerMapCoord = markerMapCoord.Subtract(new Coordinate(8, 8, 0));
+
+                drawingContext.DrawImage(marker.Icon, new Rect(new Point(markerMapCoord.X, markerMapCoord.Y), new Size(16, 16)));
+            }
+           
 
 
         }
