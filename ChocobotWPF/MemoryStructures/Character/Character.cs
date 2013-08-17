@@ -222,16 +222,17 @@ namespace Chocobot.MemoryStructures.Character
                        MemoryHandler.Instance.GetFloat(Address + 168),
                        MemoryHandler.Instance.GetFloat(Address + 164)
                   );
+
             _heading = MemoryHandler.Instance.GetFloat(Address + 176); 
-            _type = MemoryHandler.Instance.GetByte(Address + 138,false); 
-            _currenthealth = MemoryHandler.Instance.GetInt32(Address + 5724); 
-            _maxhealth = MemoryHandler.Instance.GetInt32(Address + 5728);
+            _type = MemoryHandler.Instance.GetByte(Address + 138,false);
+            _currenthealth = MemoryHandler.Instance.GetInt32(Address + 5776);   //5724
+            _maxhealth = MemoryHandler.Instance.GetInt32(Address + 5780);   //5728
             if (_maxhealth == 0)
                 _maxhealth = 1;
 
-            _currentmp = MemoryHandler.Instance.GetInt32(Address + 5732);
-            _maxmp = MemoryHandler.Instance.GetInt32(Address + 5736);
-            _currenttp = MemoryHandler.Instance.GetInt32(Address + 5740);
+            _currentmp = MemoryHandler.Instance.GetInt32(Address + 5784);  //5732
+            _maxmp = MemoryHandler.Instance.GetInt32(Address + 5788);  //5736
+            _currenttp = MemoryHandler.Instance.GetInt32(Address + 5792);  //5740
             _maxtp = 1000;
 
             _icon = MemoryHandler.Instance.GetByte(Address + 394, false);

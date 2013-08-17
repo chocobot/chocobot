@@ -73,6 +73,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CombatAI\Classes\BasicAI.cs" />
+    <Compile Include="CombatAI\Classes\LancerAI.cs" />
     <Compile Include="CombatAI\Classes\ThermAI.cs" />
     <Compile Include="CombatAI\GenericAI.cs" />
     <Compile Include="CombatAI\Classes\RangerAI.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="MemoryStructures\Map\MapInfo.cs" />
     <Compile Include="MemoryStructures\Map\MapMarker.cs" />
     <Compile Include="MemoryStructures\Map\MapNavArr.cs" />
+    <Compile Include="MemoryStructures\Map\MarkerDatabase.cs" />
     <Compile Include="Utilities\FileIO\IniParser.cs" />
     <Compile Include="Utilities\Input\clsInput.cs" />
     <Compile Include="Utilities\Keyboard\KeyboardHelper.cs" />
@@ -277,148 +279,160 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\alchemist.png" />
+    <Resource Include="Resources\alchemist.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\arcanist.png" />
+    <Resource Include="Resources\arcanist.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\archer.png" />
+    <Resource Include="Resources\archer.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\armorer.png" />
+    <Resource Include="Resources\armorer.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\bard.png" />
+    <Resource Include="Resources\bard.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\blackmage.png" />
+    <Resource Include="Resources\blackmage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\blacksmith.png" />
+    <Resource Include="Resources\blacksmith.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\boat.png" />
+    <Resource Include="Resources\boat.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\boss.png" />
+    <Resource Include="Resources\boss.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\botanist.png" />
+    <Resource Include="Resources\botanist.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\bronze_chest.png" />
+    <Resource Include="Resources\bronze_chest.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\carpenter.png" />
+    <Resource Include="Resources\carpenter.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\chocobo.png" />
+    <Resource Include="Resources\chocobo.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\conjurer.png" />
+    <Resource Include="Resources\conjurer.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\crystal.png" />
+    <Resource Include="Resources\crystal.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\culinarian.png" />
+    <Resource Include="Resources\culinarian.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\dragoon.png" />
+    <Resource Include="Resources\dragoon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\dungeon.png" />
+    <Resource Include="Resources\dungeon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\fate.png" />
+    <Resource Include="Resources\fate.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\fate2.png" />
+    <Resource Include="Resources\fate2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\fate3.png" />
+    <Resource Include="Resources\fate3.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\field.png" />
+    <Resource Include="Resources\field.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\field2.png" />
+    <Resource Include="Resources\field2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\fisher.png" />
+    <Resource Include="Resources\fisher.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\gladiator.png" />
+    <Resource Include="Resources\gladiator.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\gold_chest.png" />
+    <Resource Include="Resources\gold_chest.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\goldsmith.png" />
+    <Resource Include="Resources\goldsmith.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\lancer.png" />
+    <Resource Include="Resources\lancer.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\leatherworker.png" />
+    <Resource Include="Resources\leatherworker.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mail.png" />
+    <Resource Include="Resources\mail.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\marauder.png" />
+    <Resource Include="Resources\marauder.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\merchant.png" />
+    <Resource Include="Resources\merchant.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\merchant2.png" />
+    <Resource Include="Resources\merchant2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\miner.png" />
+    <Resource Include="Resources\miner.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mining.png" />
+    <Resource Include="Resources\mining.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\monk.png" />
+    <Resource Include="Resources\monk.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\monster.png" />
+    <Resource Include="Resources\monster.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\paladin.png" />
+    <Resource Include="Resources\paladin.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\pugilist.png" />
+    <Resource Include="Resources\pugilist.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\scholar.png" />
+    <Resource Include="Resources\scholar.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\silver_chest.png" />
+    <Resource Include="Resources\silver_chest.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\summoner.png" />
+    <Resource Include="Resources\summoner.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\thaumaturge.png" />
+    <Resource Include="Resources\thaumaturge.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\town.png" />
+    <Resource Include="Resources\town.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\warrior.png" />
+    <Resource Include="Resources\warrior.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\weaver.png" />
+    <Resource Include="Resources\weaver.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\whitemage.png" />
+    <Resource Include="Resources\whitemage.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\zone.png" />
+    <Resource Include="Resources\zone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\aethercrystal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\stepdown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\stepup.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

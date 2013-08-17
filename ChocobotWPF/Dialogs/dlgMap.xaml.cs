@@ -19,7 +19,7 @@ namespace Chocobot.Dialogs
             thread_Refresh = new DispatcherTimer();
 
             thread_Refresh.Tick += thread_Refresh_Tick;
-            thread_Refresh.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            thread_Refresh.Interval = new TimeSpan(0, 0, 0, 0, 300);
             thread_Refresh.Start();
 
             vp_map.ControlNavigationFinished += NavigationFinished;

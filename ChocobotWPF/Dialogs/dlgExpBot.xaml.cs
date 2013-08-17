@@ -63,6 +63,7 @@ namespace Chocobot.Dialogs
 
 
             lst_Classes.Items.Add("Ranger");
+            lst_Classes.Items.Add("Lancer");
             lst_Classes.Items.Add("Mage");
             lst_Classes.Items.Add("Melee");
 
@@ -315,7 +316,7 @@ namespace Chocobot.Dialogs
             vp_map.SetPath(waypoints);
             
 
-            vp_map.Refresh();
+            //vp_map.Refresh();
         }
 
         private void btn_AddMonster_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -357,6 +358,9 @@ namespace Chocobot.Dialogs
                     _aiFighter = new RangerAI();
                     break;
                 case 1:
+                    _aiFighter = new LancerAI();
+                    break;
+                case 2:
                     _aiFighter = new BasicAI() { IsRanged = true };
                     break;
                 default:

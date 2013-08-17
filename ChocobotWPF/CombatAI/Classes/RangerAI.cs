@@ -25,7 +25,7 @@ namespace Chocobot.CombatAI.Classes
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3); // Raging Strikes
             }
-            else if (monster.Health_Percent < 20 && recast.Abilities.Contains((int) Recast.eAbilities.MiserysEnd) == false)
+            else if (monster.Health_Percent < 20 && recast.Abilities.Contains((int)Recast.eAbilities.MiserysEnd) == false)
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D5); // Miserys End
             }

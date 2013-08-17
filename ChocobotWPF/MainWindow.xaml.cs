@@ -83,7 +83,7 @@ namespace Chocobot
 
         private void RefreshUser_Tick(object sender, EventArgs e)
         {
-            if (_user == null)
+            if (_user == null || _user.Valid == false)
                 return;
 
             _user.Refresh();

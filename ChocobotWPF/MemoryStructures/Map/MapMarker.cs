@@ -5,44 +5,17 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using Chocobot.Datatypes;
+using System.Collections.Generic;
 
 namespace Chocobot.MemoryStructures.Map
 {
     internal class MapMarker
     {
-        public enum MarkerIcon
-        {
-            Town,
-            Crystal,
-            Boat,
-            Chocobo,
-            Zone,
-            Dungeon,
-            Boss,
-            Treasure1,
-            Treasure2,
-            Treasure3,
-            Fate,
-            Fate2,
-            Fate3,
-            Field,
-            Field2,
-            Mining,
-            Miner,
-            Fisher,
-            Culinarian,
-            Botanist,
-            Alchemist,
-            Armorer,
-            Blacksmith,
-            Carpenter,
-            Leatherworker,
-            Weaver
-        }
-
 
         private readonly Coordinate _coordinate;
         private readonly BitmapImage _icon;
+        private readonly int _pixelsX;
+        private readonly int _pixelsY;
 
         private BitmapImage Bitmap2BitmapImage(Bitmap bitmap)
         {
@@ -74,99 +47,40 @@ namespace Chocobot.MemoryStructures.Map
         {
             _icon = Bitmap2BitmapImage(icon);
             _coordinate = position;
+            _pixelsX = icon.Width;
+            _pixelsY = icon.Height;
         }
 
-        public MapMarker(Coordinate position, MarkerIcon icon)
-        {
-            switch (icon)
-            {
-                case MarkerIcon.Zone:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.zone);
-                    break;
-                case MarkerIcon.Alchemist:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.alchemist);
-                    break;
-                case MarkerIcon.Armorer:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.armorer);
-                    break;
-                case MarkerIcon.Blacksmith:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.blacksmith);
-                    break;
-                case MarkerIcon.Boat:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.boat);
-                    break;
-                case MarkerIcon.Boss:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.boss);
-                    break;
-                case MarkerIcon.Botanist:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.botanist);
-                    break;
-                case MarkerIcon.Carpenter:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.carpenter);
-                    break;
-                case MarkerIcon.Chocobo:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.chocobo);
-                    break;
-                case MarkerIcon.Crystal:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.crystal);
-                    break;
-                case MarkerIcon.Culinarian:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.culinarian);
-                    break;
-                case MarkerIcon.Dungeon:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.dungeon);
-                    break;
-                case MarkerIcon.Fate:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.fate);
-                    break;
-                case MarkerIcon.Fate2:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.fate2);
-                    break;
-                case MarkerIcon.Fate3:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.fate3);
-                    break;
-                case MarkerIcon.Field:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.field);
-                    break;
-                case MarkerIcon.Field2:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.field2);
-                    break;
-                case MarkerIcon.Fisher:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.fisher);
-                    break;
-                case MarkerIcon.Leatherworker:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.leatherworker);
-                    break;
-                case MarkerIcon.Miner:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.miner);
-                    break;
-                case MarkerIcon.Mining:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.mining);
-                    break;
-                case MarkerIcon.Town:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.town);
-                    break;
-                case MarkerIcon.Treasure1:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.bronze_chest);
-                    break;
-                case MarkerIcon.Treasure2:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.silver_chest);
-                    break;
-                case MarkerIcon.Treasure3:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.gold_chest);
-                    break;
-                case MarkerIcon.Weaver:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.weaver);
-                    break;
-                default:
-                    _icon = Bitmap2BitmapImage(Properties.Resources.zone);
-                    break;
-            }
 
+        public MapMarker(Coordinate position, BitmapImage icon)
+        {
+            _icon = icon;
             _coordinate = position;
+
+            _pixelsX = _icon.PixelWidth;
+            _pixelsY = _icon.PixelHeight;
+        }
+
+        public MapMarker(Coordinate position, string icon)
+        {
+
+            _icon = MarkerDatabase.Instance.Icons[icon.ToLower()];
+            _coordinate = position;
+
+            _pixelsX = _icon.PixelWidth;
+            _pixelsY = _icon.PixelHeight;
         }
 
         #region "Properties"
+        public int PixelsX
+        {
+            get { return _pixelsX;  }
+        }
+
+        public int PixelsY
+        {
+            get { return _pixelsY; }
+        }
 
         public Coordinate Coordinate
         {

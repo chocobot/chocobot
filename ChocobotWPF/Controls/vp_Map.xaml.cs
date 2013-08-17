@@ -53,20 +53,21 @@ namespace Chocobot.Controls
         public bool ShowNpc = false;
         public bool ShowPlayers = false;
         public bool ShowSelf = true;
-        private bool _navigationEnabled = true;
         public bool SmallSelfIcon = false;
+        public bool SmallMarkers = false;
+        public bool ShowPaths = false;
 
         private const short XPixelCount = 1024;
         private const short YPixelCount = 1024;
         private double _mapScaleX = 1.0;
         private double _mapScaleY = 1.0;
-
+        private bool _navigationEnabled = true;
         private ushort _mapIndex = 0;
         private MapNavArr _mapArr;
         private IPathFinder _pathFinder = null;
         private List<PathFinderNode> _selectedPath = null;
         private List<Coordinate> _selectedPathCoords = null;
-        private List<MapMarker> _markers = new List<MapMarker>();
+        private readonly List<MapMarker> _markers = new List<MapMarker>();
  
         public event FinishedEventHandler ControlNavigationFinished;
 
@@ -80,16 +81,24 @@ namespace Chocobot.Controls
 
         private void GetMarkers(string filePath)
         {
-            IniParser parser = new IniParser(filePath);
+            IniParser reader = new IniParser(filePath);
+            short markerCount;
 
-            short markerCount = short.Parse(parser.GetSetting("map", "markers"));
+            try
+            {
+                markerCount = short.Parse(reader.GetSetting("map", "markers"));
+            } catch (Exception ex)
+            {
+                markerCount = 0;
+            }
 
+            
             _markers.Clear();
 
             for(short i = 0; i < markerCount; i++)
             {
-                Coordinate coordinate = new Coordinate(float.Parse(parser.GetSetting("Marker" + (i + 1), "markers")), float.Parse(parser.GetSetting("Marker" + (i + 1), "markers")), 0);
-                MapMarker marker = new MapMarker(coordinate, (MapMarker.MarkerIcon)short.Parse(parser.GetSetting("Marker" + (i + 1), "markers")));
+                Coordinate coordinate = new Coordinate(float.Parse(reader.GetSetting("Marker " + (i + 1), "x")), float.Parse(reader.GetSetting("Marker " + (i + 1), "y")), 0);
+                MapMarker marker = new MapMarker(coordinate, reader.GetSetting("Marker " + (i + 1), "icon"));
                 _markers.Add(marker);
             }
 
@@ -115,16 +124,12 @@ namespace Chocobot.Controls
                 _mapinfo.HasNavCoordinates = false;
             }
 
+            if (_selectedPathCoords != null)
+                _selectedPathCoords.Clear();
+
             GetMarkers(@"Maps\" + _mapIndex + ".ini");
 
-            //Bitmap bm = BitmapImage2Bitmap(_map);
-            //Graphics g = Graphics.FromImage(bm);
 
-            
-            //g.DrawImage(Properties.Resources.town, new PointF(1,1));
-
-            //_map = Bitmap2BitmapImage(bm);
-            //g.Dispose();
 
         }
 
@@ -315,10 +320,23 @@ namespace Chocobot.Controls
 
             foreach (MapMarker marker in _markers)
             {
+                
                 Coordinate markerMapCoord = WorldToMap(marker.Coordinate);
-                markerMapCoord = markerMapCoord.Subtract(new Coordinate(8, 8, 0));
 
-                drawingContext.DrawImage(marker.Icon, new Rect(new Point(markerMapCoord.X, markerMapCoord.Y), new Size(16, 16)));
+                if (SmallMarkers)
+                {
+                    markerMapCoord = markerMapCoord.Subtract(new Coordinate((float)marker.PixelsX / 4, (float)marker.PixelsY / 4, 0));
+
+                    drawingContext.DrawImage(marker.Icon, new Rect(new Point(markerMapCoord.X, markerMapCoord.Y), new Size((float)marker.PixelsX / 2, (float)marker.PixelsY / 2)));
+
+                } else
+                {
+                    markerMapCoord = markerMapCoord.Subtract(new Coordinate((float)marker.PixelsX / 2, (float)marker.PixelsY / 2, 0));
+
+                    drawingContext.DrawImage(marker.Icon, new Rect(new Point(markerMapCoord.X, markerMapCoord.Y), new Size(marker.PixelsX, marker.PixelsY)));
+
+                }
+
             }
            
 
@@ -382,7 +400,7 @@ namespace Chocobot.Controls
             Pen p = new Pen(Brushes.DarkOliveGreen, 2);
             Pen p2 = new Pen(Brushes.Magenta, 3);
 
-            if (_pathWalker.IsPlaying == false)
+            if (_pathWalker.IsPlaying == false && ShowPaths)
             {
                 foreach (List<Coordinate> waypointgroup in _mapinfo.WaypointGroups)
                 {
@@ -455,7 +473,7 @@ namespace Chocobot.Controls
         private void map_MouseUp(object sender, MouseButtonEventArgs e)
         {
 
-            if (_navigationEnabled == false)
+            if (_navigationEnabled == false || _mapinfo.HasNavCoordinates == false)
                 return;
 
             Point p = e.GetPosition(this);
