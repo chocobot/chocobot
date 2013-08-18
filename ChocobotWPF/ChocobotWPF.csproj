@@ -91,6 +91,9 @@
     <Compile Include="Datatypes\CoordinateInt.cs" />
     <Compile Include="Datatypes\Enums.cs" />
     <Compile Include="Datatypes\Keys.cs" />
+    <Compile Include="Dialogs\dlgCureBot.xaml.cs">
+      <DependentUpon>dlgCureBot.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\dlgExpBot.xaml.cs">
       <DependentUpon>dlgExpBot.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\vp_Radar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgCureBot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

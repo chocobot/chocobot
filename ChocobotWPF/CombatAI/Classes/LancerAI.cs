@@ -24,15 +24,18 @@ namespace Chocobot.CombatAI.Classes
             monster.Target();
             recast.Refresh();
 
-            if (recast.WeaponSpecials.Count == 0)
+            if (recast.Abilities.Count == 0 && user.Level >= 6)
+            {
+                Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D4); // Keen Flurry
+            } else if (recast.WeaponSpecials.Count == 0)
             {
                 if (_step == 0)
                 {
-                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1); // Heavy Shot
+                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1); // True Thrust
                     _step = 1;
-                } else
+                } else if(user.Level >= 4)
                 {
-                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3); // Heavy Shot
+                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3); // Vorpal Thrust
                     _step = 0;
                 }
             }

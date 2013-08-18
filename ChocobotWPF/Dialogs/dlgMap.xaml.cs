@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Threading;
 using Chocobot.Datatypes;
 using MahApps.Metro.Controls;
@@ -77,6 +78,13 @@ namespace Chocobot.Dialogs
         private void dlgMap_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             thread_Refresh.Stop();
+        }
+
+        private void mnu_ToggleSmallMaps_Clicked(object sender, RoutedEventArgs e)
+        {
+
+            vp_map.SmallMarkers = !vp_map.SmallMarkers;
+
         }
     }
 }

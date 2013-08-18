@@ -23,7 +23,7 @@
         <Button x:Name="btn_Refresh"
                 Width="106"
                 Height="39"
-                Margin="284,156,0,0"
+                Margin="284,239,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Click="btn_Refresh_Click"
@@ -32,9 +32,9 @@
                 FontWeight="Bold"
                 RenderTransformOrigin="0.704,2.077" />
         <Button x:Name="btn_Radar"
-                Width="111"
+                Width="106"
                 Height="39"
-                Margin="395,54,0,0"
+                Margin="400,54,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Click="btn_Radar_Click"
@@ -64,9 +64,9 @@
                 FontSize="14"
                 FontWeight="Bold" />
         <Button x:Name="btn_OnEvent"
-                Width="111"
+                Width="106"
                 Height="39"
-                Margin="395,10,0,0"
+                Margin="400,10,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Click="btn_OnEvent_Click"
@@ -111,7 +111,7 @@
         <Button x:Name="btn_ShowTarget"
         	Width="106"
         	Height="39"
-        	Margin="284,112,0,0"
+        	Margin="284,195,0,0"
         	HorizontalAlignment="Left"
         	VerticalAlignment="Top"
         	Content="Get Target"
@@ -119,9 +119,9 @@
         	FontWeight="Bold"
         	RenderTransformOrigin="0.704,2.077" Click="btn_ShowTarget_Click" />
         <Button x:Name="btn_Map"
-        	Width="111"
+        	Width="106"
         	Height="39"
-        	Margin="397,112,0,0"
+        	Margin="284,98,0,0"
         	HorizontalAlignment="Left"
         	VerticalAlignment="Top"
         	Click="btn_Map_Click"
@@ -137,6 +137,17 @@
         		VerticalAlignment="Top"
         		SelectionChanged="lst_Characters_SelectionChanged" Margin="0,0,-2,-1" />
         </GroupBox>
+        <Button x:Name="btn_CureBot"
+        	Width="106"
+        	Height="39"
+        	Margin="400,98,0,0"
+        	HorizontalAlignment="Left"
+        	VerticalAlignment="Top"
+        	Click="btn_CureBot_Click"
+        	Content="CURE BOT"
+        	FontSize="14"
+        	FontWeight="Bold"
+        	RenderTransformOrigin="0.704,2.077" />
 
     </Grid>
 </Controls:MetroWindow>

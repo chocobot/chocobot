@@ -100,6 +100,7 @@ namespace Chocobot.Datatypes
         F9 = 120,
         F10 = 121,
         F11 = 122,
-        F12 = 123
+        F12 = 123,
+        Dash = 189
     }
 }

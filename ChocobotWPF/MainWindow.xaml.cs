@@ -178,5 +178,12 @@ namespace Chocobot
             dlgMap dlg = new dlgMap();
             dlg.Show();
         }
+
+        private void btn_CureBot_Click(object sender, RoutedEventArgs e)
+        {
+            dlgCureBot dlg = new dlgCureBot();
+            dlg.Show();
+
+        }
     }
 }

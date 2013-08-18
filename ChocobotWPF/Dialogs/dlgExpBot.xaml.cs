@@ -204,11 +204,12 @@ namespace Chocobot.Dialogs
                 foreach (int aggroID in aggroList)
                 {
                     Character aggroMob = GetMonsterFromID(aggroID);
-                    if (aggroMob.Health_Percent > 0)
-                    {
-                        aggroFound = true;
-                        break;
-                    }
+                    if (aggroMob.Valid)
+                        if (aggroMob.Health_Percent > 0)
+                        {
+                            aggroFound = true;
+                            break;
+                        }
                 }
 
             }

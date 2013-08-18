@@ -25,6 +25,7 @@ namespace Chocobot.MemoryStructures.Character
         private int _maxtp;
         private bool _valid = true;
         private uint _fate;
+        private byte _level;
 
         private readonly uint _address;
         //Get the culture property of the thread.
@@ -46,7 +47,10 @@ namespace Chocobot.MemoryStructures.Character
             return Calculations.PointDistance(Coordinate, otherChar.Coordinate); 
         }
 
-
+        public byte Level
+        {
+            get { return _level;  }
+        }
         public bool IsClaimed
         {
             get { return _claimed == 1; }
@@ -234,7 +238,7 @@ namespace Chocobot.MemoryStructures.Character
             _maxmp = MemoryHandler.Instance.GetInt32(Address + 5788);  //5736
             _currenttp = MemoryHandler.Instance.GetInt32(Address + 5792);  //5740
             _maxtp = 1000;
-
+            _level = MemoryHandler.Instance.GetByte(Address + 5769, false);
             _icon = MemoryHandler.Instance.GetByte(Address + 394, false);
             // Needs Work
 

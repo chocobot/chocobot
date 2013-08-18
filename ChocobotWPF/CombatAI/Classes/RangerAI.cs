@@ -21,13 +21,17 @@ namespace Chocobot.CombatAI.Classes
             monster.Target();
             recast.Refresh();
 
-            if (recast.Abilities.Count == 0)
+            if (recast.Abilities.Count == 0 && user.Level >= 4 )
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3); // Raging Strikes
             }
-            else if (monster.Health_Percent < 20 && recast.Abilities.Contains((int)Recast.eAbilities.MiserysEnd) == false)
+            else if (monster.Health_Percent < 20 && recast.Abilities.Contains((int)Recast.eAbilities.MiserysEnd) == false && user.Level >= 8)
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D5); // Miserys End
+            }
+            else if (recast.Abilities.Count == 0 && user.Level >= 12)
+            {
+                Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D7); // Bloodletter
             }
             else if (recast.WeaponSpecials.Count == 0)
             {

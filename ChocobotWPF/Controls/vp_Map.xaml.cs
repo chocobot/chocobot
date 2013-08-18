@@ -473,69 +473,6 @@ namespace Chocobot.Controls
         private void map_MouseUp(object sender, MouseButtonEventArgs e)
         {
 
-            if (_navigationEnabled == false || _mapinfo.HasNavCoordinates == false)
-                return;
-
-            Point p = e.GetPosition(this);
-            Coordinate clickCoordinate = MapToWorld(new Coordinate((float) p.X, (float) p.Y, 0));
-            System.Diagnostics.Debug.Print(clickCoordinate.X + "," + clickCoordinate.Y);
-
-            GC.Collect();
-
-            if(_mapArr != null)
-            {
-                CoordinateInt startIndex = _mapArr.GetClosestIndex(_user.Coordinate);
-                CoordinateInt endIndex = _mapArr.GetClosestIndex(clickCoordinate);
-
-
-                
-                _pathFinder = new PathFinderFast(_mapArr.MapArr)
-                                {
-                                    Formula = HeuristicFormula.Manhattan,
-                                    Diagonals = true,
-                                    HeavyDiagonals = false,
-                                    HeuristicEstimate = (int) 2,
-                                    PunishChangeDirection = false,
-                                    TieBreaker = true,
-                                    SearchLimit = (int) 9000000,
-                                    DebugProgress = false,
-                                    DebugFoundPath = false
-                                };
-              
-
-
-
-                 _selectedPath = _pathFinder.FindPath(new System.Drawing.Point(startIndex.X, startIndex.Y), new System.Drawing.Point(endIndex.X, endIndex.Y));
-
-                _mapArr.Save(startIndex, endIndex);
-
-                _selectedPathCoords = new List<Coordinate>();
-
-                if (_selectedPath == null)
-                {
-                    MessageBox.Show("No Path Found");
-                    return;
-                }
-
-                _selectedPath.Reverse();
-
-               
-
-                for (int i = 0; i < _selectedPath.Count; i += 1)
-                {
-
-                    Coordinate pnt1 =
-                        WorldToMap(new Coordinate(_selectedPath[i].X / _mapArr.ArrScale + _mapArr.Min.X,
-                                                  _selectedPath[i].Y / _mapArr.ArrScale + _mapArr.Min.Y, 0));
-
-                    _selectedPathCoords.Add(pnt1);
-
-                }
-
-
-                GC.Collect();
-
-            }
             
         }
 
@@ -596,6 +533,77 @@ namespace Chocobot.Controls
             _pathWalker.NavigationFinished += NavigationFinished;
 
             Refresh();
+        }
+
+ 
+
+        private void map_LeftMouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+            if (_navigationEnabled == false || _mapinfo.HasNavCoordinates == false)
+                return;
+
+
+            Point p = e.GetPosition(this);
+            Coordinate clickCoordinate = MapToWorld(new Coordinate((float)p.X, (float)p.Y, 0));
+            System.Diagnostics.Debug.Print(clickCoordinate.X + "," + clickCoordinate.Y);
+
+            GC.Collect();
+
+            if (_mapArr != null)
+            {
+                CoordinateInt startIndex = _mapArr.GetClosestIndex(_user.Coordinate);
+                CoordinateInt endIndex = _mapArr.GetClosestIndex(clickCoordinate);
+
+
+
+                _pathFinder = new PathFinderFast(_mapArr.MapArr)
+                {
+                    Formula = HeuristicFormula.Manhattan,
+                    Diagonals = true,
+                    HeavyDiagonals = false,
+                    HeuristicEstimate = (int)2,
+                    PunishChangeDirection = false,
+                    TieBreaker = true,
+                    SearchLimit = (int)9000000,
+                    DebugProgress = false,
+                    DebugFoundPath = false
+                };
+
+
+
+
+                _selectedPath = _pathFinder.FindPath(new System.Drawing.Point(startIndex.X, startIndex.Y), new System.Drawing.Point(endIndex.X, endIndex.Y));
+
+                _mapArr.Save(startIndex, endIndex);
+
+                _selectedPathCoords = new List<Coordinate>();
+
+                if (_selectedPath == null)
+                {
+                    MessageBox.Show("No Path Found");
+                    return;
+                }
+
+                _selectedPath.Reverse();
+
+
+
+                for (int i = 0; i < _selectedPath.Count; i += 1)
+                {
+
+                    Coordinate pnt1 =
+                        WorldToMap(new Coordinate(_selectedPath[i].X / _mapArr.ArrScale + _mapArr.Min.X,
+                                                  _selectedPath[i].Y / _mapArr.ArrScale + _mapArr.Min.Y, 0));
+
+                    _selectedPathCoords.Add(pnt1);
+
+                }
+
+
+                GC.Collect();
+
+            }
         }
 
 
