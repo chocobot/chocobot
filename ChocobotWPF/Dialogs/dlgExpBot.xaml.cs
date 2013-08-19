@@ -27,10 +27,12 @@ namespace Chocobot.Dialogs
             Nothing,
             Detection,
             Fighting,
-            Healing
+            Healing,
+            Navigating
         }
 
         private readonly NavigationHelper _navigation = new NavigationHelper();
+        private readonly NavigationHelper _returntocamp = new NavigationHelper();
         private readonly DispatcherTimer _monsterdetection = new DispatcherTimer();
 
         //private readonly DispatcherTimer _monsterfighter = new DispatcherTimer();
@@ -51,14 +53,17 @@ namespace Chocobot.Dialogs
             InitializeComponent();
 
             _monsterdetection.Tick += thread__MonsterDetection_Tick;
-            _monsterdetection.Interval = new TimeSpan(0, 0, 0, 0, 150);
+            _monsterdetection.Interval = new TimeSpan(0, 0, 0, 0, 250);
 
             vp_map.ShowMonsters = false;
             vp_map.ShowNpc = false;
             vp_map.ShowPlayers = false;
             vp_map.ShowSelf = true;
-           // vp_map._navigationEnabled = false;
             vp_map.SmallSelfIcon = true;
+            vp_map.SmallMarkers = true;
+
+            _returntocamp.NavigationFinished += ReturnToCamp_Finished;
+
 
 
 
@@ -71,6 +76,35 @@ namespace Chocobot.Dialogs
         }
 
 
+
+        private void ReturnToCamp_Finished(object sender)
+        {
+            _botstage = BotStage.Detection;
+        }
+
+
+        private void CheckIfDead()
+        {
+            if (_user.Valid == false)
+                return;
+
+            if(_user.Health_Current == 0)
+            {
+
+                _botstage = BotStage.Navigating;
+
+                while (_user.Health_Current == 0)
+                {
+                    Utilities.Keyboard.KeyBoardHelper.KeyUp(Keys.Return);
+                }
+
+                if (_returntocamp.Waypoints.Count > 0)
+                    _returntocamp.Start();
+                
+            }
+
+
+        }
 
         private void FightMonster()
         {
@@ -241,7 +275,12 @@ namespace Chocobot.Dialogs
                 case BotStage.Healing:
                     PlayerRest();
                     break;
+
+                case BotStage.Navigating:
+                    break;
             }
+
+            CheckIfDead();
         }
 
 
@@ -346,6 +385,7 @@ namespace Chocobot.Dialogs
             _botstage = BotStage.Nothing;
             _monsterdetection.Stop();
             _navigation.Stop();
+            _returntocamp.Stop();
         }
 
         private void lst_Classes_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -370,6 +410,25 @@ namespace Chocobot.Dialogs
             }
 
             if (chk_HasCure.IsChecked != null) _aiFighter.HasCure = (bool)chk_HasCure.IsChecked;
+
+        }
+
+        private void btn_LoadReturnPath_Click(object sender, RoutedEventArgs e){
+            
+            OpenFileDialog dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == false)
+                return;
+
+
+            _returntocamp.Waypoints.Clear();
+            _returntocamp.Load(dlg.FileName);
+            _returntocamp.Loop = false;
+
+            
+            lbl_ReturnPathWaypoints.Content = "Waypoints: " + _returntocamp.Waypoints.Count.ToString(CultureInfo.InvariantCulture);
+
+            List<Coordinate> waypoints = new List<Coordinate>(_returntocamp.Waypoints);
+            vp_map.SetPath(waypoints);
 
         }
     }

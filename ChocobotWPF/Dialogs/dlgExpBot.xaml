@@ -44,6 +44,21 @@
 						VerticalAlignment="Top"
 						Content="Waypoints: 0" FontWeight="Bold" />
                     <Controls1:vp_Map x:Name="vp_map" HorizontalAlignment="Left" Height="230" Margin="130,5,0,0" VerticalAlignment="Top" Width="230" NavigationEnabled="false"/>
+                    <Button x:Name="btn_LoadReturnPath"
+                    	Width="100"
+                    	Height="23"
+                    	Margin="10,103,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Click="btn_LoadReturnPath_Click"
+                    	Content="Load Return Path" />
+                    <Label x:Name="lbl_ReturnPathWaypoints"
+                    	Width="129"
+                    	Height="26"
+                    	Margin="10,133,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Content="Waypoints: 0" FontWeight="Bold" />
                 </Grid>
             </TabItem>
             <TabItem Header="Monsters">

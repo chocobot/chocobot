@@ -4,7 +4,7 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       Title="Navigation"
                       Width="298"
-                      Height="331"
+                      Height="367"
                       Icon="/Chocobot;component/Resources/Icon.ico"
                       ResizeMode="NoResize"
                       ShowIconOnTitleBar="True">
@@ -41,7 +41,7 @@
         <Button x:Name="btn_Save"
                 Width="119"
                 Height="38"
-                Margin="10,254,0,0"
+                Margin="10,290,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Click="btn_Save_Click"
@@ -50,7 +50,7 @@
         <Button x:Name="btn_Load"
                 Width="119"
                 Height="38"
-                Margin="163,254,0,0"
+                Margin="163,290,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Click="btn_Load_Click"
@@ -71,5 +71,23 @@
                      BorderBrush="Black"
                      BorderThickness="1" />
         </GroupBox>
+        <Button x:Name="btn_InsertCoordinate"
+        	Width="119"
+        	Height="38"
+        	Margin="10,248,0,0"
+        	HorizontalAlignment="Left"
+        	VerticalAlignment="Top"
+        	Click="btn_InsertCoordinate_Click"
+        	Content="Insert"
+        	FontWeight="Bold" />
+        <Button x:Name="btn_Clear"
+        	Width="119"
+        	Height="38"
+        	Margin="163,248,0,0"
+        	HorizontalAlignment="Left"
+        	VerticalAlignment="Top"
+        	Click="btn_Clear_Click"
+        	Content="Clear"
+        	FontWeight="Bold" />
     </Grid>
 </Controls:MetroWindow>

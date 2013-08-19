@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using Chocobot.MemoryStructures.Character;
+using Chocobot.Utilities.Memory;
 using Chocobot.Utilities.Navigation;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
@@ -85,6 +88,23 @@ namespace Chocobot.Dialogs
                 return;
 
             _navigation.Load(dlg.FileName);
+        }
+
+        private void btn_InsertCoordinate_Click(object sender, RoutedEventArgs e)
+        {
+            List<Character> monsters = new List<Character>();
+            List<Character> fate = new List<Character>();
+            List<Character> players = new List<Character>();
+            Character user = null;
+
+            MemoryFunctions.GetCharacters(monsters, fate, players, ref user);
+
+            _navigation.Waypoints.Add(user.Coordinate);
+        }
+
+        private void btn_Clear_Click(object sender, RoutedEventArgs e)
+        {
+            _navigation.Waypoints.Clear();
         }
     }
 }

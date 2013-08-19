@@ -21,7 +21,7 @@
             <TabItem Header="Targets">
                 <Grid Background="#FF323232" Margin="0,0,0,0">
                     <TextBox x:Name="txt_TargetName"
-                		Width="124"
+                		Width="98"
                 		Height="26"
                 		Margin="10,10,0,0"
                 		HorizontalAlignment="Left"
@@ -31,7 +31,7 @@
                     <Button x:Name="btn_AddTarget"
                 		Width="53"
                 		Height="26"
-                		Margin="139,10,0,0"
+                		Margin="113,10,0,0"
                 		HorizontalAlignment="Left"
                 		VerticalAlignment="Top"
                 		Click="btn_AddTarget_Click"
@@ -42,17 +42,41 @@
                 			Height="149"
                 			Margin="0,0,-2,-1"
                 			HorizontalAlignment="Left"
-                			VerticalAlignment="Top" />
+                			VerticalAlignment="Top" SelectionChanged="lst_Targets_SelectionChanged" MouseDoubleClick="lst_Targets_MouseDoubleClick" />
                     </GroupBox>
-                    <CheckBox Name="chk_CureAll" Content="Cure Everyone" HorizontalAlignment="Left" Margin="211,13,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="btn_Refresh"
+                    	Width="53"
+                    	Height="26"
+                    	Margin="298,10,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Click="btn_Refresh_Click"
+                    	Content="Refresh" />
+                    <Button x:Name="btn_AddSurroundingPlayers"
+                    	Width="64"
+                    	Height="26"
+                    	Margin="229,10,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Click="btn_AddSurroundingPlayers_Click"
+                    	Content="Add Near" />
+                    <Button x:Name="btn_AddSelectedTarget"
+                    	Width="53"
+                    	Height="26"
+                    	Margin="171,10,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Click="btn_AddSelectedTarget_Click"
+                    	Content="Add Targ" />
                 </Grid>
             </TabItem>
             <TabItem Header="Main">
                 <Grid Background="#FF323232">
-                    <Label Content="Cure:" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top"/>
-                    <TextBox Name="txt_CurePotency" HorizontalAlignment="Left" Height="23" Margin="78,4,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="74" TextAlignment="Center"/>
+                    <Label Content="Cure:" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top"/>
+                    <TextBox Name="txt_CurePotency" HorizontalAlignment="Left" Height="23" Margin="78,7,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="74" TextAlignment="Center"/>
                     <Button Name="btn_Start" Content="Start" HorizontalAlignment="Left" Height="37" Margin="11,50,0,0" VerticalAlignment="Top" Width="141" Click="btn_Start_Click"/>
-                    <Button Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Height="37" Margin="157,50,0,0" VerticalAlignment="Top" Width="141" Click="btn_Stop_Click"/>
+                    <Button Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Height="37" Margin="208,50,0,0" VerticalAlignment="Top" Width="141" Click="btn_Stop_Click"/>
+                    <CheckBox x:Name="chk_CureAll" Content="Cure Everyone" HorizontalAlignment="Left" Margin="208,12,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
         </TabControl>

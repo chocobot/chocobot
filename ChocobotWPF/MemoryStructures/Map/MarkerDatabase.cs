@@ -40,6 +40,7 @@ namespace Chocobot.MemoryStructures.Map
             Icons.Add("fate", new BitmapImage(new Uri("pack://application:,,/Resources/fate.png"))); //Bitmap2BitmapImage(Properties.Resources.fate));
             Icons.Add("fate2", new BitmapImage(new Uri("pack://application:,,/Resources/fate2.png"))); //Bitmap2BitmapImage(Properties.Resources.fate2));
             Icons.Add("fate3", new BitmapImage(new Uri("pack://application:,,/Resources/fate3.png"))); //Bitmap2BitmapImage(Properties.Resources.fate3));
+            Icons.Add("monster", new BitmapImage(new Uri("pack://application:,,/Resources/monster.png"))); //Bitmap2BitmapImage(Properties.Resources.fate3));
 
             Icons.Add("bronze_chest", new BitmapImage(new Uri("pack://application:,,/Resources/bronze_chest.png"))); //Bitmap2BitmapImage(Properties.Resources.bronze_chest));
             Icons.Add("silver_chest", new BitmapImage(new Uri("pack://application:,,/Resources/silver_chest.png"))); //Bitmap2BitmapImage(Properties.Resources.silver_chest));

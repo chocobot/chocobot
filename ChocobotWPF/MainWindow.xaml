@@ -148,6 +148,17 @@
         	FontSize="14"
         	FontWeight="Bold"
         	RenderTransformOrigin="0.704,2.077" />
+        <Button x:Name="btn_FishBot"
+        	Width="106"
+        	Height="39"
+        	Margin="284,142,0,0"
+        	HorizontalAlignment="Left"
+        	VerticalAlignment="Top"
+        	Click="btn_FishBot_Click"
+        	Content="FISHING BOT"
+        	FontSize="14"
+        	FontWeight="Bold"
+        	RenderTransformOrigin="0.704,2.077" />
 
     </Grid>
 </Controls:MetroWindow>

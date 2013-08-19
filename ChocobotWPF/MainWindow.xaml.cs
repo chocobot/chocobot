@@ -185,5 +185,11 @@ namespace Chocobot
             dlg.Show();
 
         }
+
+        private void btn_FishBot_Click(object sender, RoutedEventArgs e)
+        {
+            dlgFishingBot dlg = new dlgFishingBot();
+            dlg.Show();
+        }
     }
 }

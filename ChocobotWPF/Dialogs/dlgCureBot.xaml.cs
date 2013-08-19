@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Windows;
 using System.Windows.Threading;
 using Chocobot.Datatypes;
+using Chocobot.MemoryStructures.Abilities;
 using Chocobot.MemoryStructures.Character;
 using Chocobot.Utilities.Memory;
 using MahApps.Metro.Controls;
@@ -41,7 +44,7 @@ namespace Chocobot.Dialogs
 
             foreach (Character target in _targets)
             {
-                lst_Targets.Items.Add(target);
+                lst_Targets.Items.Add(target.Name);
 
             }
         }
@@ -104,7 +107,7 @@ namespace Chocobot.Dialogs
 
         private void RefreshAllPlayers()
         {
-
+            Recast recast = new Recast();
             List<Character> monsters = new List<Character>();
             List<Character> fate = new List<Character>();
             List<Character> players = new List<Character>();
@@ -114,11 +117,13 @@ namespace Chocobot.Dialogs
             int curePotency = int.Parse(txt_CurePotency.Text);
             Character maxMissingTarget = null;
             int maxMissing = 0;
-            int hurtPlayers = 0;
 
             foreach (Character target in players)
             {
                 if(target.DistanceFrom(_user) >= 30)
+                    continue;
+
+                if(target.Health_Current == 0)
                     continue;
 
                 int healthMissing = target.Health_Max - target.Health_Current;
@@ -130,8 +135,6 @@ namespace Chocobot.Dialogs
                         maxMissing = healthMissing;
                         maxMissingTarget = target;
                     }
-
-                    hurtPlayers++;
                 }
             }
 
@@ -140,20 +143,26 @@ namespace Chocobot.Dialogs
             if (userhealthMissing >= curePotency || _user.Health_Percent < 70)
             {
                 maxMissingTarget = _user;
-                hurtPlayers = 1;
             }
 
 
             if (maxMissingTarget != null)
             {
+
+                recast.Refresh();
                 maxMissingTarget.Target();
 
-                Utilities.Keyboard.KeyBoardHelper.KeyPress( Keys.D0);
+                if (recast.WeaponSpecials.Count == 0)
+                {
+                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D0);
+                }
             }
         }
 
         private void RefreshInformation()
         {
+
+            Recast recast = new Recast();
             int curePotency = int.Parse(txt_CurePotency.Text);
             Character maxMissingTarget = null;
             int maxMissing = 0;
@@ -164,6 +173,15 @@ namespace Chocobot.Dialogs
             foreach (Character target in _targets)
             {
                 target.Refresh();
+
+                if(target.Valid == false)
+                {
+                    continue;
+                }
+
+                if (target.Health_Current == 0)
+                    continue;
+
 
                 if (target.DistanceFrom(_user) >= 30)
                     continue;
@@ -185,8 +203,13 @@ namespace Chocobot.Dialogs
             if(maxMissingTarget != null)
             {
                 maxMissingTarget.Target();
+                recast.Refresh();
 
-                Utilities.Keyboard.KeyBoardHelper.KeyPress(hurtPlayers >= 2 ? Keys.Dash : Keys.D0);
+                if (recast.WeaponSpecials.Count == 0)
+                {
+                    Utilities.Keyboard.KeyBoardHelper.KeyPress(hurtPlayers >= 3 ? Keys.Dash : Keys.D0);
+                }
+
             }
         }
 
@@ -200,5 +223,58 @@ namespace Chocobot.Dialogs
             _targetMonitor.Stop();
         }
 
+        private void btn_Refresh_Click(object sender, RoutedEventArgs e)
+        {
+
+            foreach (var item in lst_Targets.Items)
+            {
+                
+            }
+
+        }
+
+        private void btn_AddSurroundingPlayers_Click(object sender, RoutedEventArgs e)
+        {
+            List<Character> monsters = new List<Character>();
+            List<Character> fate = new List<Character>();
+            List<Character> players = new List<Character>();
+
+            MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
+
+            foreach (Character p in players)
+            {
+                _targets.Add(p);
+            }
+
+            RefreshTargetList();
+        }
+
+        private void btn_AddSelectedTarget_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.Print(((uint)MemoryFunctions.GetTarget()).ToString("X"));
+            _targets.Add(new Character((uint) MemoryFunctions.GetTarget(), true));
+            RefreshTargetList();
+        }
+
+        private void lst_Targets_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void lst_Targets_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (lst_Targets.SelectedItem == null)
+                return;
+
+            foreach (Character target in _targets)
+            {
+                if(target.Name.ToLower() == lst_Targets.SelectedItem.ToString().ToLower())
+                {
+                    _targets.Remove(target);
+                    RefreshTargetList();
+                    return;
+                }
+            }
+        }
     }
 }

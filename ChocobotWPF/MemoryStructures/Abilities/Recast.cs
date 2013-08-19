@@ -30,7 +30,7 @@ namespace Chocobot.MemoryStructures.Abilities
         {
 
             uint counter = 0;
-            const int maxAbilities = 6;
+            const int maxAbilities = 8;
             const int maxWS = 3;
             int i = 0;
 

@@ -9,6 +9,8 @@ namespace Chocobot.MemoryStructures.Character
 {
     public class Character
     {
+
+
         private string _name;
         private Coordinate _coordinate;
         private float _heading;
@@ -26,6 +28,7 @@ namespace Chocobot.MemoryStructures.Character
         private bool _valid = true;
         private uint _fate;
         private byte _level;
+        private byte _status;
 
         private readonly uint _address;
         //Get the culture property of the thread.
@@ -45,6 +48,21 @@ namespace Chocobot.MemoryStructures.Character
         {
             //Refresh()
             return Calculations.PointDistance(Coordinate, otherChar.Coordinate); 
+        }
+
+        public CharacterStatus Status
+        {
+            get
+            {
+                try
+                {
+                    return (CharacterStatus)_status;
+                } catch(Exception)
+                {
+                    return CharacterStatus.Unknown;
+                }
+                
+            }
         }
 
         public byte Level
@@ -183,9 +201,12 @@ namespace Chocobot.MemoryStructures.Character
         }
 
 
-        public Character(uint address)
+        public Character(uint address, bool forceAddress = false)
         {
-            address = MemoryHandler.Instance.GetUInt32(address);
+
+            if (forceAddress == false)
+                address = MemoryHandler.Instance.GetUInt32(address);
+
             if (address == 0)
             {
                 _valid = false;
@@ -240,6 +261,7 @@ namespace Chocobot.MemoryStructures.Character
             _maxtp = 1000;
             _level = MemoryHandler.Instance.GetByte(Address + 5769, false);
             _icon = MemoryHandler.Instance.GetByte(Address + 394, false);
+            _status = MemoryHandler.Instance.GetByte(Address + 405, false);
             // Needs Work
 
          
