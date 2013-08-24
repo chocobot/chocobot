@@ -128,6 +128,7 @@ namespace Chocobot.Dialogs
                 case CharacterStatus.Fishing_FishOnHook2:
                 case CharacterStatus.Fishing_FishOnHook3:
                 case CharacterStatus.Fishing_FishOnHook4:
+                case CharacterStatus.Fishing_FishOnHook5:
                     Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3);
                     break;
             }

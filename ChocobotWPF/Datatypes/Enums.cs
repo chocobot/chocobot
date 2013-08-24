@@ -25,7 +25,7 @@ namespace Chocobot.Datatypes
         Fishing_FishOnHook2 = 0x30,
         Fishing_FishOnHook3 = 0x33,
         Fishing_FishOnHook4 = 0x38,
-
+        Fishing_FishOnHook5 = 0x3A,
         Unknown=0
 
     }

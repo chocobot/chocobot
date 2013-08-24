@@ -7,7 +7,7 @@
                       Height="315"
                       Icon="Resources/Icon.ico"
                       ResizeMode="NoResize"
-                      ShowIconOnTitleBar="True" WindowStartupLocation="CenterScreen">
+                      ShowIconOnTitleBar="True" WindowStartupLocation="CenterScreen" Loaded="MainWindow_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -34,7 +34,7 @@
         <Button x:Name="btn_Radar"
                 Width="106"
                 Height="39"
-                Margin="400,54,0,0"
+                Margin="402,10,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Click="btn_Radar_Click"
@@ -61,16 +61,6 @@
                 VerticalAlignment="Top"
                 Click="btn_ExpBot_Click"
                 Content="EXP BOT"
-                FontSize="14"
-                FontWeight="Bold" />
-        <Button x:Name="btn_OnEvent"
-                Width="106"
-                Height="39"
-                Margin="400,10,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Click="btn_OnEvent_Click"
-                Content="OnEvent"
                 FontSize="14"
                 FontWeight="Bold" />
         <GroupBox Width="274"
@@ -140,7 +130,7 @@
         <Button x:Name="btn_CureBot"
         	Width="106"
         	Height="39"
-        	Margin="400,98,0,0"
+        	Margin="402,54,0,0"
         	HorizontalAlignment="Left"
         	VerticalAlignment="Top"
         	Click="btn_CureBot_Click"

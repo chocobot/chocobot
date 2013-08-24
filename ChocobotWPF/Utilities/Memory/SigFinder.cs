@@ -100,7 +100,6 @@ namespace Chocobot.Utilities.Memory
 
             //Sigs.Add(new SigStruct("charmap", "FFFFFFFF??000000000000000000000000000000000000000000000000000000000000000000000000000000????????00000000DB0FC93F6F12833A00000000", 40));
             //Sigs.Add(new SigStruct("npcmap", "00-00-00-00-3E-00-00-00-??-??-??-??-40-00-00-00-01-00-00-00-00-00-00-00-00-01-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-??-??-??-??-DB-0F-C9-3F-6F-12-83-3A-??-??-??-??-DB-0F-C9-3F-6F-12-83-3A", 208));
-            //Sigs.Add(new SigStruct("aggro", "FF-FF-FF-FF-??-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-??-??-??-??-00-00-00-00-DB-0F-C9-3F-6F-12-83-3A-00", 3408));
             
             // Sigs.Add(new SigStruct("chatlog", "4000000006000000000000000001021202380300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000????????????????00000000", 92));
             // Sigs.Add(new SigStruct("recast", "??-00-00-00-02-00-00-00-01-01-22-20-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-01-00-00-00-??-??-??-??-??-00-00-00-??-00-00-00-??-00-00-00-??-??-??-??", 392));
@@ -112,10 +111,9 @@ namespace Chocobot.Utilities.Memory
             //Database.Add("aggro", (uint)FindSignature("FFFFFFFF??000000000000000000000000000000????????00000000DB0FC93F6F12833A00", 3440, ScanResultType.AddressStartOfSig));
                                                        //FFFFFFFF??000000000000000000000000000000????????0000000000000000000000000000000000000000????????00000000DB0FC93F6F12833A0
                                                        //FFFFFFFF0A000000000000000000000000000000000000000000000000000000000000000000000000000000C0B6E40F00000000DB0FC93F6F12833A00000000
-            //Database.Add("target", (uint)FindSignature("0000????????????0000????????0000000000000000????0000????????????????0000????0000????????DB0FC93F6F12833A", 248, ScanResultType.AddressStartOfSig));
+            //Database.Add("target", (uint)FindSignature("0000403F????????0000????????0000000000000000????0000????????????????0000????0000????????DB0FC93F6F12833A", 248, ScanResultType.AddressStartOfSig));
                                                         //0000403F000000000000000000000000000000000000000000000000000000003A0200002001000000000000DB0FC93F6F12833A
-                                                        //wrong?
-
+                                                        //0000403F000000000000000000000000000000000000000000000000000000000E040000E701000000000000DB0FC93F 6F12833A                                           
 
             //Database.Add("recast", (uint)FindSignature("??00000002000000010122200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000??????????000000??000000??000000????????", 392, ScanResultType.AddressStartOfSig));
             //Database.Add("recast_ws", (uint)FindSignature("??00000002000000010122200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000??????????000000??000000??000000????????", 1532, ScanResultType.AddressStartOfSig));
@@ -123,21 +121,21 @@ namespace Chocobot.Utilities.Memory
             //map F783843E2C00000000002300000C440300102208001822090020220A0028220B00002300000C440300102208001822090020220A0028220BDB0FC93F6F12833A     +336
                 //wrong 
             //0100000000000000928FBE01400000001800000000000000000143686172616374657220436F6E66696775726174696F6E00000000000000000000000000000000000000000000000000000000000000
-
-
+            //010000000000000092BF2D0240000000080000000000000000014A6F75726E616C007200737400006E00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000DB0FC93F
+            //010000000000000092???????0000000?80000000000000000014?????????????????????????????????????????????0000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000DB0FC93F
             try
             {
-                Database.Add("charmap", 0x10B8D5C + MemoryHandler.Instance.BaseAddress + 64);   //+40
+                Database.Add("charmap", 0x10BBD5C + MemoryHandler.Instance.BaseAddress + 64);   //+40
                 Database.Add("aggro", 0x10B8D5C + MemoryHandler.Instance.BaseAddress + 3440);
 
-                Database.Add("npcmap", 0x10D4198 + MemoryHandler.Instance.BaseAddress + 208);
-                Database.Add("recast", 0x10CC208 + MemoryHandler.Instance.BaseAddress + 412);
-                Database.Add("recast_ws", 0x10CC208 + MemoryHandler.Instance.BaseAddress + 1572);
-                Database.Add("target", 0xF84E70 + MemoryHandler.Instance.BaseAddress + 272);
+                Database.Add("npcmap", 0x10D7198 + MemoryHandler.Instance.BaseAddress + 208);  //0x10D4198
+                Database.Add("recast", 0x10CF208 + MemoryHandler.Instance.BaseAddress + 412);
+                Database.Add("recast_ws", 0x10CF208 + MemoryHandler.Instance.BaseAddress + 1572);
+                Database.Add("target", 0xF87ED4 + MemoryHandler.Instance.BaseAddress + 172);
 
 
 
-                Database.Add("map", 0xF88F78 + MemoryHandler.Instance.BaseAddress + 128);
+                Database.Add("map", 0xF8BF78 + MemoryHandler.Instance.BaseAddress + 128);
 
                 Database.Add("chatlog", MemoryHandler.Instance.GetUInt32(Database["GAMEMAIN"]) + 12);
 

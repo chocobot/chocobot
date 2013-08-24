@@ -6,6 +6,8 @@ using System.Windows.Threading;
 using Chocobot.Dialogs;
 using Chocobot.MemoryStructures.Aggro;
 using Chocobot.MemoryStructures.Character;
+using Chocobot.Utilities.FileIO;
+using Chocobot.Utilities.Licensing;
 using Chocobot.Utilities.Memory;
 using MahApps.Metro.Controls;
 
@@ -139,12 +141,7 @@ namespace Chocobot
 
         }
 
-        private void btn_OnEvent_Click(object sender, RoutedEventArgs e)
-        {
-            dlgOnEvent dlg = new dlgOnEvent();
-            dlg.Show();
-        }
-
+    
         private void btn_ShowTarget_Click(object sender, RoutedEventArgs e)
         {
             int targetID = MemoryFunctions.GetTarget();
@@ -190,6 +187,18 @@ namespace Chocobot
         {
             dlgFishingBot dlg = new dlgFishingBot();
             dlg.Show();
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            if (LicenseManager.Instance.VerifyLicense() == false)
+            {
+                MessageBox.Show("You are not authorized to use Chocobot. Please renew your subscription at www.chocobotxiv.com", "Licensing", MessageBoxButton.OK, MessageBoxImage.Information);
+                Application.Current.Shutdown();
+            }
+
+
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Chocobot.Utilities.Input
     {
 
         private static string _result;
-        private static dlgInputBox _dlg;
+        private static dlgInputBox _dlg = null;
 
         private static void ResultCallback(string result)
         {
@@ -20,7 +20,14 @@ namespace Chocobot.Utilities.Input
 
         public clsInput(string question)
         {
-            
+
+            if (_dlg != null)
+            {
+                _dlg.Close();
+                _dlg = null;
+            }
+
+            _result = "";
             _dlg = new dlgInputBox(question, ResultCallback);
 
         }
