@@ -29,7 +29,7 @@ namespace Chocobot.Dialogs
 
         private void NavigationFinished(object sender)
         {
-            btn_PlayPath.Content = "Play";
+            btn_PlayPath.Content = "Run";
         }
 
         private void thread_Refresh_Tick(object sender, EventArgs e)
@@ -60,14 +60,14 @@ namespace Chocobot.Dialogs
 
         private void btn_PlayPath_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if ((string)btn_PlayPath.Content == "Play")
+            if ((string)btn_PlayPath.Content == "Run")
             {
                 btn_PlayPath.Content = "Stop";
                 vp_map.PlaySelectedPath();
             }
             else
             {
-                btn_PlayPath.Content = "Play";
+                btn_PlayPath.Content = "Run";
                 vp_map.StopSelectedPath();
             }
         }

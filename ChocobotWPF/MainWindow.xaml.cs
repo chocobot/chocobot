@@ -225,6 +225,7 @@ namespace Chocobot
         {
 
             LicenseManager.LicenseResult result = LicenseManager.Instance.VerifyLicense();
+
             if (result.Valid == false)
             {
                 string errString = "";

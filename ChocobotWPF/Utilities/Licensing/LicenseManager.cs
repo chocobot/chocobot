@@ -12,8 +12,8 @@ namespace Chocobot.Utilities.Licensing
     class LicenseManager
     {
         public static LicenseManager Instance = new LicenseManager();
-        private readonly string _user;
-        private readonly string _pass;
+        private readonly string _user = "";
+        private readonly string _pass = "";
 
 
         public class LicenseResult
@@ -42,9 +42,19 @@ namespace Chocobot.Utilities.Licensing
             {
 
                 clsCredentials userinput = new clsCredentials();
-                clsCredentials.Credentials credentials = userinput.Show(); ;
-                user = credentials.User;
-                password = GetMd5Hash(credentials.Password);
+                clsCredentials.Credentials credentials = userinput.Show(); 
+
+                try
+                {
+                    user = credentials.User;
+                    password = GetMd5Hash(credentials.Password);
+                }catch (Exception)
+                {
+                    user = "";
+                    password = "";
+                }
+
+         
             }
 
             _user = user;
@@ -54,11 +64,21 @@ namespace Chocobot.Utilities.Licensing
 
         public LicenseResult VerifyLicense()
         {
+
+
+
+
             Random rnd = new Random();
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             LicenseResult licenseResult = new LicenseResult();
-            
+
+            if (_user.Length < 3 || _pass.Length < 3)
+            {
+                licenseResult.Valid = false;
+                licenseResult.Error = "ERR101";
+            }
+
             int randInt = rnd.Next(124, 18724);
             string randIntHash = GetMd5Hash("S!k@l" + (randInt + 1563).ToString(CultureInfo.InvariantCulture));
             string htmlResult = new System.Net.WebClient().DownloadString("http://www.chocobotxiv.com/forum/licensing/action.php?user=" + _user + "&pass=" + _pass + "&action=1&session=" + randInt + "&version=" + fvi.FileMajorPart + "." + fvi.FileMinorPart);
