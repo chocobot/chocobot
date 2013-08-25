@@ -49,7 +49,7 @@ namespace Chocobot.Dialogs
             }
         }
 
-        private void btn_AddTarget_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btn_AddTarget_Click(object sender, RoutedEventArgs e)
         {
 
             List<Character> monsters = new List<Character>();
@@ -226,10 +226,28 @@ namespace Chocobot.Dialogs
         private void btn_Refresh_Click(object sender, RoutedEventArgs e)
         {
 
-            foreach (var item in lst_Targets.Items)
+            List<Character> monsters = new List<Character>();
+            List<Character> fate = new List<Character>();
+            List<Character> players = new List<Character>();
+
+            MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
+
+            players.AddRange(monsters);
+
+            for (int i = 0; i < _targets.Count; i++ )
             {
-                
+                foreach (Character p in players)
+                {
+                    if (p.Name == _targets[i].Name)
+                    {
+                        _targets.RemoveAt(i);
+                        _targets.Insert(i, p);
+
+                    }
+                }
             }
+
+
 
         }
 

@@ -93,7 +93,7 @@ namespace Chocobot.Dialogs
         {
             clsInput input = new clsInput("Please enter the name to filter.");
 
-            vp_radar.Filter = input.Show();
+            vp_radar.Filter = input.Show().ToLower();
         }
 
 

@@ -40,6 +40,8 @@ namespace Chocobot.Dialogs
         private void btn_RecordNav_Click(object sender, System.Windows.RoutedEventArgs e)
         {
 
+            vp_map.ShowPaths = true;
+
             if ((string)btn_RecordNav.Content == "Record")
             {
                 btn_RecordNav.Content = "Stop";
@@ -84,6 +86,13 @@ namespace Chocobot.Dialogs
         {
 
             vp_map.SmallMarkers = !vp_map.SmallMarkers;
+
+        }
+
+        private void mnu_TogglePaths_Clicked(object sender, RoutedEventArgs e)
+        {
+
+            vp_map.ShowPaths = !vp_map.ShowPaths;
 
         }
     }

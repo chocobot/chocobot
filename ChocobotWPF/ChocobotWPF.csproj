@@ -134,6 +134,8 @@
       <DependentUpon>dlgRadar.xaml</DependentUpon>
     </Compile>
     <Compile Include="MemoryStructures\Abilities\Ability.cs" />
+    <Compile Include="MemoryStructures\Abilities\AbilityAvailability.cs" />
+    <Compile Include="MemoryStructures\Abilities\Availability.cs" />
     <Compile Include="MemoryStructures\Abilities\Recast.cs" />
     <Compile Include="MemoryStructures\Aggro\AggroHelper.cs" />
     <Compile Include="MemoryStructures\Character\Character.cs" />
@@ -494,7 +496,7 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="&lt;AssemblyLocation&gt;\&lt;AssemblyFileName&gt;" Reactor_Configuration="Release" Reactor_Project="C:\Users\Maury\Documents\chocobotwpf\Reactor.nrproj" Reactor_Commands="" Reactor_Enabled="1" />
+      <UserProperties Reactor_Enabled="1" Reactor_Commands="" Reactor_Project="C:\Users\Maury\Documents\chocobotwpf\Reactor.nrproj" Reactor_Configuration="Release" Reactor_Output="&lt;AssemblyLocation&gt;\&lt;AssemblyFileName&gt;" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

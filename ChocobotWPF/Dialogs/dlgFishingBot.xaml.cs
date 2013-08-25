@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -48,7 +49,6 @@ namespace Chocobot.Dialogs
             _fishPath1.NavigationFinished += FishPath_NavigationFinished;
             _fishPath2.NavigationFinished += FishPath_NavigationFinished;
 
-
         }
 
         private void FishPath_NavigationFinished(object sender)
@@ -64,15 +64,14 @@ namespace Chocobot.Dialogs
             Character user = null;
 
             MemoryFunctions.GetCharacters(monsters, fate, players, ref user);
-
-            this.Title = user.Status.ToString("X") + user.Status.ToString();
-
+            
             switch (user.Status)
             {
-
+                
                 case CharacterStatus.Idle:
                 case CharacterStatus.Fishing_Idle:
-
+                    lbl_Status.Content = "Status: Idle";
+ 
                     if (_fishtimer.IsRunning == false)
                     {
                         _fishtimer.Reset();
@@ -82,6 +81,7 @@ namespace Chocobot.Dialogs
                         if (_fishtimer.Elapsed.Seconds >= 8 && (_fishPath1.Waypoints.Count > 0 || _fishPath2.Waypoints.Count > 0))
                         {
 
+                            lbl_Status.Content = "Status: Moving";
                             _fishtimer.Reset();
                             _fishMonitor.Stop();
 
@@ -111,12 +111,27 @@ namespace Chocobot.Dialogs
                         }
                     }
 
+
+                    if (user.Level >= 25){
+                        Thread.Sleep(100);
+                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D6);
+                        Thread.Sleep(100);
+                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D6);
+                        Thread.Sleep(100);
+                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D6);
+                    }
+
                     Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D2);
+
+     
                     break;
                 case CharacterStatus.Fishing_Cast1:
                 case CharacterStatus.Fishing_Cast2:
                 case CharacterStatus.Fishing_Cast3:
                 case CharacterStatus.Fishing_Cast4:
+                case CharacterStatus.Fishing_Cast5:
+                case CharacterStatus.Fishing_Cast6:
+                    lbl_Status.Content = "Status: Waiting on fish..";
                     if (_fishtimer.IsRunning)
                     {
                         _fishtimer.Reset();
@@ -125,11 +140,24 @@ namespace Chocobot.Dialogs
 
                     break;
                 case CharacterStatus.Fishing_FishOnHook:
-                case CharacterStatus.Fishing_FishOnHook2:
-                case CharacterStatus.Fishing_FishOnHook3:
                 case CharacterStatus.Fishing_FishOnHook4:
                 case CharacterStatus.Fishing_FishOnHook5:
+
+                    lbl_Status.Content = "Status: Reeling in Fish";
                     Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3);
+                    break;
+
+                case CharacterStatus.Fishing_ReelingIn:
+                case CharacterStatus.Fishing_ReelingIn2:
+                case CharacterStatus.Fishing_ReelingIn3:
+                    break;
+                case CharacterStatus.Fishing_ReelingInBig:
+                case CharacterStatus.Fishing_ReelingInBig2:
+                    lbl_Status.Content = "Status: Reeling in Big Fish";
+                    break;
+                default:
+                    lbl_Status.Content = "Status: Unknown";
+                    Debug.Print("Unknown Command: " + user.Status.ToString("X"));
                     break;
             }
         }

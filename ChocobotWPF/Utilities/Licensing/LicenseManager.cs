@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 using Chocobot.Utilities.FileIO;
 using Chocobot.Utilities.Input;
@@ -10,9 +12,15 @@ namespace Chocobot.Utilities.Licensing
     class LicenseManager
     {
         public static LicenseManager Instance = new LicenseManager();
-        private string _user;
-        private string _pass;
+        private readonly string _user;
+        private readonly string _pass;
 
+
+        public class LicenseResult
+        {
+            public bool Valid;
+            public string Error;
+        }
         public LicenseManager()
         {
             //IniParser ini = new IniParser(@"chocobot.ini");
@@ -44,15 +52,18 @@ namespace Chocobot.Utilities.Licensing
 
         }
 
-        public bool VerifyLicense()
+        public LicenseResult VerifyLicense()
         {
             Random rnd = new Random();
-
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            LicenseResult licenseResult = new LicenseResult();
+            
             int randInt = rnd.Next(124, 18724);
             string randIntHash = GetMd5Hash("S!k@l" + (randInt + 1563).ToString(CultureInfo.InvariantCulture));
-            string s = new System.Net.WebClient().DownloadString("http://www.chocobotxiv.com/forum/licensing/action.php?user=" + _user + "&pass=" + _pass + "&action=1&session=" + randInt);
+            string htmlResult = new System.Net.WebClient().DownloadString("http://www.chocobotxiv.com/forum/licensing/action.php?user=" + _user + "&pass=" + _pass + "&action=1&session=" + randInt + "&version=" + fvi.FileMajorPart + "." + fvi.FileMinorPart);
 
-            bool result = s == randIntHash;
+            bool result = htmlResult == randIntHash;
 
             if(result)
             {
@@ -62,9 +73,14 @@ namespace Chocobot.Utilities.Licensing
                 ini.IniWriteValue("Credentials", "UserName", _user);
                 ini.IniWriteValue("Credentials", "Password", _pass);
                 //ini.SaveSettings();
+            } else
+            {
+                licenseResult.Error = htmlResult.Trim();
             }
 
-            return result;
+            licenseResult.Valid = result;
+
+            return licenseResult;
 
         }
 

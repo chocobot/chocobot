@@ -26,6 +26,14 @@ namespace Chocobot
         private readonly List<Character> _npcs = new List<Character>();
         private readonly DispatcherTimer _refresh = new DispatcherTimer();
 
+        private dlgExpBot _dlgExpBot = null;
+        private dlgFishingBot _dlgFishBot = null;
+        private dlgRadar _dlgRadar = null;
+        private dlgNavigation _dlgNavigation = null;
+        private dlgMap _dlgMap = null;
+        private dlgCureBot _dlgCureBot = null;
+
+
         private void RefreshCharacterList()
         {
             _monsters.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
@@ -123,21 +131,33 @@ namespace Chocobot
 
         private void btn_Radar_Click(object sender, RoutedEventArgs e)
         {
-            dlgRadar dlg = new dlgRadar();
-            dlg.Show();
+            if (_dlgRadar != null)
+                _dlgRadar.Close();
+
+            _dlgRadar = new dlgRadar();
+            _dlgRadar.Show();
 
         }
 
         private void btn_Navigation_Click(object sender, RoutedEventArgs e)
         {
-            dlgNavigation dlg = new dlgNavigation();
-            dlg.Show();
+
+            if (_dlgNavigation != null)
+                _dlgNavigation.Close();
+
+            _dlgNavigation = new dlgNavigation();
+            _dlgNavigation.Show();
+            
         }
 
         private void btn_ExpBot_Click(object sender, RoutedEventArgs e)
         {
-            dlgExpBot dlg = new dlgExpBot();
-            dlg.Show();
+
+            if(_dlgExpBot != null)
+                _dlgExpBot.Close();
+
+            _dlgExpBot = new dlgExpBot();
+            _dlgExpBot.Show();
 
         }
 
@@ -172,29 +192,60 @@ namespace Chocobot
 
         private void btn_Map_Click(object sender, RoutedEventArgs e)
         {
-            dlgMap dlg = new dlgMap();
-            dlg.Show();
+            if(_dlgMap != null)
+                _dlgMap.Close();
+
+            _dlgMap = new dlgMap();
+            _dlgMap.Show();
         }
 
         private void btn_CureBot_Click(object sender, RoutedEventArgs e)
         {
-            dlgCureBot dlg = new dlgCureBot();
-            dlg.Show();
 
+            if (_dlgCureBot != null)
+                _dlgCureBot.Close();
+
+            _dlgCureBot = new dlgCureBot();
+            _dlgCureBot.Show();
+
+            
         }
 
         private void btn_FishBot_Click(object sender, RoutedEventArgs e)
         {
-            dlgFishingBot dlg = new dlgFishingBot();
-            dlg.Show();
+            if (_dlgFishBot != null)
+                _dlgFishBot.Close();
+
+            _dlgFishBot = new dlgFishingBot();
+            _dlgFishBot.Show();
+
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
 
-            if (LicenseManager.Instance.VerifyLicense() == false)
+            LicenseManager.LicenseResult result = LicenseManager.Instance.VerifyLicense();
+            if (result.Valid == false)
             {
-                MessageBox.Show("You are not authorized to use Chocobot. Please renew your subscription at www.chocobotxiv.com", "Licensing", MessageBoxButton.OK, MessageBoxImage.Information);
+                string errString = "";
+
+                switch(result.Error)
+                {
+                    case "ERR101":
+                        errString = "Invalid Username/Password. Please try again.";
+                        break;
+                    case "ERR102":
+                        errString = "Subscription Expired. Please renew your subscription at www.chocobotxiv.com";
+                        break;
+                    case "ERR103":
+                        errString = "This version of Chocobot has expired. Please download the newest release from the forums.";
+                        break;
+                    default:
+                        errString = "Unknown license error. Please report this on the forums.";
+                        break;
+                }
+
+                MessageBox.Show(errString, "Licensing", MessageBoxButton.OK, MessageBoxImage.Information);
                 Application.Current.Shutdown();
             }
 

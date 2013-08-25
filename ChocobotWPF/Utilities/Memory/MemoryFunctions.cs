@@ -9,17 +9,6 @@ namespace Chocobot.Utilities.Memory
     class MemoryFunctions
     {
 
-        //public static void SetTarget(Character character)
-        //{
-        //    uint targetAddress = MemoryLocations.Database["target"];
-
-        //    MemoryHandler.Instance.SetUInt32(targetAddress, character.Address);
-        //    MemoryHandler.Instance.SetUInt32(targetAddress + 12, character.Address);
-        //    MemoryHandler.Instance.SetUInt32(targetAddress + 16, character.Address);
-        //    MemoryHandler.Instance.SetInt32(targetAddress + 72, character.ID);
-            
-        //}
-
         public static int GetTarget()
         {
             uint targetAddress = MemoryLocations.Database["target"];
@@ -34,32 +23,32 @@ namespace Chocobot.Utilities.Memory
 
         }
 
-        public static void GetCharacters(List<Character> Monsters, List<Character> Fate, List<Character> Players, ref Character User)
+        public static void GetCharacters(List<Character> monsters, List<Character> fate, List<Character> players, ref Character user)
         {
             uint startAddress = MemoryLocations.Database["charmap"];
             const uint length = 396;
 
-            Players.Clear();
-            Monsters.Clear();
-            Fate.Clear();
+            players.Clear();
+            monsters.Clear();
+            fate.Clear();
 
             for (uint i = 0; i <= length; i += 4)
             {
                 Character newChar = new Character(startAddress + i);
 
                 if (i == 0)
-                    User = newChar;
+                    user = newChar;
 
                 if (newChar.Valid)
                 {
                     if (newChar.Type == Datatypes.CharacterType.PC)
-                        Players.Add(newChar);
+                        players.Add(newChar);
                     else
                     {
                         if(newChar.IsFate)
-                            Fate.Add(newChar);
+                            fate.Add(newChar);
                         else
-                            Monsters.Add(newChar);
+                            monsters.Add(newChar);
                     }
 
                 }

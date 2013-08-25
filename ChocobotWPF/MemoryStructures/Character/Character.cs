@@ -9,8 +9,6 @@ namespace Chocobot.MemoryStructures.Character
 {
     public class Character
     {
-
-
         private string _name;
         private Coordinate _coordinate;
         private float _heading;
@@ -197,7 +195,7 @@ namespace Chocobot.MemoryStructures.Character
 
         public override string ToString()
         {
-            return _fate.ToString("X") + " " + Health_Percent + "% " + _name;
+            return Health_Percent + "% " + _name;
         }
 
 
@@ -250,14 +248,14 @@ namespace Chocobot.MemoryStructures.Character
 
             _heading = MemoryHandler.Instance.GetFloat(Address + 176); 
             _type = MemoryHandler.Instance.GetByte(Address + 138,false);
-            _currenthealth = MemoryHandler.Instance.GetInt32(Address + 5776);   //5724
-            _maxhealth = MemoryHandler.Instance.GetInt32(Address + 5780);   //5728
+            _currenthealth = MemoryHandler.Instance.GetInt32(Address + 5776);
+            _maxhealth = MemoryHandler.Instance.GetInt32(Address + 5780); 
             if (_maxhealth == 0)
                 _maxhealth = 1;
 
-            _currentmp = MemoryHandler.Instance.GetInt32(Address + 5784);  //5732
-            _maxmp = MemoryHandler.Instance.GetInt32(Address + 5788);  //5736
-            _currenttp = MemoryHandler.Instance.GetInt32(Address + 5792);  //5740
+            _currentmp = MemoryHandler.Instance.GetInt32(Address + 5784); 
+            _maxmp = MemoryHandler.Instance.GetInt32(Address + 5788); 
+            _currenttp = MemoryHandler.Instance.GetInt32(Address + 5792); 
             _maxtp = 1000;
             _level = MemoryHandler.Instance.GetByte(Address + 5769, false);
             _icon = MemoryHandler.Instance.GetByte(Address + 394, false);
