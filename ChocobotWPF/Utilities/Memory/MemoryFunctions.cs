@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Chocobot.MemoryStructures.Character;
+using Chocobot.MemoryStructures.Gathering;
 
 namespace Chocobot.Utilities.Memory
 {
@@ -79,6 +80,32 @@ namespace Chocobot.Utilities.Memory
             } catch(Exception ex)
             {
                 System.Diagnostics.Debug.Print("Problem getting NPCs");
+            }
+
+        }
+
+        public static void GetGathering(List<Gathering> gather)
+        {
+
+            try
+            {
+                uint startAddress = MemoryLocations.Database["gathermap"];
+                const uint length = 156;
+
+                gather.Clear();
+
+                for (uint i = 0; i <= length; i += 4)
+                {
+                    Gathering newChar = new Gathering(startAddress + i);
+
+                    if (newChar.Valid)
+                        gather.Add(newChar);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Print("Problem getting gather");
             }
 
         }

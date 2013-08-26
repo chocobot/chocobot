@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Aggro;
 using Chocobot.MemoryStructures.Character;
+using Chocobot.MemoryStructures.Gathering;
 using Chocobot.Utilities.Memory;
 
 using Brushes = System.Windows.Media.Brushes;
@@ -28,6 +29,7 @@ namespace Chocobot.Controls
         private readonly List<Character> _monsters = new List<Character>();
         private readonly List<Character> _npcs = new List<Character>();
         private readonly List<Character> _fate = new List<Character>();
+        private readonly List<Gathering> _gathering = new List<Gathering>();
 
         private readonly AggroHelper _aggrohelper = new AggroHelper();
 
@@ -122,6 +124,7 @@ namespace Chocobot.Controls
                 targetID = MemoryFunctions.GetTarget();
                 MemoryFunctions.GetCharacters(_monsters, _fate, _players, ref _user);
                 MemoryFunctions.GetNPCs(_npcs);
+                MemoryFunctions.GetGathering(_gathering);
             } catch
             {
                 return;
@@ -147,6 +150,9 @@ namespace Chocobot.Controls
 
                     if (_user.Valid == false)
                         return;
+
+                    if (_user.IsHidden)
+                        continue;
 
 
                     Coordinate offset = _user.Coordinate.Subtract(player.Coordinate).Rotate2d(_user.Heading).Scale(scale);
@@ -190,6 +196,9 @@ namespace Chocobot.Controls
                 foreach (Character monster in _monsters)
                 {
                     if (monster.Name.ToLower().Contains(Filter) == false)
+                        continue;
+
+                    if (monster.IsHidden)
                         continue;
 
                     Coordinate offset;
@@ -259,6 +268,9 @@ namespace Chocobot.Controls
                     if (monster.Name.ToLower().Contains(Filter) == false)
                         continue;
 
+                    if (monster.IsHidden)
+                        continue;
+
                     Coordinate offset;
 
                     try
@@ -317,7 +329,7 @@ namespace Chocobot.Controls
 
             }
 
-            if (ShowNPCs || ShowGathering)
+            if (ShowNPCs)
             {
                 foreach (Character NPC in _npcs)
                 {
@@ -327,11 +339,10 @@ namespace Chocobot.Controls
                     if (NPC.Type == CharacterType.NPC && ShowNPCs == false)
                         continue;
 
-                    if (NPC.Type == CharacterType.Gathering && ShowGathering == false)
+                    if (NPC.IsHidden)
                         continue;
 
                     Coordinate screenCoordinate;
-
 
                     try
                     {
@@ -352,42 +363,79 @@ namespace Chocobot.Controls
 
                     screenCoordinate = screenCoordinate.Add(-8, -8, 0);
 
-                    if (NPC.Type == CharacterType.NPC)
+             
+                    drawingContext.DrawImage(_npcicon,
+                                                new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                                                        new Size(16, 16)));
+
+                    if (ShowNPCName)
                     {
-                        drawingContext.DrawImage(_npcicon,
-                                                 new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
-                                                          new Size(16, 16)));
+                        FormattedText npcLabel = new FormattedText(NPC.Name,
+                                                                    System.Globalization.CultureInfo.InvariantCulture,
+                                                                    FlowDirection.LeftToRight, new Typeface("Arial"),
+                                                                    8,
+                                                                    Brushes.Wheat);
 
-                        if (ShowNPCName)
-                        {
-                            FormattedText npcLabel = new FormattedText(NPC.Name,
-                                                                       System.Globalization.CultureInfo.InvariantCulture,
-                                                                       FlowDirection.LeftToRight, new Typeface("Arial"),
-                                                                       8,
-                                                                       Brushes.Wheat);
-
-                            drawingContext.DrawText(npcLabel,
-                                                    new Point(screenCoordinate.X - 15, screenCoordinate.Y - 13));
-                        }
+                        drawingContext.DrawText(npcLabel,
+                                                new Point(screenCoordinate.X - 15, screenCoordinate.Y - 13));
                     }
-                    else if (NPC.Type == CharacterType.Gathering)
+                    
+                   
+
+                }
+
+            }
+
+
+
+            if (ShowGathering)
+            {
+                foreach (Gathering gather in _gathering)
+                {
+                    if (gather.Name.ToLower().Contains(Filter) == false)
+                        continue;
+
+                    if (gather.IsHidden)
+                        continue;
+
+                    Coordinate screenCoordinate;
+                
+                    try
                     {
-                        drawingContext.DrawImage(_woodicon,
-                                                 new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
-                                                          new Size(16, 16)));
-
-                        if (ShowGatheringName)
-                        {
-                            FormattedText npcLabel = new FormattedText(NPC.Name,
-                                                                       System.Globalization.CultureInfo.InvariantCulture,
-                                                                       FlowDirection.LeftToRight, new Typeface("Arial"),
-                                                                       8,
-                                                                       Brushes.DarkOrange);
-
-                            drawingContext.DrawText(npcLabel,
-                                                    new Point(screenCoordinate.X - 15, screenCoordinate.Y - 13));
-                        }
+                        Coordinate offset = _user.Coordinate.Subtract(gather.Coordinate).Rotate2d(_user.Heading).Scale(scale);
+                        screenCoordinate = offset.Add(origin);
                     }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+
+
+                    if (gather.Address == targetID)
+                    {
+                        drawingContext.DrawEllipse(Brushes.Transparent, new Pen(new SolidColorBrush(Colors.Cyan), 2),
+                           new Point(screenCoordinate.X, screenCoordinate.Y), 13, 13);
+                    }
+
+                    screenCoordinate = screenCoordinate.Add(-8, -8, 0);
+                    
+ 
+                    drawingContext.DrawImage(_woodicon,
+                                                new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                                                        new Size(16, 16)));
+
+                    if (ShowGatheringName)
+                    {
+                        FormattedText npcLabel = new FormattedText(gather.Name,
+                                                                    System.Globalization.CultureInfo.InvariantCulture,
+                                                                    FlowDirection.LeftToRight, new Typeface("Arial"),
+                                                                    8,
+                                                                    Brushes.DarkOrange);
+
+                        drawingContext.DrawText(npcLabel,
+                                                new Point(screenCoordinate.X - 15, screenCoordinate.Y - 13));
+                    }
+                    
 
                 }
 

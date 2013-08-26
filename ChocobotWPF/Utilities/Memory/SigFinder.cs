@@ -132,7 +132,9 @@ namespace Chocobot.Utilities.Memory
                 Database.Add("charmap", 0x10BBD5C + MemoryHandler.Instance.BaseAddress + 64);   //+40
                 Database.Add("aggro", 0x10B8D5C + MemoryHandler.Instance.BaseAddress + 3440);
 
-                Database.Add("npcmap", 0x10D7198 + MemoryHandler.Instance.BaseAddress + 2432);  //0x10D4198
+                Database.Add("npcmap", 0x10D7198 + MemoryHandler.Instance.BaseAddress + 2432);
+                Database.Add("gathermap", 0x10D7198 + MemoryHandler.Instance.BaseAddress + 2000);
+
                 Database.Add("recast", 0x10CF208 + MemoryHandler.Instance.BaseAddress + 412);
                 Database.Add("recast_ws", 0x10CF208 + MemoryHandler.Instance.BaseAddress + 1572);
                 Database.Add("target", 0xF87ED4 + MemoryHandler.Instance.BaseAddress + 172);

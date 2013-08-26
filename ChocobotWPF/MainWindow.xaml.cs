@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using Chocobot.Dialogs;
 using Chocobot.MemoryStructures.Aggro;
 using Chocobot.MemoryStructures.Character;
+using Chocobot.MemoryStructures.Gathering;
 using Chocobot.Utilities.FileIO;
 using Chocobot.Utilities.Licensing;
 using Chocobot.Utilities.Memory;
@@ -25,6 +26,7 @@ namespace Chocobot
         private readonly List<Character> _fate = new List<Character>();
         private readonly List<Character> _npcs = new List<Character>();
         private readonly DispatcherTimer _refresh = new DispatcherTimer();
+        private readonly List<Gathering> _gathering = new List<Gathering>();
 
         private dlgExpBot _dlgExpBot = null;
         private dlgFishingBot _dlgFishBot = null;
@@ -39,6 +41,8 @@ namespace Chocobot
             _monsters.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
             _players.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
             _npcs.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
+            _gathering.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.Ordinal));
+
 
             lst_Characters.Items.Clear();
            
@@ -67,6 +71,12 @@ namespace Chocobot
 
             }
 
+            foreach (Gathering gather in _gathering)
+            {
+                lst_Characters.Items.Add(gather);
+
+            }
+
             this.Title = string.Format("Chocobot: {0}", _user.Name);
         }
 
@@ -79,6 +89,7 @@ namespace Chocobot
 
             MemoryFunctions.GetCharacters(_monsters, _fate, _players, ref _user);
             MemoryFunctions.GetNPCs(_npcs);
+            MemoryFunctions.GetGathering(_gathering);
 
             RefreshCharacterList();
 
@@ -110,11 +121,24 @@ namespace Chocobot
             if (lst_Characters.SelectedItem == null)
                 return;
 
-            Character currChar = (Character)lst_Characters.SelectedItem;
+            if(typeof(Gathering) == lst_Characters.SelectedItem.GetType())
+            {
 
-            //System.Diagnostics.Debug.Print(currChar.Address.ToString("X"));
- 
-            currChar.Target();
+                Gathering currChar = (Gathering)lst_Characters.SelectedItem;
+
+                //System.Diagnostics.Debug.Print(currChar.Address.ToString("X"));
+
+                currChar.Target();
+            } else
+            {
+
+                Character currChar = (Character)lst_Characters.SelectedItem;
+
+                //System.Diagnostics.Debug.Print(currChar.Address.ToString("X"));
+
+                currChar.Target();
+            }
+
         }
 
         private void btn_Refresh_Click(object sender, RoutedEventArgs e)
@@ -125,6 +149,7 @@ namespace Chocobot
 
             MemoryFunctions.GetCharacters(_monsters, _fate, _players, ref _user);
             MemoryFunctions.GetNPCs(_npcs);
+            MemoryFunctions.GetGathering(_gathering);
 
             RefreshCharacterList();
         }

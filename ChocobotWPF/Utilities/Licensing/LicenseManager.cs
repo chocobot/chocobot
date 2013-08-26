@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+using System.Web;
 using Chocobot.Utilities.FileIO;
 using Chocobot.Utilities.Input;
 using System.Security.Cryptography;
@@ -20,6 +21,20 @@ namespace Chocobot.Utilities.Licensing
         {
             public bool Valid;
             public string Error;
+        }
+
+        private string CleanPassword(string password)
+        {
+            password = password.Replace("&", "&amp;");
+            password = password.Replace("\\", "&#092;");
+            password = password.Replace("!", "&#33;");
+            password = password.Replace("$", "&#036;");
+            password = password.Replace("\"", "&quot;");
+            password = password.Replace("<", "&lt;");
+            password = password.Replace(">", "&gt;");
+            password = password.Replace("'", "&#39;");
+
+            return password;
         }
         public LicenseManager()
         {
@@ -47,7 +62,7 @@ namespace Chocobot.Utilities.Licensing
                 try
                 {
                     user = credentials.User;
-                    password = GetMd5Hash(credentials.Password);
+                    password = GetMd5Hash(CleanPassword(credentials.Password));
                 }catch (Exception)
                 {
                     user = "";

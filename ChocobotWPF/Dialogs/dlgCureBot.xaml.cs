@@ -167,6 +167,17 @@ namespace Chocobot.Dialogs
             Character maxMissingTarget = null;
             int maxMissing = 0;
             int hurtPlayers = 0;
+            bool foundInvalid = false;
+
+            if (_user == null)
+            {
+                List<Character> monsters = new List<Character>();
+                List<Character> fate = new List<Character>();
+                List<Character> players = new List<Character>();
+
+                MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
+            }
+
 
             _user.Refresh();
 
@@ -176,6 +187,7 @@ namespace Chocobot.Dialogs
 
                 if(target.Valid == false)
                 {
+                    foundInvalid = true;
                     continue;
                 }
 
@@ -211,6 +223,10 @@ namespace Chocobot.Dialogs
                 }
 
             }
+
+            if (foundInvalid)
+                RefreshTargets();
+
         }
 
         private void btn_Start_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -225,6 +241,42 @@ namespace Chocobot.Dialogs
 
         private void btn_Refresh_Click(object sender, RoutedEventArgs e)
         {
+            RefreshTargets();
+        }
+
+        private void RefreshTargets()
+        {
+
+            for (int i = 0; i < lst_Targets.Items.Count; i++)
+            {
+                RefreshTarget(lst_Targets.Items[i].ToString(), _targets[i]);
+            }
+
+
+            //List<Character> monsters = new List<Character>();
+            //List<Character> fate = new List<Character>();
+            //List<Character> players = new List<Character>();
+
+            //MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
+
+            //players.AddRange(monsters);
+
+            //for (int i = 0; i < _targets.Count; i++)
+            //{
+            //    foreach (Character p in players)
+            //    {
+            //        if (p.Name == _targets[i].Name)
+            //        {
+            //            _targets.RemoveAt(i);
+            //            _targets.Insert(i, p);
+            //        }
+            //    }
+            //}
+        }
+
+        private void RefreshTarget(string name, Character target)
+        {
+
 
             List<Character> monsters = new List<Character>();
             List<Character> fate = new List<Character>();
@@ -234,21 +286,19 @@ namespace Chocobot.Dialogs
 
             players.AddRange(monsters);
 
-            for (int i = 0; i < _targets.Count; i++ )
+            
+            foreach (Character p in players)
             {
-                foreach (Character p in players)
+                if (p.Name == name)
                 {
-                    if (p.Name == _targets[i].Name)
-                    {
-                        _targets.RemoveAt(i);
-                        _targets.Insert(i, p);
+                    int i = _targets.IndexOf(target);
+                    _targets.Remove(target);
+                    _targets.Insert(i, p);
 
-                    }
+                    return;
                 }
             }
-
-
-
+            
         }
 
         private void btn_AddSurroundingPlayers_Click(object sender, RoutedEventArgs e)
@@ -284,15 +334,21 @@ namespace Chocobot.Dialogs
             if (lst_Targets.SelectedItem == null)
                 return;
 
-            foreach (Character target in _targets)
-            {
-                if(target.Name.ToLower() == lst_Targets.SelectedItem.ToString().ToLower())
-                {
-                    _targets.Remove(target);
-                    RefreshTargetList();
-                    return;
-                }
-            }
+
+            _targets.RemoveAt(lst_Targets.SelectedIndex);
+
+            //foreach (Character target in _targets)
+            //{
+            //    if(target.name.ToLower() == lst_Targets.SelectedItem.ToString().ToLower())
+            //    {
+            //        _targets.Remove(target);
+            //        RefreshTargetList();
+            //        return;
+            //    }
+            //}
+
+
+            RefreshTargetList();
         }
     }
 }

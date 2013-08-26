@@ -27,7 +27,7 @@ namespace Chocobot.MemoryStructures.Character
         private uint _fate;
         private byte _level;
         private byte _status;
-
+        private bool _hidden;
         private readonly uint _address;
         //Get the culture property of the thread.
         private static readonly CultureInfo CultureInfo = Thread.CurrentThread.CurrentCulture;
@@ -70,6 +70,11 @@ namespace Chocobot.MemoryStructures.Character
         public bool IsClaimed
         {
             get { return _claimed == 1; }
+        }
+
+        public bool IsHidden
+        {
+            get { return _hidden; }
         }
 
         public byte Health_Percent
@@ -260,6 +265,8 @@ namespace Chocobot.MemoryStructures.Character
             _level = MemoryHandler.Instance.GetByte(Address + 5769, false);
             _icon = MemoryHandler.Instance.GetByte(Address + 394, false);
             _status = MemoryHandler.Instance.GetByte(Address + 405, false);
+            _hidden = MemoryHandler.Instance.GetInt32(Address + 284) != 0;
+
             // Needs Work
 
          

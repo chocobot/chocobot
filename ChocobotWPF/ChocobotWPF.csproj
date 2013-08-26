@@ -146,6 +146,7 @@
     <Compile Include="MemoryStructures\Chat\ChatWorkerDelegate.cs" />
     <Compile Include="MemoryStructures\Chat\XmlHelper.cs" />
     <Compile Include="MemoryStructures\Chat\XValuePair.cs" />
+    <Compile Include="MemoryStructures\Gathering\Gathering.cs" />
     <Compile Include="MemoryStructures\Map\Map.cs" />
     <Compile Include="MemoryStructures\Map\MapInfo.cs" />
     <Compile Include="MemoryStructures\Map\MapMarker.cs" />
@@ -496,7 +497,7 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Enabled="1" Reactor_Commands="" Reactor_Project="C:\Users\Maury\Documents\chocobotwpf\Reactor.nrproj" Reactor_Configuration="Release" Reactor_Output="&lt;AssemblyLocation&gt;\&lt;AssemblyFileName&gt;" Reactor_Deploy="0" />
+      <UserProperties Reactor_Deploy="0" Reactor_Output="&lt;AssemblyLocation&gt;\&lt;AssemblyFileName&gt;" Reactor_Configuration="Release" Reactor_Project="C:\Users\Maury\Documents\chocobotwpf\Reactor.nrproj" Reactor_Commands="" Reactor_Enabled="1" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
