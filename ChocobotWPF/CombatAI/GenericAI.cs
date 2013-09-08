@@ -23,7 +23,7 @@ namespace Chocobot.CombatAI
         public virtual void Fight(Character user, Character monster, Recast recast)
         {
             if (HasCure)
-                if (user.Health_Percent < 15)
+                if (user.Health_Percent < 25)
                 {
                     Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D0);
                 }

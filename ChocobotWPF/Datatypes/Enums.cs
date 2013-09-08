@@ -10,11 +10,20 @@ namespace Chocobot.Datatypes
         Gathering
     }
 
+
+    //1 crafting   1A basic synth   1B basic Touch
+
     public enum CharacterStatus
     {
+        Crafting_Idle=1,
+        Crafting_Idle2 = 5,
+
         Idle=2,
         Dead = 4,
         Fighting = 6,
+
+        Crafting_BasicSynth = 0x1A,
+        Crafting_BasicTouch = 0x1B,
 
         Fishing_Idle=0x23,
 
@@ -35,6 +44,7 @@ namespace Chocobot.Datatypes
         Fishing_ReelingIn3 = 0x33,
         Fishing_ReelingInBig = 0x32,
         Fishing_ReelingInBig2 = 0x34,
+        Fishing_ReelingInBig3 = 0x35,
 
         Fishing_NoBite = 0x2F,
         Unknown=0

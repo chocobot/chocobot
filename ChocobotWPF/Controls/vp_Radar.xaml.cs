@@ -52,6 +52,7 @@ namespace Chocobot.Controls
         public bool ShowNPCName = false;
         public bool ShowMonsterName = false;
         public bool ShowPlayerName = false;
+        public bool ShowHidden = false;
         public string Filter = "";
         public bool Test
         {
@@ -395,8 +396,11 @@ namespace Chocobot.Controls
                     if (gather.Name.ToLower().Contains(Filter) == false)
                         continue;
 
-                    if (gather.IsHidden)
+                    if (gather.IsHidden && ShowHidden == false)
                         continue;
+
+
+                    gather.IsHidden = false;
 
                     Coordinate screenCoordinate;
                 

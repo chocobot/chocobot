@@ -38,7 +38,10 @@ namespace Chocobot.Utilities.Memory
                 Character newChar = new Character(startAddress + i);
 
                 if (i == 0)
+                {
                     user = newChar;
+                    user.IsUser = true;
+                }
 
                 if (newChar.Valid)
                 {

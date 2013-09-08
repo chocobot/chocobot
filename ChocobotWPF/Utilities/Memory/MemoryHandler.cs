@@ -557,7 +557,7 @@ namespace Chocobot.Utilities.Memory
             var realSize = 0;
             for (var i = 0; i < maxSize; i++)
             {
-                if (bytes[i] != 0)
+                if (bytes[i] != 0 && bytes[i] != 2)
                 {
                     continue;
                 }

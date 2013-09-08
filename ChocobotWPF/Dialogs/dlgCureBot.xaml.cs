@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
-using Chocobot.Datatypes;
+using BondTech.HotKeyManagement.WPF._4;
 using Chocobot.MemoryStructures.Abilities;
 using Chocobot.MemoryStructures.Character;
 using Chocobot.Utilities.Memory;
 using MahApps.Metro.Controls;
+using Keys = Chocobot.Datatypes.Keys;
 
 namespace Chocobot.Dialogs
 {
@@ -16,9 +19,40 @@ namespace Chocobot.Dialogs
     /// </summary>
     public partial class dlgCureBot :  MetroWindow
     {
-        private readonly List<Character> _targets = new List<Character>();
+        private readonly List<String> _targets = new List<String>();
         private Character _user;
         private readonly DispatcherTimer _targetMonitor = new DispatcherTimer();
+        private HotKeyManager _hotKeyManager;
+        private GlobalHotKey _enableHK = new GlobalHotKey("Enable", ModifierKeys.None, BondTech.HotKeyManagement.WPF._4.Keys.Oem3, true);
+            
+
+        private class TargetStorage
+        {
+            public readonly bool MemDirect = false;
+            public readonly Character Character;
+            public readonly string Name;
+
+            public TargetStorage(string name)
+            {
+                Name = name;
+            }
+
+            public TargetStorage(Character character)
+            {
+                Character = character;
+                MemDirect = true;
+            }
+
+            public override string ToString()
+            {
+                if(MemDirect)
+                {
+                    return Character.Name;
+                }
+
+                return Name;
+            }
+        }
 
         public dlgCureBot()
         {
@@ -26,7 +60,7 @@ namespace Chocobot.Dialogs
 
             _targetMonitor.Tick += thread_TargetMonitor_Tick;
             _targetMonitor.Interval = new TimeSpan(0, 0, 0, 0, 150);
-
+            
         }
 
         private void thread_TargetMonitor_Tick(object sender, EventArgs e)
@@ -42,9 +76,9 @@ namespace Chocobot.Dialogs
         {
             lst_Targets.Items.Clear();
 
-            foreach (Character target in _targets)
+            foreach (string target in _targets)
             {
-                lst_Targets.Items.Add(target.Name);
+                lst_Targets.Items.Add(target);
 
             }
         }
@@ -64,7 +98,7 @@ namespace Chocobot.Dialogs
             {
                 if(p.Name.ToLower() == txt_TargetName.Text.ToLower())
                 {
-                    _targets.Add(p);
+                    _targets.Add(p.Name);
                     RefreshTargetList();
                     return;
                 }
@@ -75,7 +109,7 @@ namespace Chocobot.Dialogs
             {
                 if (p.Name.ToLower() == txt_TargetName.Text.ToLower())
                 {
-                    _targets.Add(p);
+                    _targets.Add(p.Name);
                     RefreshTargetList();
                     return;
                 }
@@ -85,7 +119,7 @@ namespace Chocobot.Dialogs
             {
                 if (p.Name.ToLower() == txt_TargetName.Text.ToLower())
                 {
-                    _targets.Add(p);
+                    _targets.Add(p.Name);
                     RefreshTargetList();
                     return;
                 }
@@ -95,7 +129,7 @@ namespace Chocobot.Dialogs
             {
                 if (p.Name.ToLower() == txt_TargetName.Text.ToLower())
                 {
-                    _targets.Add(p);
+                    _targets.Add(p.Name);
                     RefreshTargetList();
                     return;
                 }
@@ -117,6 +151,10 @@ namespace Chocobot.Dialogs
             int curePotency = int.Parse(txt_CurePotency.Text);
             Character maxMissingTarget = null;
             int maxMissing = 0;
+
+
+            if (_user.Health_Current == 0 || _user.IsMoving)
+                return;
 
             foreach (Character target in players)
             {
@@ -167,27 +205,29 @@ namespace Chocobot.Dialogs
             Character maxMissingTarget = null;
             int maxMissing = 0;
             int hurtPlayers = 0;
-            bool foundInvalid = false;
 
-            if (_user == null)
-            {
-                List<Character> monsters = new List<Character>();
-                List<Character> fate = new List<Character>();
-                List<Character> players = new List<Character>();
+            List<Character> monsters = new List<Character>();
+            List<Character> fate = new List<Character>();
+            List<Character> players = new List<Character>();
+            List<Character> npcs = new List<Character>();
+            List<Character> damagedTargets = new List<Character>();
 
-                MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
-            }
+            MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
+            MemoryFunctions.GetNPCs(npcs);
 
+            players.AddRange(npcs);
 
-            _user.Refresh();
+            List<Character> targets = (from player in players from target in _targets where player.Name.ToLower() == target.ToLower() select player).ToList();
 
-            foreach (Character target in _targets)
+            if (_user.Health_Current == 0 || _user.IsMoving)
+                return;
+
+            foreach (Character target in targets)
             {
                 target.Refresh();
 
                 if(target.Valid == false)
                 {
-                    foundInvalid = true;
                     continue;
                 }
 
@@ -206,100 +246,44 @@ namespace Chocobot.Dialogs
                     {
                         maxMissing = healthMissing;
                         maxMissingTarget = target;
+                        damagedTargets.Add(target);
                     }
 
                     hurtPlayers++;
                 }
             }
 
-            if(maxMissingTarget != null)
+            if (damagedTargets.Count > 0)
             {
-                maxMissingTarget.Target();
+                damagedTargets.Sort((a,b) => a.Health_Percent.CompareTo(b.Health_Percent));
+                damagedTargets.First().Target();
+
+                //maxMissingTarget.Target();
                 recast.Refresh();
 
                 if (recast.WeaponSpecials.Count == 0)
                 {
                     Utilities.Keyboard.KeyBoardHelper.KeyPress(hurtPlayers >= 3 ? Keys.Dash : Keys.D0);
+                    Thread.Sleep(500);
                 }
 
             }
-
-            if (foundInvalid)
-                RefreshTargets();
 
         }
 
         private void btn_Start_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             _targetMonitor.Start();
+            this.Title = "Cure Bot: Running...";
         }
 
         private void btn_Stop_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             _targetMonitor.Stop();
+            this.Title = "Cure Bot: Stopped";
         }
 
-        private void btn_Refresh_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshTargets();
-        }
-
-        private void RefreshTargets()
-        {
-
-            for (int i = 0; i < lst_Targets.Items.Count; i++)
-            {
-                RefreshTarget(lst_Targets.Items[i].ToString(), _targets[i]);
-            }
-
-
-            //List<Character> monsters = new List<Character>();
-            //List<Character> fate = new List<Character>();
-            //List<Character> players = new List<Character>();
-
-            //MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
-
-            //players.AddRange(monsters);
-
-            //for (int i = 0; i < _targets.Count; i++)
-            //{
-            //    foreach (Character p in players)
-            //    {
-            //        if (p.Name == _targets[i].Name)
-            //        {
-            //            _targets.RemoveAt(i);
-            //            _targets.Insert(i, p);
-            //        }
-            //    }
-            //}
-        }
-
-        private void RefreshTarget(string name, Character target)
-        {
-
-
-            List<Character> monsters = new List<Character>();
-            List<Character> fate = new List<Character>();
-            List<Character> players = new List<Character>();
-
-            MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
-
-            players.AddRange(monsters);
-
-            
-            foreach (Character p in players)
-            {
-                if (p.Name == name)
-                {
-                    int i = _targets.IndexOf(target);
-                    _targets.Remove(target);
-                    _targets.Insert(i, p);
-
-                    return;
-                }
-            }
-            
-        }
+      
 
         private void btn_AddSurroundingPlayers_Click(object sender, RoutedEventArgs e)
         {
@@ -311,7 +295,7 @@ namespace Chocobot.Dialogs
 
             foreach (Character p in players)
             {
-                _targets.Add(p);
+                _targets.Add(p.Name);
             }
 
             RefreshTargetList();
@@ -319,8 +303,7 @@ namespace Chocobot.Dialogs
 
         private void btn_AddSelectedTarget_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.Print(((uint)MemoryFunctions.GetTarget()).ToString("X"));
-            _targets.Add(new Character((uint) MemoryFunctions.GetTarget(), true));
+            _targets.Add((new Character((uint) MemoryFunctions.GetTarget(), true)).Name);
             RefreshTargetList();
         }
 
@@ -334,21 +317,38 @@ namespace Chocobot.Dialogs
             if (lst_Targets.SelectedItem == null)
                 return;
 
-
             _targets.RemoveAt(lst_Targets.SelectedIndex);
-
-            //foreach (Character target in _targets)
-            //{
-            //    if(target.name.ToLower() == lst_Targets.SelectedItem.ToString().ToLower())
-            //    {
-            //        _targets.Remove(target);
-            //        RefreshTargetList();
-            //        return;
-            //    }
-            //}
 
 
             RefreshTargetList();
+        }
+
+        private void dlgCureBot_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            _hotKeyManager = new HotKeyManager(this);
+            _hotKeyManager.AddGlobalHotKey(_enableHK);
+
+            _hotKeyManager.GlobalHotKeyPressed += new GlobalHotKeyEventHandler(hotKeyManager_GlobalHotKeyPressed);
+            
+        }
+
+        private void hotKeyManager_GlobalHotKeyPressed(object sender, GlobalHotKeyEventArgs e)
+        {
+            switch (e.HotKey.Name.ToLower())
+            {
+                case "enable":
+                    if (_targetMonitor.IsEnabled)
+                    {
+                        this.Title = "Cure Bot: Stopped";
+                        _targetMonitor.Stop();
+                    } else
+                    {
+                        _targetMonitor.Start();
+                        this.Title = "Cure Bot: Running...";
+                    }
+                    break;
+            }
         }
     }
 }

@@ -28,12 +28,41 @@ namespace Chocobot.MemoryStructures.Character
         private byte _level;
         private byte _status;
         private bool _hidden;
+        private bool _isUser = false;
+        private bool _isMoving;
+        private short _currentcp;
+        private short _maxcp;
+
+        private short _currentGp;
+        private short _maxgp;
+        private int _craftbool;
+
         private readonly uint _address;
         //Get the culture property of the thread.
         private static readonly CultureInfo CultureInfo = Thread.CurrentThread.CurrentCulture;
         private static readonly TextInfo Textinfo = CultureInfo.TextInfo;
 
+        
         #region "Properties"
+
+        public bool IsUser
+        {
+            get { return _isUser; }
+            set { 
+                _isUser = value;
+                int targAddress = MemoryFunctions.GetTarget();
+                if (targAddress == -1)
+                {
+                    _target = -1;
+                }
+                else
+                {
+                    Character tmptarget = new Character((uint) targAddress, true);
+                    _target = tmptarget.ID;
+                }
+            
+            }
+        }
         public bool IsFate
         {
             get
@@ -196,6 +225,37 @@ namespace Chocobot.MemoryStructures.Character
         {
             get { return _name; }
         }
+
+        public short CurrentCP
+        {
+            get { return _currentcp; }
+        }
+
+        public short MaxCP
+        {
+            get { return _maxcp; }
+        }
+
+        public bool IsCrafting
+        {
+            get { return _craftbool != 0; }
+        }
+
+        public short CurrentGP
+        {
+            get { return _currentGp; }
+        }
+
+        public short MaxGP
+        {
+            get { return _maxgp; }
+        }
+
+        public bool IsMoving
+        {
+            get { return _isMoving; }
+        }
+
         #endregion
 
         public override string ToString()
@@ -204,7 +264,7 @@ namespace Chocobot.MemoryStructures.Character
         }
 
 
-        public Character(uint address, bool forceAddress = false)
+        public Character(uint address, bool forceAddress = false, bool isUser = false)
         {
 
             if (forceAddress == false)
@@ -216,6 +276,7 @@ namespace Chocobot.MemoryStructures.Character
                 return;
             }
             _address = address;
+            _isUser = isUser;
 
             Refresh();
 
@@ -262,15 +323,37 @@ namespace Chocobot.MemoryStructures.Character
             _maxmp = MemoryHandler.Instance.GetInt32(Address + 5788); 
             _currenttp = MemoryHandler.Instance.GetInt32(Address + 5792); 
             _maxtp = 1000;
+
+            _currentcp = MemoryHandler.Instance.GetInt16(Address + 5798);
+            _maxcp = MemoryHandler.Instance.GetInt16(Address + 5800);
+            _craftbool = MemoryHandler.Instance.GetInt32(Address + 5712);
+
+            _currentGp = MemoryHandler.Instance.GetInt16(Address + 5794);
+            _maxgp = MemoryHandler.Instance.GetInt16(Address + 5796);
+
             _level = MemoryHandler.Instance.GetByte(Address + 5769, false);
             _icon = MemoryHandler.Instance.GetByte(Address + 394, false);
             _status = MemoryHandler.Instance.GetByte(Address + 405, false);
             _hidden = MemoryHandler.Instance.GetInt32(Address + 284) != 0;
+            _isMoving = MemoryHandler.Instance.GetByte(Address + 532, false) == 1;
 
             // Needs Work
 
-         
-            _target = MemoryHandler.Instance.GetInt32(Address + 416);
+            if (_isUser == false)
+            {
+                _target = MemoryHandler.Instance.GetInt32(Address + 416);
+            } else
+            {
+                int targAddress = MemoryFunctions.GetTarget();
+                if(targAddress == -1)
+                {
+                    _target = -1;
+                } else
+                {
+                    _target = new Character((uint)targAddress, true).ID;
+                }
+            }
+
             _claimed = MemoryHandler.Instance.GetByte(Address + 405, false);
 
             _fate = MemoryHandler.Instance.GetUInt32(Address + 228);

@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" Title="Cure Bot" Height="323" Width="377"
-                     Icon="../Resources/Icon.ico" ResizeMode="NoResize" >
+                     Icon="../Resources/Icon.ico" ResizeMode="NoResize" Loaded="dlgCureBot_Loaded" >
 
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>
@@ -11,7 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
@@ -19,7 +19,7 @@
     <Grid>
         <TabControl HorizontalAlignment="Left" Height="288" Margin="2,3,0,0" VerticalAlignment="Top" Width="365">
             <TabItem Header="Targets">
-                <Grid Background="#FF323232" Margin="0,0,0,0">
+                <Grid Margin="0,0,0,0">
                     <TextBox x:Name="txt_TargetName"
                 		Width="98"
                 		Height="26"
@@ -44,14 +44,6 @@
                 			HorizontalAlignment="Left"
                 			VerticalAlignment="Top" SelectionChanged="lst_Targets_SelectionChanged" MouseDoubleClick="lst_Targets_MouseDoubleClick" />
                     </GroupBox>
-                    <Button x:Name="btn_Refresh"
-                    	Width="53"
-                    	Height="26"
-                    	Margin="298,10,0,0"
-                    	HorizontalAlignment="Left"
-                    	VerticalAlignment="Top"
-                    	Click="btn_Refresh_Click"
-                    	Content="Refresh" />
                     <Button x:Name="btn_AddSurroundingPlayers"
                     	Width="64"
                     	Height="26"
@@ -71,7 +63,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Main">
-                <Grid Background="#FF323232">
+                <Grid>
                     <Label Content="Cure:" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top"/>
                     <TextBox Name="txt_CurePotency" HorizontalAlignment="Left" Height="23" Margin="78,7,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="74" TextAlignment="Center"/>
                     <Button Name="btn_Start" Content="Start" HorizontalAlignment="Left" Height="37" Margin="11,50,0,0" VerticalAlignment="Top" Width="141" Click="btn_Start_Click"/>

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Chocobot.Datatypes;
 using Chocobot.Dialogs;
+using Chocobot.MemoryStructures.Abilities;
 using Chocobot.MemoryStructures.Aggro;
 using Chocobot.MemoryStructures.Character;
 using Chocobot.MemoryStructures.Gathering;
+using Chocobot.MemoryStructures.UIWindows.Crafting;
 using Chocobot.Utilities.FileIO;
 using Chocobot.Utilities.Licensing;
 using Chocobot.Utilities.Memory;
@@ -34,7 +38,10 @@ namespace Chocobot
         private dlgNavigation _dlgNavigation = null;
         private dlgMap _dlgMap = null;
         private dlgCureBot _dlgCureBot = null;
+        private dlgCrafting _dlgCraftBot = null;
+        private dlgGathering _dlgGatheringBot = null;
 
+        private bool _spamServer = false;
 
         private void RefreshCharacterList()
         {
@@ -93,6 +100,13 @@ namespace Chocobot
 
             RefreshCharacterList();
 
+            Recast test = new Recast();
+            test.Refresh();
+            foreach(int a in test.Abilities)
+                System.Diagnostics.Debug.Print("Ability: " + a.ToString());
+
+            foreach (int a in test.WeaponSpecials)
+                System.Diagnostics.Debug.Print("WS: " + a.ToString());
 
             _refresh.Interval = new TimeSpan(0, 0, 0, 0, 500);
             _refresh.Tick += RefreshUser_Tick;
@@ -104,6 +118,15 @@ namespace Chocobot
 
         private void RefreshUser_Tick(object sender, EventArgs e)
         {
+
+
+            if(_spamServer)
+            {
+                Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.NumPad0);
+                //Thread.Sleep(150);
+                return;
+            }
+
             if (_user == null || _user.Valid == false)
                 return;
 
@@ -126,7 +149,7 @@ namespace Chocobot
 
                 Gathering currChar = (Gathering)lst_Characters.SelectedItem;
 
-                //System.Diagnostics.Debug.Print(currChar.Address.ToString("X"));
+                System.Diagnostics.Debug.Print(currChar.Address.ToString("X"));
 
                 currChar.Target();
             } else
@@ -134,7 +157,7 @@ namespace Chocobot
 
                 Character currChar = (Character)lst_Characters.SelectedItem;
 
-                //System.Diagnostics.Debug.Print(currChar.Address.ToString("X"));
+                System.Diagnostics.Debug.Print(currChar.Address.ToString("X"));
 
                 currChar.Target();
             }
@@ -277,5 +300,32 @@ namespace Chocobot
 
 
         }
+
+        private void btn_ServerRetry_Click(object sender, RoutedEventArgs e)
+        {
+            _spamServer = !_spamServer;
+        }
+
+        private void btn_CraftBot_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (_dlgCraftBot != null)
+                _dlgCraftBot.Close();
+
+            _dlgCraftBot = new dlgCrafting() ;
+            _dlgCraftBot.Show();
+
+        }
+
+        private void btn_GatheringBot_Click(object sender, RoutedEventArgs e)
+        {
+            if (_dlgGatheringBot != null)
+                _dlgGatheringBot.Close();
+
+            _dlgGatheringBot = new dlgGathering();
+            _dlgGatheringBot.Show();
+        }
+
+
     }
 }

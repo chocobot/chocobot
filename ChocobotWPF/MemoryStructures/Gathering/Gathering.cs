@@ -57,6 +57,10 @@ namespace Chocobot.MemoryStructures.Gathering
         public bool IsHidden
         {
             get { return _hidden; }
+            set
+            {
+                //MemoryHandler.Instance.SetInt32(Address + 284, 0);
+            }
         }
 
         public byte Icon

@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Threading;
 using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Character;
 using Chocobot.Utilities.Memory;
-using Microsoft.Win32;
 
 namespace Chocobot.Utilities.Navigation
 {
 
-    public delegate void WaypointChangedEventHandler(object sender, int Index);
+    public delegate void WaypointChangedEventHandler(object sender, int index);
     public delegate void FinishedEventHandler(object sender);
 
-    class NavigationHelper
+    public class NavigationHelper
     {
         public ObservableCollection<Coordinate> Waypoints = new ObservableCollection<Coordinate>();
 
-        private int _currentindex = 0;
+        private int _currentindex;
         private readonly DispatcherTimer _recordcoordinates = new DispatcherTimer();
         private readonly DispatcherTimer _navigate = new DispatcherTimer();
 
@@ -30,10 +30,32 @@ namespace Chocobot.Utilities.Navigation
         public bool Loop = true;
         public bool IsPlaying = false;
 
+        private readonly Random _randNum = new Random();
+        private readonly Stopwatch _jumpTimer = new Stopwatch();
+        private int _jumpRand;
+
 
         // Invoke the Changed event; called whenever list changes
         protected virtual void OnWaypointChanged()
         {
+
+            if (_currentindex == Waypoints.Count)
+            {
+                if (Waypoints[0].ToggleSteatlh)
+                {
+                    Keyboard.KeyBoardHelper.KeyPress(Keys.D6);
+                }
+
+            } else
+            {
+                if (Waypoints[_currentindex].ToggleSteatlh)
+                {
+                    Keyboard.KeyBoardHelper.KeyPress(Keys.D6);
+                }  
+            }
+
+            
+
             if (WaypointIndexChanged != null)
                 WaypointIndexChanged(this, _currentindex);
         }
@@ -76,7 +98,7 @@ namespace Chocobot.Utilities.Navigation
 
         public int FindNearestIndex()
         {
-            float MinDistance = 9999.0f;
+            float minDistance = 9999.0f;
             int i = 0;
 
             _user.Refresh();
@@ -85,9 +107,9 @@ namespace Chocobot.Utilities.Navigation
             {
                 float currDistance = currcoordinate.Distance2D(_user.Coordinate);
 
-                if (currDistance < MinDistance)
+                if (currDistance < minDistance)
                 {
-                    MinDistance = currDistance;
+                    minDistance = currDistance;
                     i = Waypoints.IndexOf(currcoordinate);
                 }
             }
@@ -111,6 +133,9 @@ namespace Chocobot.Utilities.Navigation
         {
             _recordcoordinates.Stop();
 
+            _jumpRand = _randNum.Next(25, 50);
+            _jumpTimer.Start();
+
             IsPlaying = true;
 
             _currentindex = FindNearestIndex();
@@ -118,12 +143,14 @@ namespace Chocobot.Utilities.Navigation
 
             Keyboard.KeyBoardHelper.KeyDown(Keys.W);
             _navigate.Start();
+
         }
 
 
         public void Stop()
         {
 
+            _jumpTimer.Stop();
             IsPlaying = false;
             _navigate.Stop();
             Keyboard.KeyBoardHelper.KeyUp(Keys.W);
@@ -132,28 +159,41 @@ namespace Chocobot.Utilities.Navigation
         public void Resume()
         {
 
+            _jumpTimer.Reset();
+            _jumpTimer.Start();
+
+            
+            _jumpRand = _randNum.Next(25, 50);
+
             IsPlaying = true;
             Keyboard.KeyBoardHelper.KeyDown(Keys.W);
             _navigate.Start();
 
         }
 
-        public void Save(string FilePath )
+        public void Save(string filePath )
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(FilePath))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
             {
                 foreach (Coordinate coord in Waypoints)
                 {
 
-                    file.WriteLine(coord.X + "," + coord.Y + "," + coord.Z);
+                    if(coord.ToggleSteatlh)
+                    {
+                        file.WriteLine(coord.X + "," + coord.Y + "," + coord.Z + ",1");
+                    } else
+                    {
+                        file.WriteLine(coord.X + "," + coord.Y + "," + coord.Z);
+                    }
+                    
 
                 }
             }
         }
 
-        public void Load(string FilePath)
+        public void Load(string filePath)
         {
-            using (System.IO.StreamReader file = new System.IO.StreamReader(FilePath))
+            using (System.IO.StreamReader file = new System.IO.StreamReader(filePath))
             {
                 string line;
 
@@ -162,6 +202,7 @@ namespace Chocobot.Utilities.Navigation
                     List<string> results = line.Split(Convert.ToChar(",")).ToList();
 
                     Coordinate newCoordinate = new Coordinate(float.Parse(results[0]), float.Parse(results[1]), float.Parse(results[2]));
+                    newCoordinate.ToggleSteatlh = results.Count == 4;
 
                     Waypoints.Add(newCoordinate);
 
@@ -174,7 +215,18 @@ namespace Chocobot.Utilities.Navigation
         private void thread_Navigate_Tick(object sender, EventArgs e)
         {
 
-            //if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.W) == false)
+
+
+            if(_jumpTimer.Elapsed.Seconds > _jumpRand )
+            {
+                Keyboard.KeyBoardHelper.KeyPress(Keys.Space);
+
+                _jumpTimer.Reset();
+                _jumpTimer.Start();
+
+                _jumpRand = _randNum.Next(25, 50);
+            }
+
             Keyboard.KeyBoardHelper.KeyDown(Keys.W);
 
             if (_currentindex >= Waypoints.Count)

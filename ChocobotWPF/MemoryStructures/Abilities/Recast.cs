@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace Chocobot.MemoryStructures.Abilities
 {
@@ -11,12 +12,40 @@ namespace Chocobot.MemoryStructures.Abilities
         private readonly uint _address;
         private readonly uint _address2;
 
-        public enum eAbilities:int
-        {
-            MiserysEnd = 16704,
-            RagingStrikes = 17204
-        }
 
+        //public enum eAbilities:int
+        //{
+        //    MiserysEnd = 16708,
+        //    RagingStrikes = 17138,
+        //    HawksEye = 17077,
+        //    Barrage = 17082,
+        //    Bloodletter = 16761,
+
+        //    SecondWind = 17138,
+        //    FeatherFoot = 17077,
+        //    InternalRelease = 17011,
+
+        //    LegSweep = 16883,
+        //    KeenFlurry = 17077,
+            
+        //}
+
+        public enum eAbilities : int
+        {
+            MiserysEnd = 4,
+            RagingStrikes = 2,
+            HawksEye = 1,
+            Barrage = 6,
+            Bloodletter = 9,
+
+            SecondWind = 2,
+            FeatherFoot = 1,
+            InternalRelease = 3,
+
+            LegSweep = 3,
+            KeenFlurry = 1,
+
+        }
 
 
         public Recast()
@@ -30,7 +59,7 @@ namespace Chocobot.MemoryStructures.Abilities
         {
 
             uint counter = 0;
-            const int maxAbilities = 8;
+            const int maxAbilities = 12;
             const int maxWS = 3;
             int i = 0;
 
@@ -49,7 +78,8 @@ namespace Chocobot.MemoryStructures.Abilities
                     continue;
                 }
 
-                Abilities.Add(recastid);
+                //MessageBox.Show(i.ToString());
+                Abilities.Add(i);
 
                 counter += 20;
                 i++;

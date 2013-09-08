@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Chocobot.CombatAI;
@@ -61,18 +63,24 @@ namespace Chocobot.Dialogs
             vp_map.ShowSelf = true;
             vp_map.SmallSelfIcon = true;
             vp_map.SmallMarkers = true;
+            vp_map.ShowPaths = true;
 
             _returntocamp.NavigationFinished += ReturnToCamp_Finished;
 
-
-
-
             lst_Classes.Items.Add("Ranger");
             lst_Classes.Items.Add("Lancer");
+            lst_Classes.Items.Add("Pugilist");
             lst_Classes.Items.Add("Mage");
             lst_Classes.Items.Add("Melee");
 
             lst_Classes.SelectedIndex = 0;
+
+            List<Character> fate = new List<Character>();
+            List<Character> players = new List<Character>();
+            List<Character> monsters = new List<Character>();
+            MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
+
+            txt_Assist.Text = _user.Name;
         }
 
 
@@ -96,13 +104,52 @@ namespace Chocobot.Dialogs
                 while (_user.Health_Current == 0)
                 {
                     Utilities.Keyboard.KeyBoardHelper.KeyUp(Keys.Return);
+                    _user.Refresh();
+                    Thread.Sleep(250);
                 }
 
                 if (_returntocamp.Waypoints.Count > 0)
                     _returntocamp.Start();
+                else
+                {
+                    _botstage = BotStage.Nothing;
+                }
                 
             }
 
+
+        }
+
+
+        private void AssistMonster()
+        {
+            _currentmonster.Refresh();
+            _user.Refresh();
+            _user.Heading = _user.Coordinate.AngleTo(_currentmonster.Coordinate);
+
+            if (_user.Health_Current == 0)
+            {
+                _botstage = BotStage.Nothing;
+                _monsterdetection.Stop();
+                _navigation.Stop();
+                _returntocamp.Stop();
+                return;
+            }
+
+            if (_user.TargetID != _currentmonster.ID)
+            {
+                _botstage = BotStage.Detection;
+                return;
+            }
+
+            if (_currentmonster.Health_Current > 0)
+            {
+                _aiFighter.Fight(_user, _currentmonster, _recast);
+            }
+            else
+            {
+                _botstage = BotStage.Detection;
+            }
 
         }
 
@@ -111,7 +158,17 @@ namespace Chocobot.Dialogs
             _currentmonster.Refresh();
             _user.Refresh();
             _user.Heading = _user.Coordinate.AngleTo(_currentmonster.Coordinate);
-            
+
+            if (_user.Health_Current == 0)
+            {
+                _botstage = BotStage.Nothing;
+                _monsterdetection.Stop();
+                _navigation.Stop();
+                _returntocamp.Stop();
+                return;
+            }
+
+
 
             if (_aiFighter.IsRanged == false)
             {
@@ -168,6 +225,52 @@ namespace Chocobot.Dialogs
             }
 
             return false;
+        }
+
+
+        private void DetectAssistMonsters()
+        {
+
+            Character closestMonster = null;
+            List<int> aggroList = _aggrohelper.GetAggroList();
+            
+            List<Character> fate = new List<Character>();
+            List<Character> players = new List<Character>();
+            List<Character> monsters = new List<Character>();
+            MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
+
+            monsters.AddRange(fate);
+            Character assistTarget = players.FirstOrDefault(p => p.Name.ToLower() == txt_Assist.Text.ToLower());
+
+            if (assistTarget == null)
+                return;
+
+            //System.Diagnostics.Debug.Print("isUser" + _user.IsUser.ToString() + " " + _user.TargetID.ToString());
+            foreach (Character monster in monsters)
+            {
+
+                if (monster.Health_Percent > 0 && monster.Health_Percent < 98 && (assistTarget.TargetID == monster.ID || assistTarget.Health_Current == 0 || _user.TargetID == monster.ID))
+                {
+                    closestMonster = monster;
+                }
+            }
+
+
+            // Make sure we do not have any aggro...
+            if (closestMonster == null)
+            {
+                return;
+            }
+
+            _currentmonster = closestMonster;
+
+            _aiFighter.Reset();
+            _botstage = BotStage.Fighting;
+
+            // Start timer to see if we have run into a problem claiming the monster.
+            _claimwatch = new Stopwatch();
+            _claimwatch.Start();
+
         }
 
         private void DetectMonster()
@@ -266,14 +369,29 @@ namespace Chocobot.Dialogs
         {
             this.Title = _botstage.ToString();
 
+
             switch(_botstage)
             {
                 case BotStage.Detection:
-                    DetectMonster();
+                    if(chk_Assist.IsChecked == true)
+                    {
+                        DetectAssistMonsters();
+                    } else
+                    {
+                        DetectMonster();
+                    }
+                    
                     break;
 
                 case BotStage.Fighting:
-                    FightMonster();
+                    if (chk_Assist.IsChecked == true)
+                    {
+                        AssistMonster();
+                    } else
+                    {
+                        FightMonster();
+                    }
+                    
                     break;
 
                 case BotStage.Healing:
@@ -360,7 +478,7 @@ namespace Chocobot.Dialogs
             vp_map.SetPath(waypoints);
             
 
-            //vp_map.Refresh();
+            vp_map.Refresh();
         }
 
         private void btn_AddMonster_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -379,7 +497,13 @@ namespace Chocobot.Dialogs
         private void btn_Start_Click(object sender, RoutedEventArgs e)
         {
             _botstage = BotStage.Detection;
-            _navigation.Start();
+
+            if (chk_HasCure.IsChecked == true)
+                _aiFighter.HasCure = true;
+
+            if(chk_Assist.IsChecked == false)
+                _navigation.Start();
+
             _monsterdetection.Start();
 
         }
@@ -406,6 +530,9 @@ namespace Chocobot.Dialogs
                     _aiFighter = new LancerAI();
                     break;
                 case 2:
+                    _aiFighter = new PugilistAI();
+                    break;
+                case 3:
                     _aiFighter = new BasicAI() { IsRanged = true };
                     break;
                 default:

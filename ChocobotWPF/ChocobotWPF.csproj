@@ -59,6 +59,9 @@
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HotKeyManagement.WPF.4">
+      <HintPath>D:\SourceCode\GlobalHook\WPF 4.0\HotKeyManagement.WPF.4.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=0.11.0.36, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.0.11.0.36-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
@@ -88,6 +91,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CombatAI\Classes\BasicAI.cs" />
+    <Compile Include="CombatAI\Classes\PugilistAI.cs" />
     <Compile Include="CombatAI\Classes\LancerAI.cs" />
     <Compile Include="CombatAI\Classes\ThermAI.cs" />
     <Compile Include="CombatAI\GenericAI.cs" />
@@ -104,8 +108,12 @@
     <Compile Include="Datatypes\Constants.cs" />
     <Compile Include="Datatypes\Coordinate.cs" />
     <Compile Include="Datatypes\CoordinateInt.cs" />
+    <Compile Include="Datatypes\CoordinateNav.cs" />
     <Compile Include="Datatypes\Enums.cs" />
     <Compile Include="Datatypes\Keys.cs" />
+    <Compile Include="Dialogs\dlgCrafting.xaml.cs">
+      <DependentUpon>dlgCrafting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\dlgCredentials.xaml.cs">
       <DependentUpon>dlgCredentials.xaml</DependentUpon>
     </Compile>
@@ -117,6 +125,9 @@
     </Compile>
     <Compile Include="Dialogs\dlgFishingBot.xaml.cs">
       <DependentUpon>dlgFishingBot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\dlgGathering.xaml.cs">
+      <DependentUpon>dlgGathering.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\dlgInputBox.xaml.cs">
       <DependentUpon>dlgInputBox.xaml</DependentUpon>
@@ -146,7 +157,9 @@
     <Compile Include="MemoryStructures\Chat\ChatWorkerDelegate.cs" />
     <Compile Include="MemoryStructures\Chat\XmlHelper.cs" />
     <Compile Include="MemoryStructures\Chat\XValuePair.cs" />
+    <Compile Include="MemoryStructures\UIWindows\Crafting\CraftWindow.cs" />
     <Compile Include="MemoryStructures\Gathering\Gathering.cs" />
+    <Compile Include="MemoryStructures\UIWindows\Gathering\GatheringWindow.cs" />
     <Compile Include="MemoryStructures\Map\Map.cs" />
     <Compile Include="MemoryStructures\Map\MapInfo.cs" />
     <Compile Include="MemoryStructures\Map\MapMarker.cs" />
@@ -185,6 +198,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\dlgCrafting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\dlgCredentials.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -198,6 +215,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\dlgFishingBot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgGathering.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

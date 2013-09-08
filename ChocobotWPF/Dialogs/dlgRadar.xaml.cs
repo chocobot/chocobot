@@ -121,5 +121,10 @@ namespace Chocobot.Dialogs
         }
 
 
+        private void mnu_ToggleHidden(object sender, RoutedEventArgs e)
+        {
+            vp_radar.ShowHidden = !vp_radar.ShowHidden;
+
+        }
     }
 }

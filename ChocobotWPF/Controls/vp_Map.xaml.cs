@@ -499,8 +499,7 @@ namespace Chocobot.Controls
 
             _pathWalker.CleanWaypoints(3.0);
 
-
-            _pathWalker.Save("D:\\test.nav");
+            //_pathWalker.Save("D:\\test.nav");
             _pathWalker.Start();
         }
 

@@ -1,0 +1,32 @@
+﻿<Controls:MetroWindow x:Class="Chocobot.Dialogs.dlgCrafting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" Title="Crafting Bot" Height="300" Width="507">
+
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+    
+    <Grid>
+        <TabControl HorizontalAlignment="Left" Height="258" Margin="1,1,0,0" VerticalAlignment="Top" Width="493">
+            <TabItem Header="Recipes">
+                <Grid Background="#FFE5E5E5">
+                    <Button x:Name="btn_Start" Content="Start" HorizontalAlignment="Left" Height="38" Margin="10,10,0,0" VerticalAlignment="Top" Width="124" Click="btn_Start_Click"/>
+                    <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Height="38" Margin="139,10,0,0" VerticalAlignment="Top" Width="124" Click="btn_Stop_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Main">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Controls:MetroWindow>

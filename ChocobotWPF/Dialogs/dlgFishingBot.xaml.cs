@@ -35,9 +35,11 @@ namespace Chocobot.Dialogs
 
         private readonly DispatcherTimer _fishMonitor = new DispatcherTimer();
         private readonly Stopwatch _fishtimer = new Stopwatch();
+        private readonly Stopwatch _fishtimer2 = new Stopwatch();
         private readonly NavigationHelper _fishPath1 = new NavigationHelper();
         private readonly NavigationHelper _fishPath2 = new NavigationHelper();
         private byte _currPath = 1;
+        private bool _newArea = false;
 
         public dlgFishingBot()
         {
@@ -78,8 +80,19 @@ namespace Chocobot.Dialogs
                         _fishtimer.Start();
                     } else
                     {
-                        if (_fishtimer.Elapsed.Seconds >= 8 && (_fishPath1.Waypoints.Count > 0 || _fishPath2.Waypoints.Count > 0))
+                        if (_fishtimer.Elapsed.Seconds >= 8)
                         {
+
+                            if (_newArea || (_fishPath1.Waypoints.Count == 0 && _fishPath2.Waypoints.Count == 0))
+                            {
+                                lbl_Status.Content = "Status: Unable to fish..";
+                                _fishMonitor.Stop();
+                                _fishtimer.Reset();
+                                _fishtimer2.Reset();
+                                return;
+                            }
+
+                            _newArea = true;
 
                             lbl_Status.Content = "Status: Moving";
                             _fishtimer.Reset();
@@ -145,7 +158,12 @@ namespace Chocobot.Dialogs
                 case CharacterStatus.Fishing_FishOnHook5:
 
                     lbl_Status.Content = "Status: Reeling in Fish";
+
+                    _newArea = false;
+
+                    Thread.Sleep(400);
                     Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3);
+                    Thread.Sleep(200);
                     break;
 
                 case CharacterStatus.Fishing_ReelingIn:
@@ -154,6 +172,7 @@ namespace Chocobot.Dialogs
                     break;
                 case CharacterStatus.Fishing_ReelingInBig:
                 case CharacterStatus.Fishing_ReelingInBig2:
+                case CharacterStatus.Fishing_ReelingInBig3:
                     lbl_Status.Content = "Status: Reeling in Big Fish";
                     break;
                 default:
@@ -165,6 +184,11 @@ namespace Chocobot.Dialogs
 
         private void btn_StartFishing_Click(object sender, RoutedEventArgs e)
         {
+
+            _fishtimer.Reset();
+            _fishtimer2.Reset();
+
+            _newArea = false;
             _fishMonitor.Start();
         }
 
@@ -173,6 +197,9 @@ namespace Chocobot.Dialogs
             _fishMonitor.Stop();
             _fishPath1.Stop();
             _fishPath2.Stop();
+
+            _fishtimer.Stop();
+            _fishtimer2.Stop();
         }
 
         private void btn_LoadPath_Click(object sender, RoutedEventArgs e)

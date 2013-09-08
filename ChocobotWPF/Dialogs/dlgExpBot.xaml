@@ -31,7 +31,7 @@
                     <Button x:Name="btn_LoadPath"
 						Width="100"
 						Height="23"
-						Margin="10,10,0,0"
+						Margin="10,81,0,0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
 						Click="btn_LoadPath_Click"
@@ -39,7 +39,7 @@
                     <Label x:Name="lbl_PathWaypoints"
 						Width="129"
 						Height="26"
-						Margin="10,35,0,0"
+						Margin="10,106,0,0"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Top"
 						Content="Waypoints: 0" FontWeight="Bold" />
@@ -47,7 +47,7 @@
                     <Button x:Name="btn_LoadReturnPath"
                     	Width="100"
                     	Height="23"
-                    	Margin="10,103,0,0"
+                    	Margin="10,174,0,0"
                     	HorizontalAlignment="Left"
                     	VerticalAlignment="Top"
                     	Click="btn_LoadReturnPath_Click"
@@ -55,10 +55,12 @@
                     <Label x:Name="lbl_ReturnPathWaypoints"
                     	Width="129"
                     	Height="26"
-                    	Margin="10,133,0,0"
+                    	Margin="10,204,0,0"
                     	HorizontalAlignment="Left"
                     	VerticalAlignment="Top"
                     	Content="Waypoints: 0" FontWeight="Bold" />
+                    <CheckBox x:Name="chk_Assist" Content="Assist" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txt_Assist" HorizontalAlignment="Left" Height="23" Margin="19,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="91"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Monsters">

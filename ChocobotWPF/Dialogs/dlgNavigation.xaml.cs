@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Character;
 using Chocobot.Utilities.Memory;
 using Chocobot.Utilities.Navigation;
@@ -105,6 +106,21 @@ namespace Chocobot.Dialogs
         private void btn_Clear_Click(object sender, RoutedEventArgs e)
         {
             _navigation.Waypoints.Clear();
+        }
+
+        private void btn_ToggleStealth_Click(object sender, RoutedEventArgs e)
+        {
+            List<Character> monsters = new List<Character>();
+            List<Character> fate = new List<Character>();
+            List<Character> players = new List<Character>();
+            Character user = null;
+
+            MemoryFunctions.GetCharacters(monsters, fate, players, ref user);
+
+            Coordinate currpos = user.Coordinate;
+            currpos.ToggleSteatlh = true;
+
+            _navigation.Waypoints.Add(currpos);
         }
     }
 }

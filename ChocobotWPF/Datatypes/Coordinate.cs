@@ -10,7 +10,9 @@ namespace Chocobot.Datatypes
         public float X;
         public float Y;
         public float Z;
-        
+
+        public bool ToggleSteatlh = false;
+
         public Coordinate Rotate2d(float Angle)
         {
             Coordinate newCoordinate = new Coordinate();

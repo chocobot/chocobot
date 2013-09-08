@@ -149,6 +149,39 @@
         	FontSize="14"
         	FontWeight="Bold"
         	RenderTransformOrigin="0.704,2.077" />
+        <Button x:Name="btn_ServerRetry"
+        	Width="106"
+        	Height="39"
+        	Margin="402,237,0,0"
+        	HorizontalAlignment="Left"
+        	VerticalAlignment="Top"
+        	Click="btn_ServerRetry_Click"
+        	Content="Server Spam"
+        	FontSize="14"
+        	FontWeight="Bold"
+        	RenderTransformOrigin="0.704,2.077" />
+        <Button x:Name="btn_CraftBot"
+        	Width="106"
+        	Height="39"
+        	Margin="402,98,0,0"
+        	HorizontalAlignment="Left"
+        	VerticalAlignment="Top"
+        	Click="btn_CraftBot_Click"
+        	Content="CRAFT BOT"
+        	FontSize="14"
+        	FontWeight="Bold"
+        	RenderTransformOrigin="0.704,2.077" />
+        <Button x:Name="btn_CraftBot_Copy"
+        	Width="106"
+        	Height="39"
+        	Margin="402,142,0,0"
+        	HorizontalAlignment="Left"
+        	VerticalAlignment="Top"
+        	Click="btn_GatheringBot_Click"
+        	Content="GATHERING"
+        	FontSize="14"
+        	FontWeight="Bold"
+        	RenderTransformOrigin="0.704,2.077" />
 
     </Grid>
 </Controls:MetroWindow>
