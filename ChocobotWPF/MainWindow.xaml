@@ -170,7 +170,7 @@
         	Content="CRAFT BOT"
         	FontSize="14"
         	FontWeight="Bold"
-        	RenderTransformOrigin="0.704,2.077" />
+        	RenderTransformOrigin="0.704,2.077" IsEnabled="False" />
         <Button x:Name="btn_CraftBot_Copy"
         	Width="106"
         	Height="39"
@@ -181,7 +181,7 @@
         	Content="GATHERING"
         	FontSize="14"
         	FontWeight="Bold"
-        	RenderTransformOrigin="0.704,2.077" />
+        	RenderTransformOrigin="0.704,2.077" IsEnabled="False" />
 
     </Grid>
 </Controls:MetroWindow>
