@@ -108,7 +108,7 @@ namespace Chocobot.Dialogs
                     return;
                 }
                 
-                if (user.Coordinate.Distance(currentSpot.Coordinate) > 2.0)
+                if (user.Coordinate.Distance(currentSpot.Coordinate) > 2.5)
                 {
                     user.Heading = user.Coordinate.AngleTo(currentSpot.Coordinate);
 
@@ -323,7 +323,7 @@ namespace Chocobot.Dialogs
                 {
 
                     user.Refresh();
-                    if (user.Coordinate.Distance(currentSpot.Coordinate) > 1.75)
+                    if (user.Coordinate.Distance(currentSpot.Coordinate) > 2.5)
                     {
                         user.Heading = user.Coordinate.AngleTo(currentSpot.Coordinate);
 
