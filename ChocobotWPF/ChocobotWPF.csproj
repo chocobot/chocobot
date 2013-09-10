@@ -60,7 +60,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HotKeyManagement.WPF.4">
-      <HintPath>D:\SourceCode\GlobalHook\WPF 4.0\HotKeyManagement.WPF.4.dll</HintPath>
+      <HintPath>..\packages\WPF 4.0\HotKeyManagement.WPF.4.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=0.11.0.36, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

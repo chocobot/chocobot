@@ -176,7 +176,7 @@ namespace Chocobot.Dialogs
                     lbl_Status.Content = "Status: Reeling in Big Fish";
                     break;
                 default:
-                    lbl_Status.Content = "Status: Unknown";
+                    lbl_Status.Content = "Status: Unknown (" + user.Status.ToString("X") + ")";
                     Debug.Print("Unknown Command: " + user.Status.ToString("X"));
                     break;
             }
