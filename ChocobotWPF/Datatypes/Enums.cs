@@ -15,10 +15,10 @@ namespace Chocobot.Datatypes
 
     public enum CharacterStatus
     {
-        Crafting_Idle=1,
+        Crafting_Idle = 1,
         Crafting_Idle2 = 5,
 
-        Idle=2,
+        Idle = 2,
         Dead = 4,
         Fighting = 6,
 
@@ -48,7 +48,7 @@ namespace Chocobot.Datatypes
         Fishing_ReelingInBig3 = 0x35,
 
         Fishing_NoBite = 0x2F,
-        Unknown=0
+        Unknown = 0
 
     }
 

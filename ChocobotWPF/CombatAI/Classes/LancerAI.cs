@@ -41,10 +41,11 @@ namespace Chocobot.CombatAI.Classes
                 _initial = false;
             }
 
-            if (recast.Abilities.Contains((int) Recast.eAbilities.KeenFlurry) == false && user.Level >= 6 && monster.Health_Percent > 25)
+            if (recast.Abilities.Contains((int)Recast.eAbilities.KeenFlurry) == false && user.Level >= 6 && (monster.Health_Percent > 15 || monster.Health_Current > 5000))
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D4); // Keen Flurry
-            } else if (recast.Abilities.Contains((int) Recast.eAbilities.LegSweep) == false && user.Level >= 12 && monster.Health_Percent > 25)
+            }
+            else if (recast.Abilities.Contains((int)Recast.eAbilities.LegSweep) == false && user.Level >= 12 && (monster.Health_Percent > 15 || monster.Health_Current > 5000))
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D6); // Keen Flurry
             } else if (recast.WeaponSpecials.Count == 0)

@@ -30,15 +30,15 @@ namespace Chocobot.CombatAI.Classes
             monster.Target();
             recast.Refresh();
 
-            if (recast.Abilities.Contains((int)Recast.eAbilities.RagingStrikes) == false && user.Level >= 4 && monster.Health_Percent > 25)
+            if (recast.Abilities.Contains((int)Recast.eAbilities.RagingStrikes) == false && user.Level >= 4 && (monster.Health_Percent > 15 || monster.Health_Current > 5000))
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3); // Raging Strikes
             }
-            else if (recast.Abilities.Contains((int)Recast.eAbilities.HawksEye) == false && user.Level >= 26 && monster.Health_Percent > 25)
+            else if (recast.Abilities.Contains((int)Recast.eAbilities.HawksEye) == false && user.Level >= 26 && (monster.Health_Percent > 15 || monster.Health_Current > 5000))
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D8); // Hawks Eye
             }
-            else if (monster.Health_Percent < 20 && recast.Abilities.Contains((int)Recast.eAbilities.MiserysEnd) == false && user.Level >= 8)
+            else if (monster.Health_Percent <= 20 && recast.Abilities.Contains((int)Recast.eAbilities.MiserysEnd) == false && user.Level >= 8)
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D5); // Miserys End
             }
