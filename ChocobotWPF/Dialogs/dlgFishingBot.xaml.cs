@@ -147,6 +147,7 @@ namespace Chocobot.Dialogs
                 case CharacterStatus.Fishing_Cast7:
                 case CharacterStatus.Fishing_Cast8:
                 case CharacterStatus.Fishing_Cast9:
+                case CharacterStatus.Fishing_Cast10:
                     lbl_Status.Content = "Status: Waiting on fish..";
                     if (_fishtimer.IsRunning)
                     {
