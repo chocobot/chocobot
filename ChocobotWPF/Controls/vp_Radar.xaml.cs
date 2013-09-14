@@ -248,7 +248,7 @@ namespace Chocobot.Controls
                     if(ShowMonsterName)
                     {
                     
-                        FormattedText monsterLabel = new FormattedText(monster.ToString(),
+                        FormattedText monsterLabel = new FormattedText(monster.ToString() + " " + monster.UsingAbility.ToString("X"),
                                                                        System.Globalization.CultureInfo.InvariantCulture,
                                                                        FlowDirection.LeftToRight, new Typeface("Arial"), 8,
                                                                        Brushes.White);

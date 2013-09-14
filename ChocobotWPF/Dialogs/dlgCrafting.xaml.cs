@@ -48,6 +48,9 @@ namespace Chocobot.Dialogs
                     Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.NumPad0);
                     Thread.Sleep(150);
                     Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.NumPad0);
+                    Thread.Sleep(250);
+                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.NumPad0);
+
                     Thread.Sleep(750);
 
                     WaitForCraft(user);
@@ -63,7 +66,15 @@ namespace Chocobot.Dialogs
                     System.Diagnostics.Debug.Print("Bumping up the craft " + craftwindow.MaxProgress.ToString());
                     while (craftwindow.MaxProgress - craftwindow.CurrProgress > craftAmount && craftwindow.CurrDurability > 10 && user.IsCrafting)
                     {
-                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
+
+                        if (user.Level >= 31 && user.CurrentCP > 15)
+                        {
+                            Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D0);
+                        } else
+                        {
+                            Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
+                        }
+
                         WaitForAbility(user);
                         Thread.Sleep(250);
                         craftwindow.Refresh();
@@ -78,37 +89,63 @@ namespace Chocobot.Dialogs
 
 
 
+                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D9);
+                    WaitForAbility(user);
+                    Thread.Sleep(500);
+                    craftwindow.Refresh();
+                    user.Refresh();
 
                     System.Diagnostics.Debug.Print("Checking Durability " + craftwindow.CurrDurability +  "   CP: " + user.CurrentCP);
 
-                    while (craftwindow.CurrDurability > 10 && user.CurrentCP >= 18 && user.IsCrafting && user.Level >= 5)
+                    if (user.Level >= 31 && user.CurrentCP >= 32)
                     {
-                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D2);
-                        WaitForAbility(user);
-                        Thread.Sleep(250);
-                        craftwindow.Refresh();
-                        user.Refresh();
+                        while (craftwindow.CurrDurability > 10 && user.CurrentCP >= 47 && user.IsCrafting)
+                        {
+                            Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D8);
+                            WaitForAbility(user);
+                            Thread.Sleep(250);
+                            craftwindow.Refresh();
+                            user.Refresh();
+                        }
+                    } else
+                    {
+                        while (craftwindow.CurrDurability > 10 && user.CurrentCP >= 18 && user.IsCrafting && user.Level >= 5)
+                        {
+                            Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D2);
+                            WaitForAbility(user);
+                            Thread.Sleep(250);
+                            craftwindow.Refresh();
+                            user.Refresh();
+                        }
                     }
 
 
-                    if (user.CurrentCP >= 92 && user.IsCrafting && user.Level >= 7)
-                    {
-                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3);
-                        WaitForAbility(user);
-                        Thread.Sleep(1250);
-                        craftwindow.Refresh();
-                        user.Refresh();
-                        System.Diagnostics.Debug.Print("Refreshing Durability " + craftwindow.CurrDurability + "   CP: " + user.CurrentCP);
 
-                        goto restart;
-                    }
+                    //if (user.CurrentCP >= 92 && user.IsCrafting && user.Level >= 7)
+                    //{
+                    //    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3);
+                    //    WaitForAbility(user);
+                    //    Thread.Sleep(1250);
+                    //    craftwindow.Refresh();
+                    //    user.Refresh();
+                    //    System.Diagnostics.Debug.Print("Refreshing Durability " + craftwindow.CurrDurability + "   CP: " + user.CurrentCP);
+
+                    //    goto restart;
+                    //}
 
 
 
                     while(user.IsCrafting){
                         System.Diagnostics.Debug.Print("Finishing...");
                         // Finish it up
-                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
+                        if (user.Level >= 31 && user.CurrentCP > 15)
+                        {
+                            Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D0);
+                        }
+                        else
+                        {
+                            Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
+                        }
 
                         Thread.Sleep(500);
                         user.Refresh();

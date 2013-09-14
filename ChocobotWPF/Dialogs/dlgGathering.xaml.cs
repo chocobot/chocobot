@@ -108,7 +108,7 @@ namespace Chocobot.Dialogs
                     return;
                 }
                 
-                if (user.Coordinate.Distance(currentSpot.Coordinate) > 2.5)
+                if (user.Coordinate.Distance(currentSpot.Coordinate) > 3.0)
                 {
                     user.Heading = user.Coordinate.AngleTo(currentSpot.Coordinate);
 
@@ -264,13 +264,21 @@ namespace Chocobot.Dialogs
                                         else if (idealItem.Name.ToLower().Contains("lightning"))
                                             Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D0);
                                         else if (idealItem.Name.ToLower().Contains("water"))
-                                            Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.Add);
-                                        else
+                                            Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.VK_OEM_PLUS);
+                                        else if (user.Level >= 30)
                                             Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
 
                                         Thread.Sleep(500);
                                     }
                                 } else {
+
+                                    if (user.CurrentGP >= 400 && user.Level >= 30)
+                                    {
+
+                                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
+                                        Thread.Sleep(500);
+                                    }
+
                                     //if (user.CurrentGP >= 100 && user.Level >= 15)
                                     //{
                                     //    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D9);
@@ -323,6 +331,11 @@ namespace Chocobot.Dialogs
                 {
 
                     user.Refresh();
+
+                    user.Heading = user.Coordinate.AngleTo(currentSpot.Coordinate);
+
+                    Utilities.Keyboard.KeyBoardHelper.KeyDown(Keys.W);
+
                     if (user.Coordinate.Distance(currentSpot.Coordinate) > 2.5)
                     {
                         user.Heading = user.Coordinate.AngleTo(currentSpot.Coordinate);
@@ -330,9 +343,13 @@ namespace Chocobot.Dialogs
                         Utilities.Keyboard.KeyBoardHelper.KeyDown(Keys.W);
                         continue;
                     }
+
                     Utilities.Keyboard.KeyBoardHelper.KeyUp(Keys.W);
 
                     Thread.Sleep(350);
+                    user.Refresh();
+                    user.Heading = user.Coordinate.AngleTo(currentSpot.Coordinate);
+
                     Debug.Print("Waiting for window...");
                     Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.NumPad0);
                     Thread.Sleep(750);

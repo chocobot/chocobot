@@ -144,6 +144,9 @@
     <Compile Include="Dialogs\dlgRadar.xaml.cs">
       <DependentUpon>dlgRadar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\dlgStunBot.xaml.cs">
+      <DependentUpon>dlgStunBot.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MemoryStructures\Abilities\Ability.cs" />
     <Compile Include="MemoryStructures\Abilities\AbilityAvailability.cs" />
     <Compile Include="MemoryStructures\Abilities\Availability.cs" />
@@ -239,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\dlgRadar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgStunBot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -518,7 +525,7 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="&lt;AssemblyLocation&gt;\&lt;AssemblyFileName&gt;" Reactor_Configuration="Release" Reactor_Project="C:\Users\Maury\Documents\chocobotwpf\Reactor.nrproj" Reactor_Commands="" Reactor_Enabled="1" />
+      <UserProperties Reactor_Enabled="1" Reactor_Commands="" Reactor_Project="C:\Users\Maury\Documents\chocobotwpf\Reactor.nrproj" Reactor_Configuration="Release" Reactor_Output="&lt;AssemblyLocation&gt;\&lt;AssemblyFileName&gt;" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

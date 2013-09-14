@@ -40,6 +40,7 @@ namespace Chocobot
         private dlgCureBot _dlgCureBot = null;
         private dlgCrafting _dlgCraftBot = null;
         private dlgGathering _dlgGatheringBot = null;
+        private dlgStunBot _dlgStunBot = null;
 
         private bool _spamServer = false;
 
@@ -214,17 +215,18 @@ namespace Chocobot
         {
             int targetID = MemoryFunctions.GetTarget();
             System.Diagnostics.Debug.Print(targetID.ToString("X"));
+
             foreach (Character monster in _monsters)
             {
                 if (monster.Address == targetID)
-                    System.Diagnostics.Debug.Print("Target: " + monster.Address.ToString("X") + "   ID: " + monster.ID.ToString("X"));
+                    System.Diagnostics.Debug.Print("Target: " + monster.Address.ToString("X") + "   ID: " + monster.ID.ToString("X") + "   Dist: " + _user.Coordinate.Distance2D(monster.Coordinate));
 
             }
 
             foreach (Character player in _players)
             {
                 if (player.Address == targetID)
-                    System.Diagnostics.Debug.Print("Target: " + player.Address.ToString("X") + "   ID: " + player.ID.ToString("X"));
+                    System.Diagnostics.Debug.Print("Target: " + player.Address.ToString("X") + "   ID: " + player.ID.ToString("X") + "   Dist: " + _user.Coordinate.Distance2D(player.Coordinate));
 
             }
 
@@ -232,7 +234,18 @@ namespace Chocobot
             foreach (Character npc in _npcs)
             {
                 if (npc.Address == targetID)
-                    System.Diagnostics.Debug.Print("Target: " + npc.Address.ToString("X") + "   ID: " + npc.ID.ToString("X"));
+                    System.Diagnostics.Debug.Print("Target: " + npc.Address.ToString("X") + "   ID: " + npc.ID.ToString("X") + "   Dist: " + _user.Coordinate.Distance2D(npc.Coordinate));
+
+            }
+
+
+            List<Gathering> gathering = new List<Gathering>();
+
+            MemoryFunctions.GetGathering(gathering);
+            foreach (Gathering gather in gathering)
+            {
+                if (gather.Address == targetID)
+                    System.Diagnostics.Debug.Print("Target: " + gather.Address.ToString("X") + "   ID: " + gather.ID.ToString("X") + "   Dist: " + _user.Coordinate.Distance2D(gather.Coordinate));
 
             }
 
@@ -324,6 +337,15 @@ namespace Chocobot
 
             _dlgGatheringBot = new dlgGathering();
             _dlgGatheringBot.Show();
+        }
+
+        private void btn_StunBot_Click(object sender, RoutedEventArgs e)
+        {
+            if (_dlgStunBot != null)
+                _dlgStunBot.Close();
+
+            _dlgStunBot = new dlgStunBot();
+            _dlgStunBot.Show();
         }
 
 

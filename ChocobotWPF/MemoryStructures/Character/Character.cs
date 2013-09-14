@@ -32,6 +32,7 @@ namespace Chocobot.MemoryStructures.Character
         private bool _isMoving;
         private short _currentcp;
         private short _maxcp;
+        private int _usingAbility;
 
         private short _currentGp;
         private short _maxgp;
@@ -256,6 +257,11 @@ namespace Chocobot.MemoryStructures.Character
             get { return _isMoving; }
         }
 
+        public int UsingAbility
+        {
+            get { return _usingAbility; }
+        }
+
         #endregion
 
         public override string ToString()
@@ -336,6 +342,7 @@ namespace Chocobot.MemoryStructures.Character
             _status = MemoryHandler.Instance.GetByte(Address + 405, false);
             _hidden = MemoryHandler.Instance.GetInt32(Address + 284) != 0;
             _isMoving = MemoryHandler.Instance.GetByte(Address + 532, false) == 1;
+            _usingAbility = MemoryHandler.Instance.GetInt32(Address + 424);  //2300
 
             // Needs Work
 
