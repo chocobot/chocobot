@@ -157,7 +157,7 @@ namespace Chocobot.Dialogs
             //Debug.Print("After2: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
             user.Refresh();
             //Debug.Print("End: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
-            Thread.Sleep(600);
+            Thread.Sleep(700);
         }
 
         private static void WaitForCraft(Character user)

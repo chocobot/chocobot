@@ -29,9 +29,9 @@
         <CheckBox x:Name="chk_Progress" HorizontalAlignment="Left" Height="22" Margin="24,129,0,0" VerticalAlignment="Top" Width="144">
             <TextBlock Text="Progress: &lt;=" FontSize="18" FontWeight="Bold" Margin="0,-7,0,0"/>
         </CheckBox>
-        <TextBlock x:Name="txt_CP" HorizontalAlignment="Left" Height="22" Margin="173,75,0,0" TextWrapping="Wrap" Text="18" VerticalAlignment="Top" Width="40" TextAlignment="Center"/>
-        <TextBlock x:Name="txt_Durability" HorizontalAlignment="Left" Height="22" Margin="173,102,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="40" TextAlignment="Center" RenderTransformOrigin="-1.1,0.409"/>
-        <TextBlock x:Name="txt_Progress" HorizontalAlignment="Left" Height="22" Margin="173,129,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="40" TextAlignment="Center" RenderTransformOrigin="-1.1,0.409"/>
+        <TextBox x:Name="txt_CP" HorizontalAlignment="Left" Height="22" Margin="173,75,0,0" TextWrapping="Wrap" Text="18" VerticalAlignment="Top" Width="40" TextAlignment="Center"/>
+        <TextBox x:Name="txt_Durability" HorizontalAlignment="Left" Height="22" Margin="173,102,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="40" TextAlignment="Center" RenderTransformOrigin="-1.1,0.409"/>
+        <TextBox x:Name="txt_Progress" HorizontalAlignment="Left" Height="22" Margin="173,129,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="40" TextAlignment="Center" RenderTransformOrigin="-1.1,0.409"/>
 
 
     </Grid>
