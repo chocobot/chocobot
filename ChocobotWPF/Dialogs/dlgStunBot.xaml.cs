@@ -50,9 +50,9 @@ namespace Chocobot.Dialogs
             {
                 if(user.TargetID == currmonster.ID)
                 {
-                    lbl_CurrAbility.Content = currmonster.UsingAbility.ToString("X");
+                    lbl_CurrAbility.Content = currmonster.UsingAbilityID.ToString("X");
 
-                    if(currmonster.UsingAbility.ToString("X").ToLower() == txt_Ability.Text.ToLower())
+                    if(currmonster.UsingAbilityID.ToString("X").ToLower() == txt_Ability.Text.ToLower())
                     {
                         Utilities.Keyboard.KeyBoardHelper.KeyDown(Keys.ControlKey);
                         Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D0);

@@ -32,8 +32,8 @@ namespace Chocobot.MemoryStructures.Character
         private bool _isMoving;
         private short _currentcp;
         private short _maxcp;
-        private int _usingAbility;
-
+        private int _usingAbilityID;
+        private bool _usingAbility;
         private short _currentGp;
         private short _maxgp;
         private int _craftbool;
@@ -257,7 +257,12 @@ namespace Chocobot.MemoryStructures.Character
             get { return _isMoving; }
         }
 
-        public int UsingAbility
+        public int UsingAbilityID
+        {
+            get { return _usingAbilityID; }
+        }
+
+        public bool UsingAbility
         {
             get { return _usingAbility; }
         }
@@ -342,8 +347,8 @@ namespace Chocobot.MemoryStructures.Character
             _status = MemoryHandler.Instance.GetByte(Address + 405, false);
             _hidden = MemoryHandler.Instance.GetInt32(Address + 284) != 0;
             _isMoving = MemoryHandler.Instance.GetByte(Address + 532, false) == 1;
-            _usingAbility = MemoryHandler.Instance.GetInt32(Address + 424);  //2300
-
+            _usingAbilityID = MemoryHandler.Instance.GetInt32(Address + 424);  //2300
+            _usingAbility = MemoryHandler.Instance.GetByte(Address + 1956, false) == 1;
             // Needs Work
 
             if (_isUser == false)

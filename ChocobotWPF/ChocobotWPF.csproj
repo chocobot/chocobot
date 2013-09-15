@@ -109,8 +109,12 @@
     <Compile Include="Datatypes\Coordinate.cs" />
     <Compile Include="Datatypes\CoordinateInt.cs" />
     <Compile Include="Datatypes\CoordinateNav.cs" />
+    <Compile Include="Datatypes\CraftingKey.cs" />
     <Compile Include="Datatypes\Enums.cs" />
     <Compile Include="Datatypes\Keys.cs" />
+    <Compile Include="Dialogs\dlgCraftKeyConfig.xaml.cs">
+      <DependentUpon>dlgCraftKeyConfig.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\dlgCrafting.xaml.cs">
       <DependentUpon>dlgCrafting.xaml</DependentUpon>
     </Compile>
@@ -172,6 +176,7 @@
     <Compile Include="Utilities\FileIO\IniParserLegacy.cs" />
     <Compile Include="Utilities\Input\clsInput.cs" />
     <Compile Include="Utilities\Input\clsCredentials.cs" />
+    <Compile Include="Utilities\Input\clsCraftingKey.cs" />
     <Compile Include="Utilities\Keyboard\KeyboardHelper.cs" />
     <Compile Include="Utilities\Keyboard\WindowsMessageEvents.cs" />
     <Compile Include="Utilities\Licensing\LicenseManager.cs" />
@@ -200,6 +205,10 @@
     <Page Include="Controls\vp_Radar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgCraftKeyConfig.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\dlgCrafting.xaml">
       <SubType>Designer</SubType>
@@ -525,7 +534,7 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Enabled="1" Reactor_Commands="" Reactor_Project="C:\Users\Maury\Documents\chocobotwpf\Reactor.nrproj" Reactor_Configuration="Release" Reactor_Output="&lt;AssemblyLocation&gt;\&lt;AssemblyFileName&gt;" Reactor_Deploy="0" />
+      <UserProperties Reactor_Deploy="0" Reactor_Output="&lt;AssemblyLocation&gt;\&lt;AssemblyFileName&gt;" Reactor_Configuration="Release" Reactor_Project="C:\Users\Maury\Documents\chocobotwpf\Reactor.nrproj" Reactor_Commands="" Reactor_Enabled="1" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

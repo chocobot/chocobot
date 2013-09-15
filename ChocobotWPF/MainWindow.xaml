@@ -23,7 +23,7 @@
         <Button x:Name="btn_Refresh"
                 Width="106"
                 Height="39"
-                Margin="284,239,0,0"
+                Margin="284,237,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Click="btn_Refresh_Click"
@@ -101,7 +101,7 @@
         <Button x:Name="btn_ShowTarget"
         	Width="106"
         	Height="39"
-        	Margin="284,195,0,0"
+        	Margin="284,186,0,0"
         	HorizontalAlignment="Left"
         	VerticalAlignment="Top"
         	Content="Get Target"
@@ -152,7 +152,7 @@
         <Button x:Name="btn_ServerRetry"
         	Width="106"
         	Height="39"
-        	Margin="402,237,0,0"
+        	Margin="402,235,0,0"
         	HorizontalAlignment="Left"
         	VerticalAlignment="Top"
         	Click="btn_ServerRetry_Click"
@@ -189,10 +189,10 @@
         	HorizontalAlignment="Left"
         	VerticalAlignment="Top"
         	Click="btn_StunBot_Click"
-        	Content="GATHERING"
+        	Content="STUNNER"
         	FontSize="14"
         	FontWeight="Bold"
-        	RenderTransformOrigin="0.704,2.077" />
+        	RenderTransformOrigin="0.704,2.077" IsEnabled="False" />
 
     </Grid>
 </Controls:MetroWindow>

@@ -438,6 +438,7 @@ namespace Chocobot.Dialogs
         private void btn_LoadPath_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Navigation (*.nav)|*.nav";
             if (dlg.ShowDialog() == false)
                 return;
 

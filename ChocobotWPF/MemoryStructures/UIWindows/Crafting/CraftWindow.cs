@@ -4,8 +4,8 @@ namespace Chocobot.MemoryStructures.UIWindows.Crafting
 {
     class CraftWindow
     {
-        private readonly uint _address;
-        private readonly uint _windownameaddress;
+        private uint _address;
+        private uint _windownameaddress;
         private short _currDurability;
         private short _maxDurability;
         private short _currQuality;
@@ -15,19 +15,33 @@ namespace Chocobot.MemoryStructures.UIWindows.Crafting
         private short _currHQ;
         private string _condition;
         private string _windowName;
+        private bool _validWindow = true;
 
-        public CraftWindow()
+        public bool RefreshPointers()
         {
-           _address = MemoryLocations.Database["crafting"];
+            _address = MemoryLocations.Database["crafting"];
             _address = MemoryHandler.Instance.GetUInt32(_address) + 0x20;
             _address = MemoryHandler.Instance.GetUInt32(_address) + 0x1E4;
             _address = MemoryHandler.Instance.GetUInt32(_address) + 0x8;
 
-            _windownameaddress = MemoryHandler.Instance.GetUInt32(_address) + 4;
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0xE0;
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x24;
+            if (_address == 0)
+                return false;
 
-            Refresh();
+            _windownameaddress = MemoryHandler.Instance.GetUInt32(_address) + 4;
+
+            _windowName = MemoryHandler.Instance.GetString(_windownameaddress, 16).ToLower();
+            if (_windowName != "synthesis")
+            {
+                _validWindow = false;
+                return false;
+            }
+
+            _address = MemoryHandler.Instance.GetUInt32(_address) + 0xE0;
+            _address = MemoryHandler.Instance.GetUInt32(_address);
+
+            _address += 0x24;
+
+            return true;
         }
 
         public short CurrDurability
