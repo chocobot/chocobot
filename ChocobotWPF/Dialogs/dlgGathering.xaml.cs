@@ -73,7 +73,7 @@ namespace Chocobot.Dialogs
                     if (spot.IsHidden)
                         continue;
 
-                    if (spot.Name.ToLower().Contains("mineral") || spot.Name.ToLower().Contains("outcrop") || spot.Name.ToLower().Contains("mature tree"))
+                    if (spot.Name.ToLower().Contains("mineral") || spot.Name.ToLower().Contains("outcrop") || spot.Name.ToLower().Contains("mature tree") || spot.Name.ToLower().Contains("lush vegetation"))
                     {
                         float curDistance = user.Coordinate.Distance(spot.Coordinate);
                         

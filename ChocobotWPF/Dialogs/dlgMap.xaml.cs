@@ -29,7 +29,13 @@ namespace Chocobot.Dialogs
 
         private void NavigationFinished(object sender)
         {
-            btn_PlayPath.Content = "Run";
+
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                btn_PlayPath.Content = "Run";
+            }));
+
+            
         }
 
         private void thread_Refresh_Tick(object sender, EventArgs e)

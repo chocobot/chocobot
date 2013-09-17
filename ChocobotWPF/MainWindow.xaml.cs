@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
+using BondTech.HotKeyManagement.WPF._4;
 using Chocobot.Datatypes;
 using Chocobot.Dialogs;
 using Chocobot.MemoryStructures.Abilities;
@@ -15,6 +18,7 @@ using Chocobot.Utilities.FileIO;
 using Chocobot.Utilities.Licensing;
 using Chocobot.Utilities.Memory;
 using MahApps.Metro.Controls;
+using Keys = Chocobot.Datatypes.Keys;
 
 namespace Chocobot
 {
@@ -43,6 +47,13 @@ namespace Chocobot
         private dlgStunBot _dlgStunBot = null;
 
         private bool _spamServer = false;
+        private HotKeyManager _hotKeyManager;
+        private GlobalHotKey _enableHK = new GlobalHotKey("Enable", ModifierKeys.None, BondTech.HotKeyManagement.WPF._4.Keys.Oem3, true);
+        private GlobalHotKey _enableHK2 = new GlobalHotKey("floatup", ModifierKeys.None, BondTech.HotKeyManagement.WPF._4.Keys.F1, true);
+        private GlobalHotKey _enableHK3 = new GlobalHotKey("floatdown", ModifierKeys.None, BondTech.HotKeyManagement.WPF._4.Keys.F2, true);
+
+        private bool setfloat = false;
+        private Coordinate floatingposition;
 
         private void RefreshCharacterList()
         {
@@ -91,6 +102,9 @@ namespace Chocobot
 
         public MainWindow()
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en-US");
+
             InitializeComponent();
 
             MemoryLocations.GetMemlocs();
@@ -120,6 +134,10 @@ namespace Chocobot
         private void RefreshUser_Tick(object sender, EventArgs e)
         {
 
+            if(setfloat)
+            {
+                //_user.Coordinate = floatingposition;
+            }
 
             if(_spamServer)
             {
@@ -311,7 +329,39 @@ namespace Chocobot
                 Application.Current.Shutdown();
             }
 
+            //_hotKeyManager = new HotKeyManager(this);
+            //_hotKeyManager.AddGlobalHotKey(_enableHK);
+            //_hotKeyManager.AddGlobalHotKey(_enableHK2);
+            //_hotKeyManager.AddGlobalHotKey(_enableHK3);
+            //_hotKeyManager.GlobalHotKeyPressed += new GlobalHotKeyEventHandler(hotKeyManager_GlobalHotKeyPressed);
 
+        }
+
+        private void hotKeyManager_GlobalHotKeyPressed(object sender, GlobalHotKeyEventArgs e)
+        {
+            switch (e.HotKey.Name.ToLower())
+            {
+                case "enable":
+                    if (setfloat == false)
+                    {
+                        _user.Refresh();
+                        floatingposition = _user.Coordinate;
+                        _refresh.Interval = new TimeSpan(0,0,0,0,1);
+                        setfloat = true;
+                    }
+                    else
+                    {
+                        setfloat = false;
+                    }
+                    break;
+                case "floatup":
+                    floatingposition.Z += 18;
+                    break;
+                case "floatdown":
+                    floatingposition.Z = floatingposition.Z - 18;
+                    break;
+            }
+            
         }
 
         private void btn_ServerRetry_Click(object sender, RoutedEventArgs e)

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows.Threading;
 using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Character;
@@ -34,6 +36,9 @@ namespace Chocobot.Utilities.Navigation
         private readonly Stopwatch _jumpTimer = new Stopwatch();
         private int _jumpRand;
 
+        private Thread _navigationThread = null;
+        private Object thisLock = new Object();
+        private bool _continue = true;
 
         // Invoke the Changed event; called whenever list changes
         protected virtual void OnWaypointChanged()
@@ -82,6 +87,9 @@ namespace Chocobot.Utilities.Navigation
 
         public NavigationHelper()
         {
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en-US");
 
             if (MemoryLocations.Database.Count == 0)
                 return;
@@ -134,15 +142,40 @@ namespace Chocobot.Utilities.Navigation
             _recordcoordinates.Stop();
 
             _jumpRand = _randNum.Next(25, 50);
+            _jumpTimer.Reset();
             _jumpTimer.Start();
 
             IsPlaying = true;
+            _continue = true;
 
             _currentindex = FindNearestIndex();
             OnWaypointChanged();
 
             Keyboard.KeyBoardHelper.KeyDown(Keys.W);
-            _navigate.Start();
+
+
+            if (_navigationThread != null)
+                if (_navigationThread.IsAlive)
+                {
+                    _navigationThread.Abort();
+                    while (_navigationThread.IsAlive)
+                    {
+                    }
+                }
+
+
+            _navigationThread = new Thread(new ThreadStart(navigate_worker));
+
+            _navigationThread.Start();
+
+            while (!_navigationThread.IsAlive)
+            {
+            }
+
+            Debug.Print("Thread Started");
+
+            
+            //_navigate.Start();
 
         }
 
@@ -152,8 +185,18 @@ namespace Chocobot.Utilities.Navigation
 
             _jumpTimer.Stop();
             IsPlaying = false;
-            _navigate.Stop();
-            Keyboard.KeyBoardHelper.KeyUp(Keys.W);
+            //_navigate.Stop();
+
+            _continue = false;
+
+            //_navigationThread.Join();
+
+            //if (_navigationThread != null)
+            //    while (_navigationThread.IsAlive)
+            //    {
+            //    }
+
+            //Keyboard.KeyBoardHelper.KeyUp(Keys.W);
         }
 
         public void Resume()
@@ -162,12 +205,31 @@ namespace Chocobot.Utilities.Navigation
             _jumpTimer.Reset();
             _jumpTimer.Start();
 
-            
+            _continue = true;
             _jumpRand = _randNum.Next(25, 50);
 
             IsPlaying = true;
             Keyboard.KeyBoardHelper.KeyDown(Keys.W);
-            _navigate.Start();
+
+            if (_navigationThread != null)
+                if (_navigationThread.IsAlive)
+                {
+                    _navigationThread.Abort();
+                    while (_navigationThread.IsAlive)
+                    {
+                    }
+                }
+
+
+            _navigationThread = new Thread(new ThreadStart(navigate_worker));
+            _navigationThread.Start();
+
+            while (!_navigationThread.IsAlive)
+            {
+            }
+
+            Debug.Print("Thread Started");
+            //_navigate.Start();
 
         }
 
@@ -211,6 +273,61 @@ namespace Chocobot.Utilities.Navigation
 
             }
         }
+
+
+        private void navigate_worker()
+        {
+
+            while (_continue)
+            {
+                if (_jumpTimer.Elapsed.Seconds > _jumpRand)
+                {
+                    Keyboard.KeyBoardHelper.KeyPress(Keys.Space);
+
+                    _jumpTimer.Reset();
+                    _jumpTimer.Start();
+
+                    _jumpRand = _randNum.Next(25, 50);
+                }
+
+                Keyboard.KeyBoardHelper.KeyDown(Keys.W);
+
+                if (_currentindex >= Waypoints.Count)
+                {
+                    if (Loop)
+                    {
+                        _currentindex = 0;
+
+                        OnWaypointChanged();
+                    }
+                    else
+                    {
+                        Stop();
+
+                        if (NavigationFinished != null)
+                            NavigationFinished(this);
+
+                        break;
+                        //return;
+                    }
+                }
+
+                _user.Refresh();
+
+                float newHeading = _user.Coordinate.AngleTo(Waypoints[_currentindex]);
+                _user.Heading = newHeading;
+
+                if (_user.Coordinate.Distance2D(Waypoints[_currentindex]) < Sensitivity)
+                {
+                    _currentindex++;
+                    OnWaypointChanged();
+                }
+            }
+
+            Keyboard.KeyBoardHelper.KeyUp(Keys.W);
+
+        }
+
 
         private void thread_Navigate_Tick(object sender, EventArgs e)
         {

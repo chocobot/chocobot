@@ -191,12 +191,43 @@ namespace Chocobot.MemoryStructures.Character
         public float Heading
         {
             get { return _heading; }
-            set { MemoryHandler.Instance.SetFloat(Address + 176, value); }
+            set { 
+                
+                // Server side change
+                MemoryHandler.Instance.SetFloat(Address + 176, value);
+                _heading = value;
+
+                // Client side change
+                UInt32 addy = MemoryHandler.Instance.GetUInt32(Address + 0xEC);
+                Coordinate headingvector = new Coordinate(1, 0, 0);
+                headingvector = headingvector.Rotate2d(_heading / 2);
+
+                MemoryHandler.Instance.SetFloat(addy + 0x4C, headingvector.X);
+                MemoryHandler.Instance.SetFloat(addy + 0x44, headingvector.Y);
+
+            }
         }
 
         public Coordinate Coordinate
         {
             get { return _coordinate; }
+            //set
+            //{
+
+            //    MemoryHandler.Instance.SetFloat(Address + 160, value.X);
+            //    MemoryHandler.Instance.SetFloat(Address + 164, value.Z);
+            //    MemoryHandler.Instance.SetFloat(Address + 168, value.Y);
+            //    UInt32 addy = MemoryHandler.Instance.GetUInt32(Address + 0xEC);
+
+            //    //const int CLI_SIDE_X = 0x30;
+            //    //const int CLI_SIDE_Z = 0x34;
+            //    //const int CLI_SIDE_Y = 0x38;
+
+            //    MemoryHandler.Instance.SetFloat(addy + 0x30, value.X);
+            //    MemoryHandler.Instance.SetFloat(addy + 0x34, value.Z);
+            //    MemoryHandler.Instance.SetFloat(addy + 0x38, value.Y);
+
+            //}
         }
 
         public CharacterType Type
@@ -323,7 +354,21 @@ namespace Chocobot.MemoryStructures.Character
                        MemoryHandler.Instance.GetFloat(Address + 164)
                   );
 
-            _heading = MemoryHandler.Instance.GetFloat(Address + 176); 
+            _heading = MemoryHandler.Instance.GetFloat(Address + 176);
+            //UInt32 addy = MemoryHandler.Instance.GetUInt32(Address + 0xEC);
+            //float vec1 = MemoryHandler.Instance.GetFloat(addy + 0x4C);
+            //float vec2 = MemoryHandler.Instance.GetFloat(addy + 0x44);
+
+            //Coordinate test = new Coordinate(1, 0, 0);
+            //test = test.Rotate2d(_heading/2);
+            //System.Diagnostics.Debug.Print(test.X.ToString() +  " " + test.Y.ToString());
+            //System.Diagnostics.Debug.Print(vec1.ToString() + "    " + vec2.ToString());
+            ////System.Diagnostics.Debug.Print((test.Angle() * 57.2957795 * 2).ToString() + " == " + (_heading * 57.2957795).ToString());
+
+
+
+
+
             _type = MemoryHandler.Instance.GetByte(Address + 138,false);
             _currenthealth = MemoryHandler.Instance.GetInt32(Address + 5776);
             _maxhealth = MemoryHandler.Instance.GetInt32(Address + 5780); 

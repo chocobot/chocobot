@@ -2,7 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       DataContext="{Binding RelativeSource={RelativeSource Self}}"
-                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" Title="Crafting Bot" Height="283" Width="342">
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" Title="Crafting Bot" Height="283" Width="342"                      
+                      Icon="/Chocobot;component/Resources/Icon.ico"
+                      ResizeMode="NoResize">
 
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>

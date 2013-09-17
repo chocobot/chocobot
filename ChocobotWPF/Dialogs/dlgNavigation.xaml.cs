@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Character;
@@ -29,7 +30,11 @@ namespace Chocobot.Dialogs
 
         private void WaypointIndex_Changed(object sender, int index)
         {
-            lst_Coordinates.SelectedIndex = index;
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                lst_Coordinates.SelectedIndex = index;
+            }));
+            
         }
 
 

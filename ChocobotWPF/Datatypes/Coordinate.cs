@@ -25,6 +25,12 @@ namespace Chocobot.Datatypes
 
         }
 
+        public double Angle()
+        {
+            double angle = Math.Atan(Y / X);
+            return angle;
+        }
+
         public Coordinate Subtract(Coordinate b)
         {
             return new Coordinate(X - b.X, Y - b.Y, Z - b.Z);
