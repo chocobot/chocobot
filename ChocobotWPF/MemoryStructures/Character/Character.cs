@@ -377,7 +377,7 @@ namespace Chocobot.MemoryStructures.Character
 
             _currentmp = MemoryHandler.Instance.GetInt32(Address + 5784); 
             _maxmp = MemoryHandler.Instance.GetInt32(Address + 5788); 
-            _currenttp = MemoryHandler.Instance.GetInt32(Address + 5792); 
+            _currenttp = MemoryHandler.Instance.GetInt16(Address + 5792); 
             _maxtp = 1000;
 
             _currentcp = MemoryHandler.Instance.GetInt16(Address + 5798);

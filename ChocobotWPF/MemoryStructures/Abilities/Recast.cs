@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace Chocobot.MemoryStructures.Abilities
 {
-    class Recast
+    public class Recast
     {
         public List<int> Abilities = new List<int>();
         public List<int> WeaponSpecials = new List<int>();

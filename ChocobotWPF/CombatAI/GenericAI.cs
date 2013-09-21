@@ -9,7 +9,7 @@ using Chocobot.MemoryStructures.Character;
 
 namespace Chocobot.CombatAI
 {
-    class GenericAI
+    public class GenericAI
     {
         public bool IsRanged = false;
         public bool HasCure = false;

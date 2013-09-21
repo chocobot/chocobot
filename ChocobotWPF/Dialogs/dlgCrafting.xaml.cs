@@ -28,7 +28,7 @@ namespace Chocobot.Dialogs
 
         private StatusEnum _status;
         private ObservableCollection<CraftingKey> _keyConditions;
-
+        public int MaxCrafts;
         public CraftWorker(ObservableCollection<CraftingKey> keyConditions)
         {
             _keyConditions = keyConditions;
@@ -40,13 +40,13 @@ namespace Chocobot.Dialogs
             List<Character> fate = new List<Character>();
             List<Character> players = new List<Character>();
             Character user = null;
-            int craftAmount = 7;
+            int craftAmount = 0;
 
             _status = StatusEnum.Initializing;
 
             MemoryFunctions.GetCharacters(monsters, fate, players, ref user);
 
-            while (true)
+            while (craftAmount < MaxCrafts)
             {
                 user.Refresh();
                 System.Diagnostics.Debug.Print(user.Status.ToString() + "  -  " + user.Status.ToString("X"));
@@ -58,7 +58,7 @@ namespace Chocobot.Dialogs
                     while (craftwindow.RefreshPointers() == false)
                     {
                         Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.NumPad0);
-                        Thread.Sleep(250);
+                        Thread.Sleep(350);
                     }
 
                     Thread.Sleep(200);
@@ -72,39 +72,42 @@ namespace Chocobot.Dialogs
 
                     foreach (CraftingKey keyCondition in _keyConditions)
                     {
-                        while (craftwindow.RefreshPointers())
+
+                        if (craftwindow.RefreshPointers() == false)
+                            break;
+
+                        user.Refresh();
+                        craftwindow.Refresh();
+
+                        if (craftwindow.CurrProgress == craftwindow.MaxProgress)
+                            break;
+
+                        if(keyCondition.CPCondition)
                         {
-                            user.Refresh();
-                            craftwindow.Refresh();
-
-                            if (craftwindow.CurrProgress == craftwindow.MaxProgress)
+                            if (user.CurrentCP < keyCondition.CP)
                                 break;
-
-                            if(keyCondition.CPCondition)
-                            {
-                                if (keyCondition.CP < user.CurrentCP)
-                                    break;
-                            }
-
-                            if (keyCondition.DurabilityCondition)
-                            {
-                                if (keyCondition.Durability < craftwindow.CurrDurability)
-                                    break;
-                            }
-
-                            if (keyCondition.ProgressCondition)
-                            {
-                                if (keyCondition.Progress < craftwindow.CurrProgress)
-                                    break;
-                            }
-
-                            Utilities.Keyboard.KeyBoardHelper.KeyPress(keyCondition.Key);
-                            WaitForAbility(user);
-
-                            if (keyCondition.CPCondition == false && keyCondition.DurabilityCondition == false && keyCondition.ProgressCondition == false)
-                                break;
-
                         }
+
+                        if (keyCondition.DurabilityCondition)
+                        {
+                            if (craftwindow.CurrDurability <= keyCondition.Durability)
+                                break;
+                        }
+
+                        if (keyCondition.ProgressCondition)
+                        {
+                            if (craftwindow.CurrProgress > keyCondition.Progress)
+                                break;
+                        }
+
+                        if (keyCondition.ConditionCondition)
+                        {
+                            if (craftwindow.Condition.Trim().ToLower() != keyCondition.Condition.Trim().ToLower())
+                                break;
+                        }
+
+                        Utilities.Keyboard.KeyBoardHelper.KeyPress(keyCondition.Key);
+                        WaitForAbility(user);                       
 
                     }
 
@@ -113,6 +116,8 @@ namespace Chocobot.Dialogs
                     {
                         Thread.Sleep(250);
                     }
+
+                    craftAmount++;
 
                 }
 
@@ -125,30 +130,33 @@ namespace Chocobot.Dialogs
 
             user.Refresh();
 
-            Debug.Print("Before: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
+            //Debug.Print("Before: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
             Stopwatch timer = new Stopwatch();
 
             timer.Reset();
             timer.Start();
 
-            while ((user.UsingAbility == false) && user.IsCrafting && timer.Elapsed.Seconds < 4)
+            while ((user.UsingAbility == false) && user.IsCrafting && timer.Elapsed.Seconds < 3)
             {
+                Debug.Print("Waiting...");
                 user.Refresh();
             }
 
+            Debug.Print("Waiting for start: " + timer.Elapsed.Milliseconds.ToString());
             //while ((user.Status == CharacterStatus.Idle || user.Status == CharacterStatus.Crafting_Idle) && user.IsCrafting && timer.Elapsed.Seconds < 4)
             //{                
             //    user.Refresh();
             //}
 
-            Debug.Print("After: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
+           // Debug.Print("After: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
             timer.Restart();
 
-            while ((user.UsingAbility == true) && user.IsCrafting && timer.Elapsed.Seconds < 4)
+            while ((user.UsingAbility == true) && user.IsCrafting && timer.Elapsed.Seconds < 3)
             {
                 user.Refresh();
             }
 
+            Debug.Print("Ability Finished: " + timer.Elapsed.Milliseconds.ToString());
             //while (user.Status != CharacterStatus.Idle && user.Status != CharacterStatus.Crafting_Idle2 && user.IsCrafting && timer.Elapsed.Seconds < 7)
             //{
             //    user.Refresh();
@@ -157,7 +165,7 @@ namespace Chocobot.Dialogs
             //Debug.Print("After2: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
             user.Refresh();
             //Debug.Print("End: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
-            Thread.Sleep(700);
+            Thread.Sleep(900);
         }
 
         private static void WaitForCraft(Character user)
@@ -205,6 +213,8 @@ namespace Chocobot.Dialogs
 
 
             _craftWorker = new CraftWorker(_keyConditions);
+            _craftWorker.MaxCrafts = int.Parse(txt_SynthLimit.Text);
+
             _craftThread = new Thread(new ThreadStart(_craftWorker.DoWork));
             
             _craftThread.Start();
@@ -274,7 +284,8 @@ namespace Chocobot.Dialogs
                 ini.IniWriteValue("Key" + currkey, "durabilitycondition", keyCondition.DurabilityCondition.ToString());
                 ini.IniWriteValue("Key" + currkey, "progress", keyCondition.Progress.ToString());
                 ini.IniWriteValue("Key" + currkey, "progresscondition", keyCondition.ProgressCondition.ToString());
-
+                ini.IniWriteValue("Key" + currkey, "condition", keyCondition.Condition.ToString());
+                ini.IniWriteValue("Key" + currkey, "conditioncondition", keyCondition.ConditionCondition.ToString());
                 currkey++;
             }
             
@@ -303,6 +314,17 @@ namespace Chocobot.Dialogs
 
                 newkey.Durability = short.Parse(ini.IniReadValue("Key" + (i + 1), "durability"));
                 newkey.DurabilityCondition = bool.Parse(ini.IniReadValue("Key" + (i + 1), "durabilitycondition"));
+
+                newkey.Condition = ini.IniReadValue("Key" + (i + 1), "condition");
+                try
+                {
+                    newkey.ConditionCondition = bool.Parse(ini.IniReadValue("Key" + (i + 1), "conditioncondition"));
+                } catch (Exception ex)
+                {
+                    newkey.ConditionCondition = false;
+                }
+                
+
 
                 newkey.Progress = short.Parse(ini.IniReadValue("Key" + (i + 1), "progress"));
                 newkey.ProgressCondition = bool.Parse(ini.IniReadValue("Key" + (i + 1), "progresscondition"));

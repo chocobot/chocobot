@@ -39,6 +39,9 @@ namespace Chocobot.Dialogs
             private BotStage _botstage;
             public NavigationHelper _navigation = new NavigationHelper();
             public List<String> SearchItems = new List<string>();
+            public double SearchDistance;
+            public double DistanceThreshold;
+
             private bool _initial = true;
 
             private enum BotStage
@@ -76,8 +79,8 @@ namespace Chocobot.Dialogs
                     if (spot.Name.ToLower().Contains("mineral") || spot.Name.ToLower().Contains("outcrop") || spot.Name.ToLower().Contains("mature tree") || spot.Name.ToLower().Contains("lush vegetation"))
                     {
                         float curDistance = user.Coordinate.Distance(spot.Coordinate);
-                        
-                        if (curDistance < minDistance && curDistance < 5)
+
+                        if (curDistance < minDistance && curDistance < SearchDistance)
                         {
                             minDistance = curDistance;
                             closestSpot = spot;
@@ -107,17 +110,18 @@ namespace Chocobot.Dialogs
                     _navigation.Stop();
                     return;
                 }
-                
-                if (user.Coordinate.Distance(currentSpot.Coordinate) > 3.0)
+
+                if (user.Coordinate.Distance(currentSpot.Coordinate) < 0.5)
                 {
                     user.Heading = user.Coordinate.AngleTo(currentSpot.Coordinate);
 
-                    Utilities.Keyboard.KeyBoardHelper.KeyDown(Keys.W);
-                    return;
+                    Utilities.Keyboard.KeyBoardHelper.KeyDown(Keys.S);
+                    Thread.Sleep(150);
+                    Utilities.Keyboard.KeyBoardHelper.KeyUp(Keys.S);
                 }
                 
                 // We are close enough.. stop running
-                Utilities.Keyboard.KeyBoardHelper.KeyUp(Keys.W);
+                //Utilities.Keyboard.KeyBoardHelper.KeyUp(Keys.W);
 
 
                 if (currentSpot.IsHidden == false)
@@ -201,20 +205,40 @@ namespace Chocobot.Dialogs
                                 GatheringWindow.GatheringItems idealItem = null;
 
                                 bool found = false;
-                                foreach (GatheringWindow.GatheringItems item in uiWindow.Items)
+                                foreach (string lstitem in SearchItems)
                                 {
-                                    foreach (string lstitem in SearchItems)
+                                    foreach (GatheringWindow.GatheringItems item in uiWindow.Items)
                                     {
                                         if (item.Name.ToLower().Contains(lstitem.ToLower()))
                                         {
                                             idealItem = item;
                                             found = true;
+                                            break;
                                         }
                                     }
 
+
                                     if (found)
                                         break;
+
                                 }
+
+
+                                //foreach (GatheringWindow.GatheringItems item in uiWindow.Items)
+                                //{
+                                //    foreach (string lstitem in SearchItems)
+                                //    {
+                                //        if (item.Name.ToLower().Contains(lstitem.ToLower()))
+                                //        {
+                                //            idealItem = item;
+                                //            found = true;
+                                //            break;
+                                //        }
+                                //    }
+
+                                //    if (found)
+                                //        break;
+                                //}
 
                                 
                                 if (idealItem == null)
@@ -272,12 +296,18 @@ namespace Chocobot.Dialogs
                                     }
                                 } else {
 
-                                    if (user.CurrentGP >= 400 && user.Level >= 30)
+                                    if (user.CurrentGP >= 100 && user.Level >= 15)
                                     {
-
-                                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
+                                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D4);
                                         Thread.Sleep(500);
                                     }
+
+                                    //if (user.CurrentGP >= 400 && user.Level >= 30)
+                                    //{
+
+                                    //    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
+                                    //    Thread.Sleep(500);
+                                    //}
 
                                     //if (user.CurrentGP >= 100 && user.Level >= 15)
                                     //{
@@ -319,7 +349,7 @@ namespace Chocobot.Dialogs
                 }
             }
 
-            private static void InitializeGatheringSpot(Character user, GatheringWindow uiWindow, Gathering currentSpot)
+            private void InitializeGatheringSpot(Character user, GatheringWindow uiWindow, Gathering currentSpot)
             {
 
                 user.Refresh();
@@ -336,7 +366,7 @@ namespace Chocobot.Dialogs
 
                     Utilities.Keyboard.KeyBoardHelper.KeyDown(Keys.W);
 
-                    if (user.Coordinate.Distance(currentSpot.Coordinate) > 2.5)
+                    if (user.Coordinate.Distance2D(currentSpot.Coordinate) > DistanceThreshold)
                     {
                         user.Heading = user.Coordinate.AngleTo(currentSpot.Coordinate);
 
@@ -409,7 +439,10 @@ namespace Chocobot.Dialogs
             {
                 _gatheringWorker.SearchItems.Add(item);
             }
-            
+
+            _gatheringWorker.DistanceThreshold = double.Parse(txt_GatheringThreshhold.Text);
+            _gatheringWorker.SearchDistance = double.Parse(txt_SearchDistance.Text);
+
 
             _gatheringThread = new Thread(new ThreadStart(_gatheringWorker.DoWork));
 

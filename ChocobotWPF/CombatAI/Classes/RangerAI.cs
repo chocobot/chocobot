@@ -30,6 +30,7 @@ namespace Chocobot.CombatAI.Classes
             monster.Target();
             recast.Refresh();
 
+
             if (recast.Abilities.Contains((int)Recast.eAbilities.RagingStrikes) == false && user.Level >= 4 && (monster.Health_Percent > 15 || monster.Health_Current > 5000))
             {
                 Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3); // Raging Strikes

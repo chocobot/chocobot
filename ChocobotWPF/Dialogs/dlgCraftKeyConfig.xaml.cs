@@ -22,7 +22,24 @@ namespace Chocobot.Dialogs
             InitializeComponent();
             _callback = callback;
 
-            lst_Key.ItemsSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
+            //lst_Key.ItemsSource = Enum.GetValues(typeof(Keys)).Cast<Keys>();
+            lst_Key.Items.Add("D1");
+            lst_Key.Items.Add("D2");
+            lst_Key.Items.Add("D3");
+            lst_Key.Items.Add("D4");
+            lst_Key.Items.Add("D5");
+            lst_Key.Items.Add("D6");
+            lst_Key.Items.Add("D7");
+            lst_Key.Items.Add("D8");
+            lst_Key.Items.Add("D9");
+            lst_Key.Items.Add("D0");
+
+            lst_Condition.Items.Add("Poor");
+            lst_Condition.Items.Add("Normal");
+            lst_Condition.Items.Add("Good");
+            lst_Condition.Items.Add("Excellent");
+
+            lst_Condition.SelectedIndex = 3;
             lst_Key.SelectedIndex = 0;
         }
 
@@ -34,9 +51,12 @@ namespace Chocobot.Dialogs
             craftkey.CPCondition = chk_CP.IsChecked == true;
             craftkey.DurabilityCondition = chk_Durability.IsChecked == true;
             craftkey.ProgressCondition = chk_Progress.IsChecked == true;
+            craftkey.ConditionCondition = chk_Condition.IsChecked == true;
+
             craftkey.CP = short.Parse(txt_CP.Text);
             craftkey.Progress = short.Parse(txt_Progress.Text);
             craftkey.Durability = short.Parse(txt_Durability.Text);
+            craftkey.Condition = lst_Condition.Text;
 
             _callback.Invoke(craftkey);
             this.DialogResult = true;

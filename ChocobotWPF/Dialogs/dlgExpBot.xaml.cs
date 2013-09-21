@@ -72,6 +72,7 @@ namespace Chocobot.Dialogs
             lst_Classes.Items.Add("Pugilist");
             lst_Classes.Items.Add("Mage");
             lst_Classes.Items.Add("Melee");
+            lst_Classes.Items.Add("Script");
 
             lst_Classes.SelectedIndex = 0;
 
@@ -536,8 +537,11 @@ namespace Chocobot.Dialogs
                 case 3:
                     _aiFighter = new BasicAI() { IsRanged = true };
                     break;
-                default:
+                case 4:
                     _aiFighter = new BasicAI();
+                    break;
+                default:
+                    _aiFighter = new ScriptAI();
                     break;
             }
 

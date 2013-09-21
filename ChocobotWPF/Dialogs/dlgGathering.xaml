@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:Controls1="clr-namespace:Chocobot.Controls" x:Class="Chocobot.Dialogs.dlgGathering"
-        Title="Gathering Bot" Height="308" Width="496"
+        Title="Gathering Bot" Height="314.53" Width="496"
                       Icon="/Chocobot;component/Resources/Icon.ico"
                       ResizeMode="NoResize">
 
@@ -18,8 +18,8 @@
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
     <Grid>
-        <Button x:Name="btn_Start" Content="Start" HorizontalAlignment="Left" Height="30" Margin="10,239,0,0" VerticalAlignment="Top" Width="100" Click="btn_Start_Click" RenderTransformOrigin="0.775,2.033"/>
-        <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Height="30" Margin="149,239,0,0" VerticalAlignment="Top" Width="100" Click="btn_Stop_Click"/>
+        <Button x:Name="btn_Start" Content="Start" HorizontalAlignment="Left" Height="30" Margin="10,252,0,0" VerticalAlignment="Top" Width="100" Click="btn_Start_Click" RenderTransformOrigin="0.775,2.033"/>
+        <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Height="30" Margin="149,252,0,0" VerticalAlignment="Top" Width="100" Click="btn_Stop_Click"/>
         <Button x:Name="btn_LoadPath"
 			Width="100"
 			Height="23"
@@ -37,14 +37,30 @@
 			Content="Waypoints: 0" FontWeight="Bold" />
 
 
-        <Controls1:vp_Map x:Name="vp_map" HorizontalAlignment="Left" Height="230" Margin="255,41,0,0" VerticalAlignment="Top" Width="230" NavigationEnabled="false"/>
-        <GroupBox Header="Search Items" HorizontalAlignment="Left" Height="224" Margin="10,10,0,0" VerticalAlignment="Top" Width="239">
+        <Controls1:vp_Map x:Name="vp_map" HorizontalAlignment="Left" Height="230" Margin="255,50,0,0" VerticalAlignment="Top" Width="230" NavigationEnabled="false"/>
+        <GroupBox Header="Search Items" HorizontalAlignment="Left" Height="136" Margin="10,10,0,0" VerticalAlignment="Top" Width="239">
             <Grid>
 
-                <ListBox x:Name="lst_Items" HorizontalAlignment="Left" Height="150" VerticalAlignment="Top" Width="227" BorderBrush="Black" MouseDoubleClick="lst_Items_MouseDoubleClick" />
-                <Button x:Name="btn_AddItem" Content="Add" HorizontalAlignment="Left" Height="30" Margin="127,155,0,0" VerticalAlignment="Top" Width="100" Click="btn_AddItem_Click"/>
-                <TextBox x:Name="txt_Item" HorizontalAlignment="Left" Height="30" Margin="0,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122"/>
+                <ListBox x:Name="lst_Items" HorizontalAlignment="Left" Height="59" VerticalAlignment="Top" Width="227" BorderBrush="Black" MouseDoubleClick="lst_Items_MouseDoubleClick" />
+                <Button x:Name="btn_AddItem" Content="Add" HorizontalAlignment="Left" Height="30" Margin="127,64,0,0" VerticalAlignment="Top" Width="100" Click="btn_AddItem_Click"/>
+                <TextBox x:Name="txt_Item" HorizontalAlignment="Left" Height="30" Margin="0,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122"/>
             </Grid>
+        </GroupBox>
+        <GroupBox Header="Options" HorizontalAlignment="Left" Height="96" Margin="10,151,0,0" VerticalAlignment="Top" Width="239">
+            <Grid>
+                <TextBox x:Name="txt_GatheringThreshhold" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Margin="126,0,0,0" Text="1.5"  TextAlignment="Center"/>
+                <Label Width="121"
+        		Height="26"
+        		HorizontalAlignment="Left"
+        		VerticalAlignment="Top"
+        		Content="Distance Threshold:" FontWeight="Bold" />
+                <TextBox x:Name="txt_SearchDistance" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Margin="126,31,0,0" Text="5.0" TextAlignment="Center"/>
+                <Label
+                	Height="26"
+                	VerticalAlignment="Top"
+                	Content="Search Distance:" FontWeight="Bold" Margin="17,31,0,0" HorizontalAlignment="Left" Width="104" />
+            </Grid>
+
         </GroupBox>
 
     </Grid>

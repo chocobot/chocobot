@@ -13,9 +13,12 @@ namespace Chocobot.Datatypes
         public bool CPCondition = false;
         public bool DurabilityCondition = false;
         public bool ProgressCondition = false;
+        public bool ConditionCondition = false;
+
         public short CP = 0;
         public short Durability = 0;
         public short Progress = 0;
+        public string Condition = "";
 
         public string ConditionString
         {
@@ -38,6 +41,15 @@ namespace Chocobot.Datatypes
                     conditionstr += "Progress <= " + Progress.ToString() + " ";
                 }
 
+                if (ConditionCondition)
+                {
+                    conditionstr += "Condition = " + Condition.ToString() + " ";
+                }
+
+                if(conditionstr == "")
+                {
+                    conditionstr = "Single Press";
+                }
                 return conditionstr;
             }
         }

@@ -37,8 +37,14 @@
             </TabItem>
             <TabItem Header="Main">
                 <Grid Background="#FFE5E5E5">
-                    <Button x:Name="btn_Start" Content="Start" HorizontalAlignment="Left" Height="38" Margin="7,10,0,0" VerticalAlignment="Top" Width="124" Click="btn_Start_Click"/>
-                    <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Height="38" Margin="196,10,0,0" VerticalAlignment="Top" Width="124" Click="btn_Stop_Click"/>
+                    <Button x:Name="btn_Start" Content="Start" HorizontalAlignment="Left" Height="38" Margin="6,67,0,0" VerticalAlignment="Top" Width="124" Click="btn_Start_Click"/>
+                    <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Height="38" Margin="195,67,0,0" VerticalAlignment="Top" Width="124" Click="btn_Stop_Click"/>
+                    <Label Width="80"
+                    	Height="26"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Content="Craft Limit:" FontWeight="Bold" Margin="10,10,0,0" />
+                    <TextBox x:Name="txt_SynthLimit" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" Margin="90,10,0,0" Text="500" TextAlignment="Center"/>
                 </Grid>
             </TabItem>
         </TabControl>

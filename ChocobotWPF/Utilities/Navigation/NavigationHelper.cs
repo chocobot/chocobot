@@ -385,7 +385,7 @@ namespace Chocobot.Utilities.Navigation
             }
             else
             {
-                if (Waypoints.Last().Distance(_user.Coordinate) > 5)
+                if (Waypoints.Last().Distance(_user.Coordinate) > 2.5)
                 {
                     Waypoints.Add(_user.Coordinate);
                 }
