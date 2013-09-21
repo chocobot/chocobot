@@ -1,0 +1,594 @@
+<SmartAssemblyProject ProjectId="{6a4b8b25-807a-4b6c-8614-3f7e9190c882}" Version="2.0">
+    <MainAssemblyFileName>.\ChocobotWPF\bin\Release\Chocobot.exe</MainAssemblyFileName>
+    <FriendlyName>ChocobotWPF</FriendlyName>
+    <CompanyName>[Unknown company]</CompanyName>
+    <Configuration Name="Release">
+        <Options>
+            <ExceptionReporting ReportExceptions="0" Template="res:{SmartExceptions}.1033.dll" />
+            <FeatureUsageReporting Template="res:SmartUsageWithUIConsentFirstRun1033.dll" />
+            <StringsEncoding Compress="1" Encode="1" UseCache="1" UseImprovedEncoding="1" />
+            <StrongNameSigning />
+            <OtherOptimizations SealClasses="1" />
+            <Obfuscation ChangeMethodParent="1" FieldsNameMangling="3" NameMangling="3" />
+            <OtherProtections SuppressIldasm="1" />
+            <Debugging />
+        </Options>
+        <ApplicationName>ChocobotWPF</ApplicationName>
+        <Destination DestinationFileName=".\ChocobotWPF\bin\Release\Chocobot_Secure\Chocobot.exe" />
+        <Assemblies>
+            <Assembly AssemblyName="Chocobot, Culture=neutral, PublicKeyToken=null">
+                <Merging>
+                    <ResourcesCompression Compress="1" />
+                    <MemberRefsProxy Proxy="1" />
+                    <Pruning>
+                        <Exclusion />
+                    </Pruning>
+                    <Obfuscation Obfuscate="1">
+                        <Exclusion>
+                            <Token Table="Namespace">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Namespace>Chocobot.Datatypes</Namespace>
+                            </Token>
+                            <Token Table="Namespace">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Namespace>Chocobot.MemoryStructures.Abilities</Namespace>
+                            </Token>
+                            <Token Table="Namespace">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Namespace>Chocobot.Scripting</Namespace>
+                            </Token>
+                            <Token Table="Namespace">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Namespace>Chocobot.Utilities.Keyboard</Namespace>
+                            </Token>
+                            <Token Table="FieldDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>CultureInfo</Name>
+                                <FieldType>class [mscorlib]System.Globalization.CultureInfo</FieldType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="FieldDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>Textinfo</Name>
+                                <FieldType>class [mscorlib]System.Globalization.TextInfo</FieldType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>DistanceFrom</Name>
+                                <ReturnType>System.Single</ReturnType>
+                                <Parameters>class [Chocobot]Chocobot.MemoryStructures.Character.Character</Parameters>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Address</Name>
+                                <ReturnType>System.UInt32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Coordinate</Name>
+                                <ReturnType>class [Chocobot]Chocobot.Datatypes.Coordinate</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_CurrentCP</Name>
+                                <ReturnType>System.Int16</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_CurrentGP</Name>
+                                <ReturnType>System.Int16</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Heading</Name>
+                                <ReturnType>System.Single</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Health_Current</Name>
+                                <ReturnType>System.Int32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Health_Max</Name>
+                                <ReturnType>System.Int32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Health_Percent</Name>
+                                <ReturnType>System.Byte</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Icon</Name>
+                                <ReturnType>System.Byte</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_ID</Name>
+                                <ReturnType>System.Int32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_IsClaimed</Name>
+                                <ReturnType>System.Boolean</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_IsCrafting</Name>
+                                <ReturnType>System.Boolean</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_IsFate</Name>
+                                <ReturnType>System.Boolean</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_IsHidden</Name>
+                                <ReturnType>System.Boolean</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_IsMoving</Name>
+                                <ReturnType>System.Boolean</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_IsUser</Name>
+                                <ReturnType>System.Boolean</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Level</Name>
+                                <ReturnType>System.Byte</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Mana_Current</Name>
+                                <ReturnType>System.Int32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Mana_Max</Name>
+                                <ReturnType>System.Int32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Mana_Percent</Name>
+                                <ReturnType>System.Byte</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_MaxCP</Name>
+                                <ReturnType>System.Int16</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_MaxGP</Name>
+                                <ReturnType>System.Int16</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Name</Name>
+                                <ReturnType>System.String</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Status</Name>
+                                <ReturnType>valuetype [Chocobot]Chocobot.Datatypes.CharacterStatus</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_TargetID</Name>
+                                <ReturnType>System.Int32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_TP_Current</Name>
+                                <ReturnType>System.Int32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_TP_Max</Name>
+                                <ReturnType>System.Int32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Type</Name>
+                                <ReturnType>valuetype [Chocobot]Chocobot.Datatypes.CharacterType</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_UsingAbility</Name>
+                                <ReturnType>System.Boolean</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_UsingAbilityID</Name>
+                                <ReturnType>System.Int32</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>get_Valid</Name>
+                                <ReturnType>System.Boolean</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>set_Heading</Name>
+                                <ReturnType>System.Void</ReturnType>
+                                <Parameters>System.Single</Parameters>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>set_IsUser</Name>
+                                <ReturnType>System.Void</ReturnType>
+                                <Parameters>System.Boolean</Parameters>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>Target</Name>
+                                <ReturnType>System.Void</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="MethodDef">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Name>ToString</Name>
+                                <ReturnType>System.String</ReturnType>
+                                <OwnerNamespace>Chocobot.MemoryStructures.Character</OwnerNamespace>
+                                <OwnerType>Character</OwnerType>
+                            </Token>
+                            <Token Table="Namespace">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Namespace>Chocobot.CombatAI</Namespace>
+                            </Token>
+                            <Token Table="Namespace">
+                                <Assembly>Chocobot</Assembly>
+                                <Module>Chocobot.exe</Module>
+                                <Namespace>Chocobot.CombatAI.Classes</Namespace>
+                            </Token>
+                        </Exclusion>
+                    </Obfuscation>
+                    <ControlFlow Obfuscate="1" ObfuscationLevel="4" />
+                </Merging>
+                <Embedding />
+            </Assembly>
+            <Assembly AssemblyName="MahApps.Metro, Culture=neutral, PublicKeyToken=null">
+                <Merging />
+                <Embedding />
+            </Assembly>
+            <Assembly AssemblyName="HotKeyManagement.WPF.4, Culture=neutral, PublicKeyToken=null">
+                <Merging />
+                <Embedding />
+            </Assembly>
+            <Assembly AssemblyName="mscorlib, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="PresentationFramework, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Xml, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="PresentationCore, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Xaml, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="WindowsBase, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="UIAutomationProvider, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Core, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Deployment, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="PresentationUI, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Printing, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="ReachFramework, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="UIAutomationTypes, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Configuration, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="Accessibility, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Security, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Data.SqlXml, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Windows.Input.Manipulations, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Numerics, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Drawing, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Runtime.Serialization.Formatters.Soap, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.DirectoryServices, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Windows.Interactivity, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="Microsoft.VisualBasic, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Management, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Xml.Linq, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Runtime.Remoting, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Configuration.Install, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="Microsoft.JScript, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Runtime.Serialization, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.ServiceModel.Internals, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="SMDiagnostics, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Web, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="Microsoft.Build.Framework, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.ComponentModel.DataAnnotations, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Runtime.Caching, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Web.ApplicationServices, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Data, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Web.Services, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="Microsoft.Build.Utilities.v4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.DirectoryServices.Protocols, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.EnterpriseServices, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Design, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="Microsoft.Build.Tasks.v4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.ServiceProcess, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Web.RegularExpressions, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Transactions, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Drawing.Design, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Data.OracleClient, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="Roslyn.Compilers, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="Roslyn.Compilers.CSharp, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="Microsoft.CSharp, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="System.Dynamic, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="PoweredBySmartAssembly, Culture=neutral, PublicKeyToken=7f465a1c156d4d57">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="DoNotDistribute, Culture=neutral, PublicKeyToken=7f465a1c156d4d57">
+                <Merging />
+            </Assembly>
+            <Assembly AssemblyName="SmartAssembly.License, Culture=neutral, PublicKeyToken=7f465a1c156d4d57">
+                <Merging>
+                    <Obfuscation>
+                        <Exclusion />
+                    </Obfuscation>
+                </Merging>
+            </Assembly>
+            <Assembly AssemblyName="SmartAssembly.HouseOfCards, Culture=neutral, PublicKeyToken=7f465a1c156d4d57">
+                <Merging>
+                    <Obfuscation>
+                        <Exclusion />
+                    </Obfuscation>
+                </Merging>
+            </Assembly>
+            <Assembly AssemblyName="SmartAssembly.StringsEncoding, Culture=neutral, PublicKeyToken=7f465a1c156d4d57">
+                <Merging>
+                    <Obfuscation>
+                        <Exclusion />
+                    </Obfuscation>
+                </Merging>
+            </Assembly>
+            <Assembly AssemblyName="SmartAssembly.AssemblyResolver, Culture=neutral, PublicKeyToken=7f465a1c156d4d57">
+                <Merging>
+                    <Obfuscation>
+                        <Exclusion />
+                    </Obfuscation>
+                </Merging>
+            </Assembly>
+            <Assembly AssemblyName="SmartAssembly.Zip, Culture=neutral, PublicKeyToken=7f465a1c156d4d57">
+                <Merging>
+                    <Obfuscation>
+                        <Exclusion />
+                    </Obfuscation>
+                </Merging>
+            </Assembly>
+            <Assembly AssemblyName="SmartAssembly.ResourceResolver, Culture=neutral, PublicKeyToken=7f465a1c156d4d57">
+                <Merging>
+                    <Obfuscation>
+                        <Exclusion />
+                    </Obfuscation>
+                </Merging>
+            </Assembly>
+        </Assemblies>
+    </Configuration>
+</SmartAssemblyProject>

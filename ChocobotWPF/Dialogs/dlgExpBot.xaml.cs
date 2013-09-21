@@ -498,6 +498,13 @@ namespace Chocobot.Dialogs
 
         private void btn_Start_Click(object sender, RoutedEventArgs e)
         {
+
+            if(_navigation.Waypoints.Count == 0 && chk_Assist.IsChecked == false)
+            {
+                MessageBox.Show("You do not have any waypoints loaded.", "Chocobot", MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
+                return;
+            }
             _botstage = BotStage.Detection;
 
             if (chk_HasCure.IsChecked == true)

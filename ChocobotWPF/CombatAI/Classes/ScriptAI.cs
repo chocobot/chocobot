@@ -18,6 +18,7 @@ namespace Chocobot.CombatAI.Classes
             private Character _currentUser;
             private Recast _cooldowns;
             private int _attackStep;
+            private bool _isRanged;
 
             public ScriptingObject(Character user, Character monster, Recast recast)
             {
@@ -29,7 +30,7 @@ namespace Chocobot.CombatAI.Classes
             }
             public ScriptingObject()
             {
-
+                IsRanged = true;
                 AttackStep = 0;
             }
 
@@ -56,6 +57,12 @@ namespace Chocobot.CombatAI.Classes
             {
                 get { return _cooldowns; }
                 set { _cooldowns = value; }
+            }
+
+            public bool IsRanged
+            {
+                get { return _isRanged; }
+                set { _isRanged = value; }
             }
 
             public void DisplayMessage(string input)
@@ -97,6 +104,21 @@ namespace Chocobot.CombatAI.Classes
                 return;
             }
 
+
+            try
+            {
+                var res = _host.Execute("Initialize();");
+
+            }
+            catch (Roslyn.Compilers.CompilationErrorException ex)
+            {
+                Console.WriteLine("{0}{1}", Environment.NewLine,
+                                            ex.Diagnostics);
+                throw;
+            }
+
+
+            IsRanged = _scriptingObject.IsRanged;
             _valid = true;
 
         }
