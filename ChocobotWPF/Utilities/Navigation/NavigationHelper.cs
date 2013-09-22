@@ -34,15 +34,17 @@ namespace Chocobot.Utilities.Navigation
 
         private readonly Random _randNum = new Random();
         private readonly Stopwatch _jumpTimer = new Stopwatch();
+        private readonly Stopwatch _stuckTimer = new Stopwatch();
         private int _jumpRand;
 
-        private Thread _navigationThread = null;
-        private Object thisLock = new Object();
+        private Thread _navigationThread;
         private bool _continue = true;
+        private Coordinate _previousCoordinate = null;
 
         // Invoke the Changed event; called whenever list changes
         protected virtual void OnWaypointChanged()
         {
+
 
             if (_currentindex == Waypoints.Count)
             {
@@ -316,6 +318,46 @@ namespace Chocobot.Utilities.Navigation
 
                 float newHeading = _user.Coordinate.AngleTo(Waypoints[_currentindex]);
                 _user.Heading = newHeading;
+
+                if(_previousCoordinate == null)
+                {
+                    _previousCoordinate = _user.Coordinate;
+                    _stuckTimer.Reset();
+                } else
+                {
+                    if(_user.Coordinate.Distance2D(_previousCoordinate) < 1.0)
+                    {
+                        if (_stuckTimer.IsRunning)
+                        {
+
+                            if (_stuckTimer.Elapsed.Seconds >= 2)
+                            {
+                                Debug.Print("Stuck...Trying to jump out");
+                                Keyboard.KeyBoardHelper.KeyPress(Keys.Space);
+                            }
+
+                            if (_stuckTimer.Elapsed.Seconds >= 8)
+                            {
+                                Debug.Print("Stuck for over 7 seconds...");
+                                Stop();
+
+                                if (NavigationFinished != null)
+                                    NavigationFinished(this);
+
+                                break;
+                            }
+
+                        } else
+                        {
+                            _stuckTimer.Reset();
+                            _stuckTimer.Start();
+                        }
+                    } else
+                    {
+                        _stuckTimer.Reset();
+                        _previousCoordinate = _user.Coordinate;
+                    }
+                }
 
                 if (_user.Coordinate.Distance2D(Waypoints[_currentindex]) < Sensitivity)
                 {
