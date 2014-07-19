@@ -310,4 +310,43 @@
   <data name="stepup" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stepup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CraftingAI_CraftingAI_Scripting_Error" xml:space="preserve">
+    <value>Scripting Error</value>
+  </data>
+  <data name="CraftingAI_CraftingAI_Crafting_AI_Script____csx____csx" xml:space="preserve">
+    <value>Crafting AI Script (*.csx)|*.csx</value>
+  </data>
+  <data name="bootshine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bootshine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="demolish" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\demolish.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dragon_kick" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dragon kick.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fracture" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fracture.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="haymaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\haymaker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="perfect_balance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\perfect balance.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rockbreaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rockbreaker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="snap_punch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\snap punch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="touch_of_death" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\touch of death.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="true_strike" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\true strike.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="twinsnakes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\twinsnakes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

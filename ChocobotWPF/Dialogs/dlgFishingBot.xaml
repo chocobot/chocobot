@@ -2,60 +2,69 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      Title="Fishing Bot" Height="300" Width="300" Icon="../Resources/Icon.ico">
+                      Title="Fishing Bot" Height="334" Width="243" Icon="../Resources/Icon.ico" Closing="MetroWindow_Closing">
 
 
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
     <Grid>
-        <Button x:Name="btn_StartFishing" Content="Start" HorizontalAlignment="Left" Height="39" Margin="35,176,0,0" VerticalAlignment="Top" Width="218" Click="btn_StartFishing_Click"/>
-        <Button x:Name="btn_StopFishing" Content="Stop" HorizontalAlignment="Left" Height="39" Margin="35,220,0,0" VerticalAlignment="Top" Width="218" Click="btn_StopFishing_Click"/>
-        <Button x:Name="btn_LoadPath"
-        	Width="100"
-        	Height="23"
-        	Margin="35,45,0,0"
-        	HorizontalAlignment="Left"
-        	VerticalAlignment="Top"
-        	Click="btn_LoadPath_Click"
-        	Content="Load Path 1" />
-        <Label x:Name="lbl_PathWaypoints"
-        	Width="129"
-        	Height="26"
-        	Margin="35,70,0,0"
-        	HorizontalAlignment="Left"
-        	VerticalAlignment="Top"
-        	Content="Waypoints: 0" FontWeight="Bold" />
-        <Button x:Name="btn_LoadPath2"
-        	Width="100"
-        	Height="23"
-        	Margin="35,116,0,0"
-        	HorizontalAlignment="Left"
-        	VerticalAlignment="Top"
-        	Click="btn_LoadPath2_Click"
-        	Content="Load Path 2" />
-        <Label x:Name="lbl_Path2Waypoints"
-        	Width="129"
-        	Height="26"
-        	Margin="35,141,0,0"
-        	HorizontalAlignment="Left"
-        	VerticalAlignment="Top"
-        	Content="Waypoints: 0" FontWeight="Bold" />
+        <Button x:Name="btn_StartFishing" Content="Start" HorizontalAlignment="Left" Height="39" Margin="10,211,0,0" VerticalAlignment="Top" Width="216" Click="btn_StartFishing_Click"/>
+        <Button x:Name="btn_StopFishing" Content="Stop" HorizontalAlignment="Left" Height="39" Margin="10,255,0,0" VerticalAlignment="Top" Width="216" Click="btn_StopFishing_Click"/>
         <Label x:Name="lbl_Status"
-        	Width="247"
+        	Width="216"
         	Height="26"
-        	Margin="35,10,0,0"
+        	Margin="10,183,0,0"
         	HorizontalAlignment="Left"
         	VerticalAlignment="Top"
         	Content="Status: Idle" FontWeight="Bold" />
+        <GroupBox Header="Navigation Paths" HorizontalAlignment="Left" Height="101" Margin="10,10,0,0" VerticalAlignment="Top" Width="216">
+            <Grid>
+                <Button x:Name="btn_LoadPath"
+            		Width="100"
+            		Height="23"
+            		Margin="3,4,0,0"
+            		HorizontalAlignment="Left"
+            		VerticalAlignment="Top"
+            		Click="btn_LoadPath_Click"
+            		Content="Load Path 1" />
+                <Label x:Name="lbl_PathWaypoints"
+            		Width="129"
+            		Height="26"
+            		Margin="108,3,0,0"
+            		HorizontalAlignment="Left"
+            		VerticalAlignment="Top"
+            		Content="Waypoints: 0" FontWeight="Bold" />
+                <Button x:Name="btn_LoadPath2"
+            		Width="100"
+            		Height="23"
+            		Margin="3,34,0,0"
+            		HorizontalAlignment="Left"
+            		VerticalAlignment="Top"
+            		Click="btn_LoadPath2_Click"
+            		Content="Load Path 2" />
+                <Label x:Name="lbl_Path2Waypoints"
+            		Width="129"
+            		Height="26"
+            		Margin="108,33,0,0"
+            		HorizontalAlignment="Left"
+            		VerticalAlignment="Top"
+            		Content="Waypoints: 0" FontWeight="Bold" />
+
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Options" HorizontalAlignment="Left" Height="59" Margin="10,118,0,0" VerticalAlignment="Top" Width="216">
+            <CheckBox x:Name="chk_NightMode" Content="Night Time Only" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="136" Margin="3,2,0,-3"/>
+        </GroupBox>
 
 
     </Grid>

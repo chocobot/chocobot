@@ -14,6 +14,7 @@ namespace Chocobot.Datatypes
         public bool DurabilityCondition = false;
         public bool ProgressCondition = false;
         public bool ConditionCondition = false;
+        public bool ControlKey = false;
 
         public short CP = 0;
         public short Durability = 0;
@@ -25,7 +26,11 @@ namespace Chocobot.Datatypes
             get
             {
                 string conditionstr = "";
-                
+
+                if (ControlKey)
+                {
+                    conditionstr += "Control ";
+                }
                 if(CPCondition)
                 {
                     conditionstr += "CP >= " + CP.ToString() + " ";

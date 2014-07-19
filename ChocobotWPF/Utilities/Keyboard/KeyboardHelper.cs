@@ -29,9 +29,10 @@ namespace Chocobot.Utilities.Keyboard
         /// <param name="key"> </param>
         public static void Ctrl(Keys key)
         {
+            
             UnsafeNativeMethods.SendMessage(Constants.ProcessHandle, WindowsMessageEvents.KeyDown, (IntPtr)Keys.ControlKey, null);
             UnsafeNativeMethods.SendMessage(Constants.ProcessHandle, WindowsMessageEvents.KeyDown, (IntPtr)key, null);
-            UnsafeNativeMethods.SendMessage(Constants.ProcessHandle, WindowsMessageEvents.Char, (IntPtr)key, null);
+            //UnsafeNativeMethods.SendMessage(Constants.ProcessHandle, WindowsMessageEvents.Char, (IntPtr)key, null);
             UnsafeNativeMethods.SendMessage(Constants.ProcessHandle, WindowsMessageEvents.KeyUp, (IntPtr)key, null);
             UnsafeNativeMethods.SendMessage(Constants.ProcessHandle, WindowsMessageEvents.KeyUp, (IntPtr)Keys.ControlKey, null);
         }

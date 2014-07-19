@@ -102,6 +102,9 @@ namespace Chocobot.Datatypes
         F11 = 122,
         F12 = 123,
         Dash = 189,
-        VK_OEM_PLUS = 187
+        VK_OEM_PLUS = 187,
+        VK_OEM_4 = 219,
+        VK_OEM_6 = 221,
+        VK_OEM_5 = 220
     }
 }

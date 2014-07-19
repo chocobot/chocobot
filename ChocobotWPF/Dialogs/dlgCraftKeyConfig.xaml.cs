@@ -33,6 +33,7 @@ namespace Chocobot.Dialogs
             lst_Key.Items.Add("D8");
             lst_Key.Items.Add("D9");
             lst_Key.Items.Add("D0");
+            lst_Key.Items.Add("Dash");
 
             lst_Condition.Items.Add("Poor");
             lst_Condition.Items.Add("Normal");
@@ -47,6 +48,7 @@ namespace Chocobot.Dialogs
         {
             CraftingKey craftkey = new CraftingKey();
 
+            craftkey.ControlKey = chk_ControlKey.IsChecked == true;
             craftkey.Key = (Keys)Enum.Parse(typeof(Keys), lst_Key.Text, true);
             craftkey.CPCondition = chk_CP.IsChecked == true;
             craftkey.DurabilityCondition = chk_Durability.IsChecked == true;

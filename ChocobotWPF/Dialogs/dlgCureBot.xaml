@@ -2,12 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" Title="Cure Bot" Height="323" Width="377"
-                     Icon="../Resources/Icon.ico" ResizeMode="NoResize" Loaded="dlgCureBot_Loaded" >
+                     Icon="../Resources/Icon.ico" ResizeMode="NoResize" Loaded="dlgCureBot_Loaded" Closing="MetroWindow_Closing" >
 
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
@@ -36,13 +36,20 @@
                 		VerticalAlignment="Top"
                 		Click="btn_AddTarget_Click"
                 		Content="Add" />
-                    <GroupBox Header="Selected Targets" HorizontalAlignment="Left" Height="187" Margin="10,43,0,0" VerticalAlignment="Top" Width="341">
+                    <GroupBox x:Name="gb_SelectedTargets" Header="Selected Targets" HorizontalAlignment="Left" Height="137" Margin="10,43,0,0" VerticalAlignment="Top" Width="341">
                         <ListBox x:Name="lst_Targets"
                 			Width="331"
-                			Height="149"
+                			Height="99"
                 			Margin="0,0,-2,-1"
                 			HorizontalAlignment="Left"
-                			VerticalAlignment="Top" SelectionChanged="lst_Targets_SelectionChanged" MouseDoubleClick="lst_Targets_MouseDoubleClick" />
+                			VerticalAlignment="Top" SelectionChanged="lst_Targets_SelectionChanged" MouseDoubleClick="lst_Targets_MouseDoubleClick" MouseRightButtonUp="lst_Targets_MouseRightButtonUp" MouseLeftButtonUp="lst_Targets_MouseUp" >
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
                     </GroupBox>
                     <Button x:Name="btn_AddSurroundingPlayers"
                     	Width="64"
@@ -60,17 +67,92 @@
                     	VerticalAlignment="Top"
                     	Click="btn_AddSelectedTarget_Click"
                     	Content="Add Targ" />
+                    <Button x:Name="btn_Clear"
+                    	Width="53"
+                    	Height="26"
+                    	Margin="298,10,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Click="btn_Clear_Click"
+                    	Content="Clear" />
+                    <TextBox x:Name="txt_Tank"
+                    	Width="234"
+                    	Height="26"
+                    	Margin="59,182,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Text=""
+                    	TextWrapping="Wrap" />
+                    <TextBox x:Name="txt_Tank2"
+                    	Width="234"
+                    	Height="26"
+                    	Margin="59,210,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Text=""
+                    	TextWrapping="Wrap" />
+                    <Label Content="Tank 2:" HorizontalAlignment="Left" Height="26" Margin="5,210,0,0" VerticalAlignment="Top" Width="49" FontWeight="Bold"/>
+
+                    <Label Content="Tank:" HorizontalAlignment="Left" Height="26" Margin="10,182,0,0" VerticalAlignment="Top" Width="44" FontWeight="Bold"/>
+                    <Button x:Name="btn_SwitchTanks" Content="Switch" HorizontalAlignment="Left" Height="54" Margin="298,182,0,0" VerticalAlignment="Top" Width="51" Click="Button_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Effects">
+                <Grid>
+                    <GroupBox Header="Status Effects" HorizontalAlignment="Left" Height="187" Margin="10,43,0,0" VerticalAlignment="Top" Width="341">
+                        <ListBox x:Name="lst_StatusEffects"
+                			Width="331"
+                			Height="149"
+                			Margin="0,0,-2,-1"
+                			HorizontalAlignment="Left"
+                			VerticalAlignment="Top" SelectionChanged="lst_Targets_SelectionChanged" MouseDoubleClick="lst_StatusEffects_MouseDoubleClick" />
+                    </GroupBox>
+                    <TextBox x:Name="txt_statusEffect"
+                    	Width="98"
+                    	Height="26"
+                    	Margin="10,10,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Text=""
+                    	TextWrapping="Wrap" KeyUp="txt_statusEffect_KeyUp" />
+                    <Button x:Name="btn_AddStatusEffect"
+                    	Width="53"
+                    	Height="26"
+                    	Margin="113,10,0,0"
+                    	HorizontalAlignment="Left"
+                    	VerticalAlignment="Top"
+                    	Click="btn_AddStatusEffect_Click"
+                    	Content="Add" />
                 </Grid>
             </TabItem>
             <TabItem Header="Main">
                 <Grid>
-                    <Label Content="Cure:" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top"/>
-                    <TextBox Name="txt_CurePotency" HorizontalAlignment="Left" Height="23" Margin="78,7,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="74" TextAlignment="Center"/>
-                    <Button Name="btn_Start" Content="Start" HorizontalAlignment="Left" Height="37" Margin="11,50,0,0" VerticalAlignment="Top" Width="141" Click="btn_Start_Click"/>
-                    <Button Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Height="37" Margin="208,50,0,0" VerticalAlignment="Top" Width="141" Click="btn_Stop_Click"/>
-                    <CheckBox x:Name="chk_CureAll" Content="Cure Everyone" HorizontalAlignment="Left" Margin="208,12,0,0" VerticalAlignment="Top"/>
+                    <Button Name="btn_Start" Content="Start" HorizontalAlignment="Left" Height="37" Margin="11,190,0,0" VerticalAlignment="Top" Width="141" Click="btn_Start_Click"/>
+                    <Button Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Height="37" Margin="208,190,0,0" VerticalAlignment="Top" Width="141" Click="btn_Stop_Click"/>
+                    <GroupBox Header="Spells" HorizontalAlignment="Left" Height="140" Margin="10,10,0,0" VerticalAlignment="Top" Width="142">
+                        <Grid>
+                            <Label Content="Cure:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txt_CurePotency" HorizontalAlignment="Left" Height="23" Margin="52,0,0,0" TextWrapping="Wrap" Text="900" VerticalAlignment="Top" Width="74" TextAlignment="Center"/>
+                            <Label Content="Cure 2:" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txt_Cure2Potency" HorizontalAlignment="Left" Height="23" Margin="52,31,0,0" TextWrapping="Wrap" Text="1700" VerticalAlignment="Top" Width="74" TextAlignment="Center"/>
+                            <Label Content="Cure 3:" HorizontalAlignment="Left" Margin="0,61,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txt_Cure3Potency" HorizontalAlignment="Left" Height="23" Margin="52,62,0,0" TextWrapping="Wrap" Text="1500" VerticalAlignment="Top" Width="74" TextAlignment="Center"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Options" HorizontalAlignment="Left" Height="175" Margin="207,10,0,0" VerticalAlignment="Top" Width="142">
+                        <Grid>
+                            <CheckBox x:Name="chk_CureAll" Content="Cure Everyone" HorizontalAlignment="Left" Margin="8,5,0,0" VerticalAlignment="Top"/>
+                            <CheckBox x:Name="chk_WHMMode" Content="WHM Mode" HorizontalAlignment="Left" Margin="8,27,0,0" VerticalAlignment="Top"/>
+                            <CheckBox x:Name="chk_TankPriority" Content="Tank Priority" HorizontalAlignment="Left" Margin="8,51,0,0" VerticalAlignment="Top"/>
+                            <CheckBox x:Name="chk_SwiftcastRaise" Content="Swiftcast Raise" HorizontalAlignment="Left" Margin="8,74,0,0" VerticalAlignment="Top"/>
+                            <CheckBox x:Name="chk_SwiftcastRaiseAll" Content="Swiftcast Raise All" HorizontalAlignment="Left" Margin="8,97,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+
+
                 </Grid>
             </TabItem>
+
         </TabControl>
 
     </Grid>

@@ -1,14 +1,90 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Binarysharp.MemoryManagement;
+using Binarysharp.MemoryManagement.Assembly.CallingConvention;
+using Binarysharp.MemoryManagement.Memory;
+using Binarysharp.MemoryManagement.Native;
 using Chocobot.MemoryStructures.Character;
 using Chocobot.MemoryStructures.Gathering;
 
 namespace Chocobot.Utilities.Memory
 {
-    class MemoryFunctions
+    public class MemoryFunctions
     {
+        public enum ActionType
+        {
+            Spell,WS,Ability
+        }
+        private static MemorySharp Sharp = new MemorySharp(MemoryHandler.Instance.Process);
+       // public static RemoteAllocation CodeCave = Sharp.Memory.Allocate(512);
+
+        public static void ForceHotkey(int slot, int bar)
+        {
+            
+            
+            UInt32 esi, ecx;
+            esi = MemoryLocations.Database["forceHotkey"];
+
+            esi = MemoryHandler.Instance.GetUInt32(esi) + 0x20;
+            esi = MemoryHandler.Instance.GetUInt32(esi) + 0x148;
+            esi = MemoryHandler.Instance.GetUInt32(esi) + 0x414;
+            esi = MemoryHandler.Instance.GetUInt32(esi) + 0xC;
+            esi = MemoryHandler.Instance.GetUInt32(esi);
+            ecx = MemoryHandler.Instance.GetUInt32(esi + 0x233B4);
+
+            // 55 8B EC 8B 45 08 C1 E0 04 03 45 0C 69 C0 ? ? ? ? 8D 54 08 48
+
+            // Initialize Ability: 55 8B EC 83 EC 20 53 56 8B 75 08 0F B6 46 08
+            IntPtr address = new IntPtr(0x91870 + MemoryHandler.Instance.BaseAddress);
+
+            //var asm = new[]
+            //          {
+            //              "mov esi, " + esi, // Probably not needed...
+
+            //              "mov ecx, " + slot, // Parameter 1
+            //              "push ecx",
+            //              "mov ecx, " + ecx, // Set *this
+                          
+            //              "push " + bar, // Parameter 2
+
+            //              "call " + address, // Call function
+            //              "retn"
+            //          };
+
+            Sharp.Assembly.Execute(address, CallingConventions.Thiscall, ecx, bar, slot);
+   
+        }
+
+        public static void HackMaxZoomLevel()
+        {
+            UInt32 esi;
+            esi = MemoryLocations.Database["zoomHax"];
+            esi = MemoryHandler.Instance.GetUInt32(esi) + 0xF0;
+
+            MemoryHandler.Instance.SetFloat(esi, (float)100.0);
+        }
+
+
+        public static Character GetCharacterFromID(int ID)
+        {
+            List<Character> players = new List<Character>();
+            List<Character> monsters = new List<Character>();
+            List<Character> fate = new List<Character>();
+            Character user = null;
+
+            GetCharacters(monsters, fate, players, ref user);
+            monsters.AddRange(players);
+
+            foreach (Character monster in monsters.Where(monster => monster.ID == ID))
+            {
+                return monster;
+            }
+
+            return null;
+        }
 
         public static int GetTarget()
         {
@@ -22,6 +98,32 @@ namespace Chocobot.Utilities.Memory
 
             return result;
 
+        }
+
+        public static int GetGroundCursor()
+        {
+            uint targetAddress = MemoryLocations.Database["recast"] - 0x98;
+
+            int result = MemoryHandler.Instance.GetInt16(targetAddress);
+
+            return result;
+
+        }
+
+        public static DateTime GetGameTime()
+        {
+            uint startAddress = MemoryLocations.Database["time"];
+
+            byte hour = MemoryHandler.Instance.GetByte(startAddress, false);
+            byte minute = MemoryHandler.Instance.GetByte(startAddress + 4, false);
+
+            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, minute, 0);
+
+        }
+
+        public static ushort GetMapID()
+        {
+            return MemoryHandler.Instance.GetUInt16(MemoryLocations.Database["map"]);
         }
 
         public static void GetCharacters(List<Character> monsters, List<Character> fate, List<Character> players, ref Character user)

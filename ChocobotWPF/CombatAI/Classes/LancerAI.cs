@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Abilities;
 using Chocobot.MemoryStructures.Character;
@@ -8,22 +9,17 @@ namespace Chocobot.CombatAI.Classes
     class LancerAI : GenericAI
     {
 
-        private byte _step = 0;
-        private bool _initial;
 
         public LancerAI()
             : base()
         {
             IsRanged = false;
-            _initial = true;
             Name = "Lancer";
         }
 
         public override void Reset()
         {
             base.Reset();
-            _initial = true;
-            _step = 0;
 
         }
 
@@ -32,66 +28,103 @@ namespace Chocobot.CombatAI.Classes
 
             base.Fight(user, monster, recast);
 
+            //byte distance = monster.Distance;
             monster.Target();
-            recast.Refresh();
+            recast.Refresh(2.0);
+            user.Refresh();
 
-            if (user.Level < 2)
-            {
-                _step = 1;
-                _initial = false;
-            }
+            ePosition position = monster.Position(user);
 
-            if (recast.Abilities.Contains((int)Recast.eAbilities.KeenFlurry) == false && user.Level >= 6 && (monster.Health_Percent > 15 || monster.Health_Current > 5000))
-            {
-                Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D4); // Keen Flurry
-            }
-            else if (recast.Abilities.Contains((int)Recast.eAbilities.LegSweep) == false && user.Level >= 12 && (monster.Health_Percent > 15 || monster.Health_Current > 5000))
-            {
-                Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D6); // Keen Flurry
-            } else if (recast.WeaponSpecials.Count == 0)
-            {
+            Hotkeys hotkeys = new Hotkeys();
+            Hotkeys.Hotkey highlightedAbility = null;
 
-                if (_initial)
+            hotkeys.RefreshAbilities();
+
+            if (hotkeys.Abilities[92].InRange == 0)
+                return;
+
+            foreach (KeyValuePair<short, Hotkeys.Hotkey> hk in hotkeys.Abilities)
+            {
+                if (hk.Value.Highlighted && hk.Value.ID != 89)
                 {
-                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D2); // Feint
-                        _step = 1;
-                        return;
+                    highlightedAbility = hk.Value;
                 }
+            }
 
-                if (_step == 1)
+
+            if (recast.Abilities.Contains(2) == false && user.TP_Current < 450)
+            {
+                hotkeys.Abilities[80].UseAbility(); // Invigorate
+            } else if (recast.WeaponSpecials.Count == 0 && hotkeys.Abilities[75].InRange == 1)
+            {
+
+                //if (distance > 7)
+                //{
+                //    hotkeys.Abilities[90].UseAbility(); // Piercing Talon
+                //} else 
+                if (highlightedAbility != null)
                 {
-                    if (user.Level >= 1)
+                    if (highlightedAbility.ID == 84 && recast.Abilities.Contains(4) == false)
                     {
-                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1); // True Thrust
-                        _step = 2;
-                        Thread.Sleep(300);
-
-                        return;
+                        hotkeys.Abilities[83].UseAbility(); // Life Surge for Full Thrust
+                    }
+                    else
+                    {
+                        highlightedAbility.UseAbility();
                     }
 
-                    _step = 2;
                 }
-                
-                if(_step == 2)
+                else if (user.ContainsStatusEffect(115, 0, false) == false && position == ePosition.Side)
+                    //Heavy Thrust Dmg Buff From Side
                 {
-
-                    if (user.Level >= 4)
-                    {
-                        Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D3); // Vorpal Thrust
-                        _step = 1;
-                        Thread.Sleep(300);
-
-                        return;
-                    }
-
-                    _step = 1;
+                    hotkeys.Abilities[79].UseAbility();
                 }
-            } else
-            {
-                _initial = false;
-                if(_step == 0)
-                    _step = 1;
+                else if (monster.ContainsStatusEffect(119, user.ID, true) == false) //Phlebotomize DOT
+                {
+                    hotkeys.Abilities[91].UseAbility();
+                }
+                else if (position == ePosition.Back && monster.ContainsStatusEffect(121, user.ID, true) == false)
+                {
+                    hotkeys.Abilities[81].UseAbility(); // Start Impulse Drive Combo
+                }
+                else
+                {
+                    hotkeys.Abilities[75].UseAbility(); // Start True Thrust Combo
+                }
+
             }
+            else
+            {
+
+                if ((recast.Abilities.Contains(5) == false || recast.SubAbilities.Contains(59) == false) && hotkeys.Abilities[75].InRange == 1)
+                    // Blood for Blood or Internal Release
+                {
+                    Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D0);
+                }
+
+                if (monster.Name.Contains("Titan") == false)
+                {
+                    if (recast.Abilities.Contains(7) == false && recast.Abilities.Contains(10) == false)
+                    {
+                        hotkeys.Abilities[93].UseAbility(); // Power Surge
+                    }
+                    else if (recast.Abilities.Contains(10) == false)
+                    {
+                        hotkeys.Abilities[96].UseAbility(); // Dragonfire Dive
+                    }
+                    else if (recast.Abilities.Contains(6) == false)
+                    {
+                        hotkeys.Abilities[92].UseAbility(); // Jump
+                    }
+                    else if (recast.Abilities.Contains(9) == false)
+                    {
+                        hotkeys.Abilities[95].UseAbility(); // Spineshatter drive
+                    }
+                }
+            }
+  
+
+
 
         }
  

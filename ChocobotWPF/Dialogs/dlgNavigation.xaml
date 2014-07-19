@@ -11,7 +11,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
@@ -95,7 +95,7 @@
         	Margin="163,249,0,0"
         	HorizontalAlignment="Left"
         	VerticalAlignment="Top"
-        	Content="Toggle Stealth"
+        	Content="Set Heading"
         	FontWeight="Bold" Click="btn_ToggleStealth_Click" />
     </Grid>
 </Controls:MetroWindow>

@@ -38,8 +38,12 @@ namespace Chocobot.Dialogs
         private readonly Stopwatch _fishtimer2 = new Stopwatch();
         private readonly NavigationHelper _fishPath1 = new NavigationHelper();
         private readonly NavigationHelper _fishPath2 = new NavigationHelper();
+
+
         private byte _currPath = 1;
         private bool _newArea = false;
+        private bool _broke = false;
+        private long _brokeFishCount = 0;
 
         public dlgFishingBot()
         {
@@ -50,7 +54,8 @@ namespace Chocobot.Dialogs
 
             _fishPath1.NavigationFinished += FishPath_NavigationFinished;
             _fishPath2.NavigationFinished += FishPath_NavigationFinished;
-
+            _fishPath1.Sensitivity = 0.75;
+            _fishPath2.Sensitivity = 0.75;
         }
 
         private void FishPath_NavigationFinished(object sender)
@@ -64,16 +69,76 @@ namespace Chocobot.Dialogs
             List<Character> fate = new List<Character>();
             List<Character> players = new List<Character>();
             Character user = null;
+            DateTime eorzeaTime = MemoryFunctions.GetGameTime();
+            bool nightTime = eorzeaTime.Hour < 6 || eorzeaTime.Hour >= 18;
 
+            //Debug.Print(nightTime.ToString());
             MemoryFunctions.GetCharacters(monsters, fate, players, ref user);
-            
+
+            //if (chk_NightMode.IsChecked == true)
+            //{
+            //    if (nightTime == false)
+            //    {
+            //        lbl_Status.Content = "Status: Day Time..." + eorzeaTime.TimeOfDay.ToString();
+
+            //        if (eorzeaTime.Minute % 45 == 0) // Anti AFK
+            //            Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D1);
+
+            //        return;
+            //    }
+            //}
+
             switch (user.Status)
             {
                 
                 case CharacterStatus.Idle:
                 case CharacterStatus.Fishing_Idle:
                     lbl_Status.Content = "Status: Idle";
- 
+
+                    if (chk_NightMode.IsChecked == true && _broke == false)
+                    {
+                        if (nightTime && _currPath == 1)
+                        {
+                            lbl_Status.Content = "Status: Moving to night spot";
+                            _fishtimer.Reset();
+                            _fishMonitor.Stop();
+
+                            while (user.Status != CharacterStatus.Idle)
+                            {
+                                Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D4);
+                                user.Refresh();
+                            }
+
+                            if (_fishPath1.Waypoints.Count == 0)
+                                return;
+
+                            _fishPath1.Start();
+                            _currPath = 2;
+                            return;
+
+                        }
+                        else if (nightTime == false && _currPath == 2)
+                        {
+                            lbl_Status.Content = "Status: Moving to day spot";
+                            _fishtimer.Reset();
+                            _fishMonitor.Stop();
+
+                            while (user.Status != CharacterStatus.Idle)
+                            {
+                                Utilities.Keyboard.KeyBoardHelper.KeyPress(Keys.D4);
+                                user.Refresh();
+                            }
+
+                            if (_fishPath2.Waypoints.Count == 0)
+                                return;
+
+                            _fishPath2.Start();
+                            _currPath = 1;
+                            return;
+                        }
+
+                    }
+
                     if (_fishtimer.IsRunning == false)
                     {
                         _fishtimer.Reset();
@@ -93,6 +158,8 @@ namespace Chocobot.Dialogs
                             }
 
                             _newArea = true;
+                            _broke = true;
+                            _brokeFishCount = 0;
 
                             lbl_Status.Content = "Status: Moving";
                             _fishtimer.Reset();
@@ -172,11 +239,20 @@ namespace Chocobot.Dialogs
                 case CharacterStatus.Fishing_ReelingIn:
                 case CharacterStatus.Fishing_ReelingIn2:
                 case CharacterStatus.Fishing_ReelingIn3:
+                    _brokeFishCount++;
+                    Thread.Sleep(400);
+                    if (_brokeFishCount >= 10)
+                        _broke = false;
                     break;
                 case CharacterStatus.Fishing_ReelingInBig:
                 case CharacterStatus.Fishing_ReelingInBig2:
                 case CharacterStatus.Fishing_ReelingInBig3:
                     lbl_Status.Content = "Status: Reeling in Big Fish";
+                    _brokeFishCount++;
+                    Thread.Sleep(400);
+                    if (_brokeFishCount >= 10)
+                        _broke = false;
+
                     break;
                 default:
                     lbl_Status.Content = "Status: Unknown (" + user.Status.ToString("X") + ")";
@@ -187,6 +263,27 @@ namespace Chocobot.Dialogs
 
         private void btn_StartFishing_Click(object sender, RoutedEventArgs e)
         {
+            DateTime eorzeaTime = MemoryFunctions.GetGameTime();
+            bool nightTime = eorzeaTime.Hour < 6 || eorzeaTime.Hour >= 18;
+            if (chk_NightMode.IsChecked == true)
+            {
+                if (_fishPath1.Waypoints.Count == 0)
+                    return;
+
+                if (nightTime)
+                {
+                    _fishPath1.Start();
+                    _currPath = 1;
+                }
+                else
+                {
+                    _fishPath2.Start();
+                    _currPath = 2;
+                }
+
+
+                return;
+            }
 
             _fishtimer.Reset();
             _fishtimer2.Reset();
@@ -208,6 +305,7 @@ namespace Chocobot.Dialogs
         private void btn_LoadPath_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Navigation|*.nav";
             if (dlg.ShowDialog() == false)
                 return;
 
@@ -222,6 +320,8 @@ namespace Chocobot.Dialogs
         private void btn_LoadPath2_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Navigation|*.nav";
+
             if (dlg.ShowDialog() == false)
                 return;
 
@@ -230,6 +330,17 @@ namespace Chocobot.Dialogs
             _fishPath2.Loop = false;
 
             lbl_Path2Waypoints.Content = "Waypoints: " + _fishPath2.Waypoints.Count.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _fishMonitor.Stop();
+            _fishPath1.Stop();
+            _fishPath2.Stop();
+
+            _fishtimer.Stop();
+            _fishtimer2.Stop();
+
         }
     }
 }

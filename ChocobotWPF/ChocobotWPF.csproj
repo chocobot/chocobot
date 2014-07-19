@@ -59,12 +59,21 @@
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Fasm.NET">
+      <HintPath>D:\SourceCode\memorysharp\Fasm.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="GongSolutions.Wpf.DragDrop">
+      <HintPath>..\packages\gong-wpf-dragdrop.0.1.3.11\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="HotKeyManagement.WPF.4">
       <HintPath>..\packages\WPF 4.0\HotKeyManagement.WPF.4.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=0.11.0.36, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MahApps.Metro, Version=0.12.0.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MahApps.Metro.0.11.0.36-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.12.0.3-ALPHA\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MemorySharp">
+      <HintPath>D:\SourceCode\memorysharp\MemorySharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Roslyn.Compilers">
@@ -94,8 +103,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MahApps.Metro.0.11.0.36-ALPHA\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.12.0.3-ALPHA\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
@@ -134,6 +142,7 @@
     <Compile Include="Datatypes\CoordinateNav.cs" />
     <Compile Include="Datatypes\CraftingKey.cs" />
     <Compile Include="Datatypes\Enums.cs" />
+    <Compile Include="Datatypes\Global.cs" />
     <Compile Include="Datatypes\Keys.cs" />
     <Compile Include="Dialogs\dlgCraftKeyConfig.xaml.cs">
       <DependentUpon>dlgCraftKeyConfig.xaml</DependentUpon>
@@ -162,6 +171,9 @@
     <Compile Include="Dialogs\dlgMap.xaml.cs">
       <DependentUpon>dlgMap.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\dlgMnk.xaml.cs">
+      <DependentUpon>dlgMnk.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\dlgNavigation.xaml.cs">
       <DependentUpon>dlgNavigation.xaml</DependentUpon>
     </Compile>
@@ -177,6 +189,7 @@
     <Compile Include="MemoryStructures\Abilities\Ability.cs" />
     <Compile Include="MemoryStructures\Abilities\AbilityAvailability.cs" />
     <Compile Include="MemoryStructures\Abilities\Availability.cs" />
+    <Compile Include="MemoryStructures\Abilities\Hotkeys.cs" />
     <Compile Include="MemoryStructures\Abilities\Recast.cs" />
     <Compile Include="MemoryStructures\Aggro\AggroHelper.cs" />
     <Compile Include="MemoryStructures\Character\Character.cs" />
@@ -187,6 +200,7 @@
     <Compile Include="MemoryStructures\Chat\ChatWorkerDelegate.cs" />
     <Compile Include="MemoryStructures\Chat\XmlHelper.cs" />
     <Compile Include="MemoryStructures\Chat\XValuePair.cs" />
+    <Compile Include="MemoryStructures\StatusEffect\StatusEffect.cs" />
     <Compile Include="MemoryStructures\UIWindows\Crafting\CraftWindow.cs" />
     <Compile Include="MemoryStructures\Gathering\Gathering.cs" />
     <Compile Include="MemoryStructures\UIWindows\Gathering\GatheringWindow.cs" />
@@ -195,7 +209,11 @@
     <Compile Include="MemoryStructures\Map\MapMarker.cs" />
     <Compile Include="MemoryStructures\Map\MapNavArr.cs" />
     <Compile Include="MemoryStructures\Map\MarkerDatabase.cs" />
+    <Compile Include="MemoryStructures\UIWindows\UIWindow.cs" />
+    <Compile Include="Scripting\CraftingAI.cs" />
     <Compile Include="Scripting\ScriptingHost.cs" />
+    <Compile Include="Utilities\Chatlog\Chatlog.cs" />
+    <Compile Include="Utilities\Chatlog\Entry.cs" />
     <Compile Include="Utilities\FileIO\IniParser.cs" />
     <Compile Include="Utilities\FileIO\IniParserLegacy.cs" />
     <Compile Include="Utilities\Input\clsInput.cs" />
@@ -210,7 +228,10 @@
     <Compile Include="Utilities\Memory\MemoryLocations2.cs" />
     <Compile Include="Utilities\Memory\Pointers.cs" />
     <Compile Include="Utilities\Memory\SigFinder.cs" />
+    <Compile Include="Utilities\Memory\SigScan.cs" />
     <Compile Include="Utilities\Memory\UnsafeNativeMethods.cs" />
+    <Compile Include="Utilities\Misc\Extend.cs" />
+    <Compile Include="Utilities\Misc\SoundModule.cs" />
     <Compile Include="Utilities\Navigation\NavigationHelper.cs" />
     <Compile Include="Utilities\PathFinder\AuthorAttribute.cs" />
     <Compile Include="Utilities\PathFinder\HighResolutionTime.cs" />
@@ -263,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\dlgMap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\dlgMnk.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -553,6 +578,51 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Radar\bard.png" />
+    <Resource Include="Resources\Radar\blackmage.png" />
+    <Resource Include="Resources\Radar\dragoon.png" />
+    <Resource Include="Resources\Radar\marauder.png" />
+    <Resource Include="Resources\Radar\monk.png" />
+    <Resource Include="Resources\Radar\paladin.png" />
+    <Resource Include="Resources\Radar\scholar.png" />
+    <Resource Include="Resources\Radar\summoner.png" />
+    <Resource Include="Resources\Radar\warrior.png" />
+    <Resource Include="Resources\Radar\whitemage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bootshine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\demolish.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\dragon kick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\fracture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\perfect balance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rockbreaker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\snap punch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\touch of death.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\true strike.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\twinsnakes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\haymaker.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

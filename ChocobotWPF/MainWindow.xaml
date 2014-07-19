@@ -7,11 +7,11 @@
                       Height="315"
                       Icon="Resources/Icon.ico"
                       ResizeMode="NoResize"
-                      ShowIconOnTitleBar="True" WindowStartupLocation="CenterScreen" Loaded="MainWindow_Loaded">
+                      ShowIconOnTitleBar="True" WindowStartupLocation="CenterScreen" Loaded="MainWindow_Loaded" Closing="MetroWindow_Closing" Closed="MetroWindow_Closed">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
@@ -125,7 +125,15 @@
         		Height="117"
         		HorizontalAlignment="Left"
         		VerticalAlignment="Top"
-        		SelectionChanged="lst_Characters_SelectionChanged" Margin="0,0,-2,-1" />
+        		SelectionChanged="lst_Characters_SelectionChanged" Margin="0,0,-2,-1" >
+
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
         </GroupBox>
         <Button x:Name="btn_CureBot"
         	Width="106"
@@ -156,7 +164,7 @@
         	HorizontalAlignment="Left"
         	VerticalAlignment="Top"
         	Click="btn_ServerRetry_Click"
-        	Content="Server Spam"
+        	Content="ZOOMHAX"
         	FontSize="14"
         	FontWeight="Bold"
         	RenderTransformOrigin="0.704,2.077" />
@@ -192,7 +200,7 @@
         	Content="STUNNER"
         	FontSize="14"
         	FontWeight="Bold"
-        	RenderTransformOrigin="0.704,2.077" IsEnabled="False" />
+        	RenderTransformOrigin="0.704,2.077" />
 
     </Grid>
 </Controls:MetroWindow>

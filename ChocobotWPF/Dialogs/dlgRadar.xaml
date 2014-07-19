@@ -70,6 +70,10 @@
                           Header="Show Hidden"
                           IsCheckable="True"
                           IsChecked="False" />
+                <MenuItem Click="mnu_ToggleCompass"
+                          Header="Toggle Compass Mode"
+                          IsCheckable="True"
+                          IsChecked="False" />
             </MenuItem>
             <MenuItem x:Name="mnu_Filter"
                       Click="mnu_Filter_Click"

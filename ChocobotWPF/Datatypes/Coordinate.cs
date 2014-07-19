@@ -11,7 +11,8 @@ namespace Chocobot.Datatypes
         public float Y;
         public float Z;
 
-        public bool ToggleSteatlh = false;
+        public bool setHeading = false;
+        public float Heading = (float)0.0;
 
         public Coordinate Rotate2d(float Angle)
         {

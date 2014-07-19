@@ -341,6 +341,89 @@ namespace Chocobot.Utilities.Memory
         }
 
         /// <summary>
+        ///     Simple wrapper function around ReadProcessMemory
+        /// </summary>
+        /// <param name="memoryAddress">Adress to read in FFXIV memory</param>
+        /// <param name="bytesToRead">Amount of bytes to read</param>
+        /// <param name="bytesRead">Out value for the amount of bytes effectively read</param>
+        /// <returns>Array of byte representing what was read or [0, 0, 0, 0] on failure.</returns>
+        public byte[] ReadAdress(IntPtr memoryAddress, uint bytesToRead)
+        {
+            try
+            {
+                if (bytesToRead > 0)
+                {
+                    var buffer = new byte[bytesToRead];
+                    IntPtr ptrBytesReaded;
+                    Peek(Process, (uint) memoryAddress, buffer);
+
+                    return buffer;
+                }
+                else
+                {
+                    return new byte[] { 0, 0, 0, 0 };
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error in ReadAddress Function: " + ex.Message);
+                return new byte[] { 0, 0, 0, 0 };
+            }
+        }
+
+
+        /// <summary>
+        ///     Follows a pointer path (MLP)
+        /// </summary>
+        /// <param name="path">List of pointers to follow, last element is expected to be an offset to be added to the final result.</param>
+        /// <returns>Final address</returns>
+        public IntPtr ResolvePointerPath(List<int> path)
+        {
+            IntPtr currentPtr = Process.MainModule.BaseAddress;
+            IntPtr result = IntPtr.Zero;
+            int count = path.Count;
+            int i = 0;
+
+            foreach (int pointer in path)
+            {
+                if (++i < count)
+                {
+                    int readBytes;
+                    currentPtr += pointer;
+                    byte[] chunk = ReadAdress(currentPtr, 4);
+                    currentPtr = (IntPtr)BitConverter.ToInt32(chunk, 0);
+                }
+                else
+                    result = currentPtr + pointer;
+            }
+            return result;
+        }
+
+        public IntPtr ResolvePointer(IntPtr pointer)
+        {
+            byte[] structure = ReadAdress(pointer, 4);
+            var target = (IntPtr)BitConverter.ToInt32(structure, 0);
+            return target;
+        }
+
+        public T CreateStructFromAddress<T>(IntPtr address)
+        {
+            T structure = default(T);
+
+            IntPtr ffxiv_structure = address;
+            if (ffxiv_structure != IntPtr.Zero)
+            {
+                byte[] chunk = ReadAdress(ffxiv_structure, (uint)Marshal.SizeOf(typeof(T)));
+                GCHandle handle = GCHandle.Alloc(chunk, GCHandleType.Pinned);
+                structure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+                handle.Free();
+            }
+            else
+                throw new Exception("Nothing at this address.");
+            return structure;
+        }
+
+        /// <summary>
         /// </summary>
         /// <returns> </returns>
         public float GetFloat()

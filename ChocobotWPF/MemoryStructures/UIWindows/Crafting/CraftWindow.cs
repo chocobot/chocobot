@@ -2,7 +2,7 @@
 
 namespace Chocobot.MemoryStructures.UIWindows.Crafting
 {
-    class CraftWindow
+    public class CraftWindow
     {
         private uint _address;
         private uint _windownameaddress;
@@ -20,9 +20,11 @@ namespace Chocobot.MemoryStructures.UIWindows.Crafting
         public bool RefreshPointers()
         {
             _address = MemoryLocations.Database["crafting"];
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x20;
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x1E4;
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x8;
+
+            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x54;
+            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x78C;
+            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x270;
+
 
             if (_address == 0)
                 return false;
@@ -36,10 +38,15 @@ namespace Chocobot.MemoryStructures.UIWindows.Crafting
                 return false;
             }
 
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0xE0;
+            _address = MemoryHandler.Instance.GetUInt32(_address) + 0xDC;
             _address = MemoryHandler.Instance.GetUInt32(_address);
 
             _address += 0x24;
+
+            //_address = MemoryHandler.Instance.GetUInt32(_address) + 0xE0;
+            //_address = MemoryHandler.Instance.GetUInt32(_address);
+
+            //_address += 0x24;
 
             return true;
         }
@@ -88,7 +95,7 @@ namespace Chocobot.MemoryStructures.UIWindows.Crafting
         {
 
             uint conditionAddress = MemoryHandler.Instance.GetUInt32(_address + 56);
-            _condition = MemoryHandler.Instance.GetString(conditionAddress, 8);
+            _condition = MemoryHandler.Instance.GetString(conditionAddress, 12);
 
             _currProgress = MemoryHandler.Instance.GetInt16(_address);
             _maxProgress = MemoryHandler.Instance.GetInt16(_address + 8);

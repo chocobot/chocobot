@@ -24,11 +24,6 @@ namespace Chocobot.MemoryStructures.Aggro
 
            byte aggroCount = MemoryHandler.Instance.GetByte(address + 2304, false);
 
-          
-           // Removed for phase 3... Value turns to 0 when target unselected...
-           //if (MemoryHandler.Instance.GetByte(_address - 8) == 0)
-           //    return monstersAggroed;
-
            for(int i = 0; i < aggroCount; i++)
            {
                monstersAggroed.Add(MemoryHandler.Instance.GetInt32(address + 64));
@@ -37,6 +32,23 @@ namespace Chocobot.MemoryStructures.Aggro
 
            return monstersAggroed;
         }
+
+       public List<Tuple<int, byte>> GetAggroListWithEmnity()
+       {
+
+           List<Tuple<int, byte>> monstersAggroed = new List<Tuple<int, byte>>();
+           uint address = _address;
+
+           byte aggroCount = MemoryHandler.Instance.GetByte(address + 2304, false);
+
+           for (int i = 0; i < aggroCount; i++)
+           {
+               monstersAggroed.Add(Tuple.Create(MemoryHandler.Instance.GetInt32(address + 64), MemoryHandler.Instance.GetByte(address + 68, false)));
+               address += Structsize;
+           }
+
+           return monstersAggroed;
+       }
 
     }
 }

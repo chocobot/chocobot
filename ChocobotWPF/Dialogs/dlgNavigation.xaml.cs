@@ -56,6 +56,8 @@ namespace Chocobot.Dialogs
 
         private void btn_Play_Click(object sender, RoutedEventArgs e)
         {
+            _navigation.Loop = false;
+
             if ((string)btn_Play.Content == "Play")
             {
                 _navigation.Start();
@@ -123,7 +125,8 @@ namespace Chocobot.Dialogs
             MemoryFunctions.GetCharacters(monsters, fate, players, ref user);
 
             Coordinate currpos = user.Coordinate;
-            currpos.ToggleSteatlh = true;
+            currpos.setHeading = true;
+            currpos.Heading = user.Heading;
 
             _navigation.Waypoints.Add(currpos);
         }

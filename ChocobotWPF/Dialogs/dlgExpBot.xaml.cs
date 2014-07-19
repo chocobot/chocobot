@@ -5,7 +5,10 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Threading;
+using BondTech.HotKeyManagement.WPF._4;
 using Chocobot.CombatAI;
 using Chocobot.CombatAI.Classes;
 using Chocobot.Datatypes;
@@ -15,7 +18,9 @@ using Chocobot.MemoryStructures.Character;
 using Chocobot.Utilities.Memory;
 using Chocobot.Utilities.Navigation;
 using MahApps.Metro.Controls;
-using Microsoft.Win32;
+using Keys = Chocobot.Datatypes.Keys;
+using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace Chocobot.Dialogs
 {
@@ -50,6 +55,9 @@ namespace Chocobot.Dialogs
         private BotStage _botstage = BotStage.Nothing;
         private GenericAI _aiFighter;
 
+        private HotKeyManager _hotKeyManager;
+        private GlobalHotKey _enableHK = new GlobalHotKey("EnableBuffs", ModifierKeys.Shift, BondTech.HotKeyManagement.WPF._4.Keys.E, true);
+
         public dlgExpBot()
         {
             InitializeComponent();
@@ -82,6 +90,22 @@ namespace Chocobot.Dialogs
             MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
 
             txt_Assist.Text = _user.Name;
+
+            if (_user.Job == JOB.BRD)
+            {
+                lst_Classes.SelectedIndex = 0;
+
+            }
+            else if (_user.Job == JOB.MNK)
+            {
+                lst_Classes.SelectedIndex = 2;
+
+            }
+            else if (_user.Job == JOB.DRG)
+            {
+                lst_Classes.SelectedIndex = 1;
+
+            }
         }
 
 
@@ -97,14 +121,14 @@ namespace Chocobot.Dialogs
             if (_user.Valid == false)
                 return;
 
-            if(_user.Health_Current == 0)
+            if (_user.Health_Current == 0 && chk_Assist.IsChecked == false)
             {
 
                 _botstage = BotStage.Navigating;
 
                 while (_user.Health_Current == 0)
                 {
-                    Utilities.Keyboard.KeyBoardHelper.KeyUp(Keys.Return);
+                    Utilities.Keyboard.KeyBoardHelper.KeyUp(Keys.NumPad0);
                     _user.Refresh();
                     Thread.Sleep(250);
                 }
@@ -130,25 +154,39 @@ namespace Chocobot.Dialogs
 
             if (_user.Health_Current == 0)
             {
-                _botstage = BotStage.Nothing;
-                _monsterdetection.Stop();
-                _navigation.Stop();
-                _returntocamp.Stop();
+                _botstage = BotStage.Detection;
+                return;
+            }
+
+            if (Global.PauseInput)
+            {
+                _botstage = BotStage.Detection;
+
+                return;
+            }
+
+            if (_currentmonster.Distance >= 30)
+            {
+                _botstage = BotStage.Detection;
+
                 return;
             }
 
             if (_user.TargetID != _currentmonster.ID)
             {
                 _botstage = BotStage.Detection;
+
                 return;
             }
 
             if (_currentmonster.Health_Current > 0)
             {
+
                 _aiFighter.Fight(_user, _currentmonster, _recast);
             }
             else
             {
+
                 _botstage = BotStage.Detection;
             }
 
@@ -158,17 +196,17 @@ namespace Chocobot.Dialogs
         {
             _currentmonster.Refresh();
             _user.Refresh();
-            _user.Heading = _user.Coordinate.AngleTo(_currentmonster.Coordinate);
-
-            if (_user.Health_Current == 0)
+            
+            if (_user.Health_Current == 0 || _user.TargetID != _currentmonster.ID)
             {
-                _botstage = BotStage.Nothing;
+                _botstage = BotStage.Detection;
                 _monsterdetection.Stop();
                 _navigation.Stop();
                 _returntocamp.Stop();
                 return;
             }
 
+            _user.Heading = _user.Coordinate.AngleTo(_currentmonster.Coordinate);
 
 
             if (_aiFighter.IsRanged == false)
@@ -201,14 +239,14 @@ namespace Chocobot.Dialogs
 
             // Check if we should ignore the monster because it has not been claimed for a while..
             // This typically happens if monster is out of line of sight.
-            if(_claimwatch.Elapsed.Seconds > 7 && _currentmonster.IsClaimed == false)
-            {
-                _claimwatch.Stop();
-                _ignorelist.Add(_currentmonster.ID);
+            //if(_claimwatch.Elapsed.Seconds > 7 && _currentmonster.IsClaimed == false)
+            //{
+            //    _claimwatch.Stop();
+            //    _ignorelist.Add(_currentmonster.ID);
 
-                _navigation.Resume();
-                _botstage = BotStage.Detection;
-            }
+            //    _navigation.Resume();
+            //    _botstage = BotStage.Detection;
+            //}
         }
 
         private bool CheckHealth()
@@ -218,7 +256,7 @@ namespace Chocobot.Dialogs
 
             _user.Refresh();
 
-            if (_user.Health_Percent < 65 || _user.TP_Current < 250 || _user.Mana_Percent < 30)
+            if (_user.Health_Percent < 45 || _user.TP_Current < 250 || _user.Mana_Percent < 30)
             {
                 _navigation.Stop();
                 _botstage = BotStage.Healing;
@@ -232,27 +270,37 @@ namespace Chocobot.Dialogs
         private void DetectAssistMonsters()
         {
 
-            Character closestMonster = null;
-            List<int> aggroList = _aggrohelper.GetAggroList();
-            
+            Character closestMonster = null;           
             List<Character> fate = new List<Character>();
             List<Character> players = new List<Character>();
             List<Character> monsters = new List<Character>();
+
             MemoryFunctions.GetCharacters(monsters, fate, players, ref _user);
-
             monsters.AddRange(fate);
-            Character assistTarget = players.FirstOrDefault(p => p.Name.ToLower() == txt_Assist.Text.ToLower());
 
-            if (assistTarget == null)
-                return;
+            if (chk_PVPMode.IsChecked == true)
+            {
+                monsters.AddRange(players);
+            }
 
-            //System.Diagnostics.Debug.Print("isUser" + _user.IsUser.ToString() + " " + _user.TargetID.ToString());
+
+            //Garuda Helper
             foreach (Character monster in monsters)
             {
+                if (monster.Health_Percent > 0 && monster.Health_Percent <= 100 && monster.Name.ToLower() == "satin plume")
+                {
+                    monster.Target();
+                    break;
+                }
+            }
 
-                if (monster.Health_Percent > 0 && monster.Health_Percent < 98 && (assistTarget.TargetID == monster.ID || assistTarget.Health_Current == 0 || _user.TargetID == monster.ID))
+
+            foreach (Character monster in monsters)
+            {
+                if (monster.Health_Percent > 0 && monster.Health_Percent <= 100 && monster.Name.ToLower() != "spiny plume" &&  _user.TargetID == monster.ID)
                 {
                     closestMonster = monster;
+                    break;
                 }
             }
 
@@ -505,6 +553,7 @@ namespace Chocobot.Dialogs
                                 MessageBoxImage.Warning);
                 return;
             }
+
             _botstage = BotStage.Detection;
 
             if (chk_HasCure.IsChecked == true)
@@ -529,7 +578,8 @@ namespace Chocobot.Dialogs
         {
 
             int selectedClass = lst_Classes.SelectedIndex;
-
+            _aiFighter = null;
+            GC.Collect();
             switch (selectedClass)
             {
                 case 0:
@@ -575,6 +625,36 @@ namespace Chocobot.Dialogs
             List<Coordinate> waypoints = new List<Coordinate>(_returntocamp.Waypoints);
             vp_map.SetPath(waypoints);
 
+        }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _botstage = BotStage.Nothing;
+            _monsterdetection.Stop();
+            _navigation.Stop();
+            _returntocamp.Stop();
+            Global.DisableBuffs = false;
+
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            _hotKeyManager = new HotKeyManager(this);
+            _hotKeyManager.AddGlobalHotKey(_enableHK);
+            _hotKeyManager.GlobalHotKeyPressed += hotKeyManager_GlobalHotKeyPressed;
+        }
+
+        private void hotKeyManager_GlobalHotKeyPressed(object sender, GlobalHotKeyEventArgs e)
+        {
+            switch (e.HotKey.Name.ToLower())
+            {
+                case "enablebuffs":
+                    Global.DisableBuffs = !Global.DisableBuffs;
+                    group_Options.Header = "Buffs: " + (!Global.DisableBuffs).ToString();
+                    break;
+            }
+
+            
         }
     }
 }

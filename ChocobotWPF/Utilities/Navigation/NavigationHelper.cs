@@ -40,7 +40,6 @@ namespace Chocobot.Utilities.Navigation
         private Thread _navigationThread;
         private bool _continue = true;
         private Coordinate _previousCoordinate = null;
-
         // Invoke the Changed event; called whenever list changes
         protected virtual void OnWaypointChanged()
         {
@@ -48,16 +47,21 @@ namespace Chocobot.Utilities.Navigation
 
             if (_currentindex == Waypoints.Count)
             {
-                if (Waypoints[0].ToggleSteatlh)
+                if (Waypoints[0].setHeading)
                 {
-                    Keyboard.KeyBoardHelper.KeyPress(Keys.D6);
+                    Keyboard.KeyBoardHelper.KeyUp(Keys.W);
+                    _user.Heading = Waypoints[0].Heading;
+
+                    //Keyboard.KeyBoardHelper.KeyPress(Keys.D6);
                 }
 
             } else
             {
-                if (Waypoints[_currentindex].ToggleSteatlh)
+                if (Waypoints[_currentindex].setHeading)
                 {
-                    Keyboard.KeyBoardHelper.KeyPress(Keys.D6);
+                    Keyboard.KeyBoardHelper.KeyUp(Keys.W);
+                    _user.Heading = Waypoints[_currentindex].Heading;
+                   // Keyboard.KeyBoardHelper.KeyPress(Keys.D6);
                 }  
             }
 
@@ -66,6 +70,7 @@ namespace Chocobot.Utilities.Navigation
             if (WaypointIndexChanged != null)
                 WaypointIndexChanged(this, _currentindex);
         }
+
 
 
         private void GrabUser()
@@ -87,11 +92,31 @@ namespace Chocobot.Utilities.Navigation
             }
         }
 
+
+
+        ~NavigationHelper()
+        {
+            Debug.Print("Destructor Called For Navigation Helper");
+            Keyboard.KeyBoardHelper.KeyUp(Keys.W);
+
+            if (_navigationThread != null)
+                if (_navigationThread.IsAlive)
+                {
+                    _navigationThread.Abort();
+                    while (_navigationThread.IsAlive)
+                    {
+
+                    }
+                }
+        }
+
         public NavigationHelper()
         {
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en-US");
+
+            _stuckTimer.Reset();
 
             if (MemoryLocations.Database.Count == 0)
                 return;
@@ -101,7 +126,7 @@ namespace Chocobot.Utilities.Navigation
 
             _navigate.Tick += thread_Navigate_Tick;
             _navigate.Interval = new TimeSpan(0, 0, 0, 0, 100);
-
+            
             GrabUser();
         }
 
@@ -143,6 +168,7 @@ namespace Chocobot.Utilities.Navigation
         {
             _recordcoordinates.Stop();
 
+            _stuckTimer.Reset();
             _jumpRand = _randNum.Next(25, 50);
             _jumpTimer.Reset();
             _jumpTimer.Start();
@@ -204,6 +230,7 @@ namespace Chocobot.Utilities.Navigation
         public void Resume()
         {
 
+            _stuckTimer.Reset();
             _jumpTimer.Reset();
             _jumpTimer.Start();
 
@@ -242,9 +269,9 @@ namespace Chocobot.Utilities.Navigation
                 foreach (Coordinate coord in Waypoints)
                 {
 
-                    if(coord.ToggleSteatlh)
+                    if(coord.setHeading)
                     {
-                        file.WriteLine(coord.X + "," + coord.Y + "," + coord.Z + ",1");
+                        file.WriteLine(coord.X + "," + coord.Y + "," + coord.Z + "," + coord.Heading);
                     } else
                     {
                         file.WriteLine(coord.X + "," + coord.Y + "," + coord.Z);
@@ -266,8 +293,11 @@ namespace Chocobot.Utilities.Navigation
                     List<string> results = line.Split(Convert.ToChar(",")).ToList();
 
                     Coordinate newCoordinate = new Coordinate(float.Parse(results[0]), float.Parse(results[1]), float.Parse(results[2]));
-                    newCoordinate.ToggleSteatlh = results.Count == 4;
-
+                    newCoordinate.setHeading = results.Count == 4;
+                    if (newCoordinate.setHeading)
+                    {
+                        newCoordinate.Heading = float.Parse(results[3]);
+                    }
                     Waypoints.Add(newCoordinate);
 
                 }
@@ -290,6 +320,16 @@ namespace Chocobot.Utilities.Navigation
                     _jumpTimer.Start();
 
                     _jumpRand = _randNum.Next(25, 50);
+                }
+
+                if (Waypoints[_currentindex].setHeading)
+                {
+                    Stop();
+
+                    if (NavigationFinished != null)
+                        NavigationFinished(this);
+
+                    break;
                 }
 
                 Keyboard.KeyBoardHelper.KeyDown(Keys.W);
@@ -338,7 +378,7 @@ namespace Chocobot.Utilities.Navigation
 
                             if (_stuckTimer.Elapsed.Seconds >= 8)
                             {
-                                Debug.Print("Stuck for over 7 seconds...");
+                                Debug.Print("Stuck for over 8 seconds...");
                                 Stop();
 
                                 if (NavigationFinished != null)
@@ -427,7 +467,7 @@ namespace Chocobot.Utilities.Navigation
             }
             else
             {
-                if (Waypoints.Last().Distance(_user.Coordinate) > 2.5)
+                if (Waypoints.Last().Distance(_user.Coordinate) > 1.5)
                 {
                     Waypoints.Add(_user.Coordinate);
                 }

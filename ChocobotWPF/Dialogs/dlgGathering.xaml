@@ -4,12 +4,12 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:Controls1="clr-namespace:Chocobot.Controls" x:Class="Chocobot.Dialogs.dlgGathering"
         Title="Gathering Bot" Height="314.53" Width="496"
                       Icon="/Chocobot;component/Resources/Icon.ico"
-                      ResizeMode="NoResize">
+                      ResizeMode="NoResize" Closing="MetroWindow_Closing">
 
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />

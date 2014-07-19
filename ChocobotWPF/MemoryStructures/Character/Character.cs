@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using Chocobot.Datatypes;
 using Chocobot.Utilities.Memory;
@@ -32,11 +35,15 @@ namespace Chocobot.MemoryStructures.Character
         private bool _isMoving;
         private short _currentcp;
         private short _maxcp;
-        private int _usingAbilityID;
+        private short _usingAbilityID;
         private bool _usingAbility;
         private short _currentGp;
         private short _maxgp;
         private int _craftbool;
+        private uint _statusEffectsAddress;
+        private byte _job;
+        private int _owner;
+        private byte _distance;
 
         private readonly uint _address;
         //Get the culture property of the thread.
@@ -45,6 +52,12 @@ namespace Chocobot.MemoryStructures.Character
 
         
         #region "Properties"
+
+        public int Owner
+        {
+            get { return _owner; }
+            set { _owner = value; }
+        }
 
         public bool IsUser
         {
@@ -93,13 +106,17 @@ namespace Chocobot.MemoryStructures.Character
             }
         }
 
+        public byte Distance
+        {
+            get { return _distance; }
+        }
         public byte Level
         {
             get { return _level;  }
         }
         public bool IsClaimed
         {
-            get { return _claimed == 1; }
+            get { return _claimed != 0; }
         }
 
         public bool IsHidden
@@ -113,7 +130,11 @@ namespace Chocobot.MemoryStructures.Character
             {
                 try
                 {
-                    return Convert.ToByte(Math.Ceiling((Convert.ToDouble(_currenthealth) / Convert.ToDouble(_maxhealth)) * 100.0));
+                    if (_maxhealth > 0 && _currenthealth > 0)
+                        return Convert.ToByte(Math.Ceiling((Convert.ToDouble(_currenthealth) / Convert.ToDouble(_maxhealth)) * 100.0));
+                    
+                    return 0;
+                    
                 } catch
                 {
                     return 0;
@@ -208,26 +229,45 @@ namespace Chocobot.MemoryStructures.Character
             }
         }
 
+        public ePosition Position(Character person)
+        {
+            double angle = Coordinate.AngleTo(person.Coordinate) - Heading;
+
+            angle = (angle * 57.2957795);
+            if(angle < 0)
+                angle += 360;
+
+           // Debug.Print(angle.ToString());
+
+            if(angle >= 125 && angle <= 230)
+                return ePosition.Back;
+            if ((angle < 125 && angle >= 60) || (angle > 230 && angle < 300))
+                return ePosition.Side;
+            
+
+            return ePosition.Front;
+
+        
+            
+        }
+
+
         public Coordinate Coordinate
         {
             get { return _coordinate; }
-            //set
-            //{
+            set
+            {
 
-            //    MemoryHandler.Instance.SetFloat(Address + 160, value.X);
-            //    MemoryHandler.Instance.SetFloat(Address + 164, value.Z);
-            //    MemoryHandler.Instance.SetFloat(Address + 168, value.Y);
-            //    UInt32 addy = MemoryHandler.Instance.GetUInt32(Address + 0xEC);
+                //MemoryHandler.Instance.SetFloat(Address + 160, value.X);
+                //MemoryHandler.Instance.SetFloat(Address + 164, value.Z);
+                //MemoryHandler.Instance.SetFloat(Address + 168, value.Y);
+                //UInt32 addy = MemoryHandler.Instance.GetUInt32(Address + 0xEC);
 
-            //    //const int CLI_SIDE_X = 0x30;
-            //    //const int CLI_SIDE_Z = 0x34;
-            //    //const int CLI_SIDE_Y = 0x38;
+                //MemoryHandler.Instance.SetFloat(addy + 0x30, value.X);
+                //MemoryHandler.Instance.SetFloat(addy + 0x34, value.Z);
+                //MemoryHandler.Instance.SetFloat(addy + 0x38, value.Y);
 
-            //    MemoryHandler.Instance.SetFloat(addy + 0x30, value.X);
-            //    MemoryHandler.Instance.SetFloat(addy + 0x34, value.Z);
-            //    MemoryHandler.Instance.SetFloat(addy + 0x38, value.Y);
-
-            //}
+            }
         }
 
         public CharacterType Type
@@ -251,6 +291,193 @@ namespace Chocobot.MemoryStructures.Character
 
                 return CharacterType.PC;
             }
+        }
+
+
+        public List<Character> MonstersNear(double distance)
+        {
+            List<Character> monsters = new List<Character>();
+            List<Character> fate = new List<Character>();
+            List<Character> players = new List<Character>();
+            Character user = null;
+
+            MemoryFunctions.GetCharacters(monsters, fate, players, ref user);
+
+            return monsters.Where(monster => DistanceFrom(monster) < distance && monster.Health_Current > 0 && monster.ID != ID && monster.IsHidden == false && monster.Owner == -536870912).Distinct().ToList();
+        }
+
+
+        public bool ContainsStatusEffect(Int32 abilityID, Int32 casterID, bool checkCaster, float time)
+        {
+
+            for (uint i = 0; i < 24; i++)
+            {
+                Int32 id = MemoryHandler.Instance.GetInt16(Address + _statusEffectsAddress + (i * 12));
+                float remaining = MemoryHandler.Instance.GetFloat(Address + _statusEffectsAddress + (i * 12) + 4);
+                if (id == 0 || id != abilityID)
+                    continue;
+
+                if (time > remaining)
+                    return false;
+
+                Int32 casterId = MemoryHandler.Instance.GetInt32(Address + _statusEffectsAddress + (i * 12) + 8);
+
+                if (checkCaster && casterId == casterID)
+                {
+                    return true;
+                }
+
+                if (checkCaster == false)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+
+        public bool ContainsStatusEffect2(Int32 abilityID, float time)
+        {
+
+            for (uint i = 0; i < 24; i++)
+            {
+                Int32 id = MemoryHandler.Instance.GetInt16(Address + _statusEffectsAddress + (i * 12));
+                float remaining = MemoryHandler.Instance.GetFloat(Address + _statusEffectsAddress + (i * 12) + 4);
+                if (id == 0 || id != abilityID)
+                    continue;
+
+                if (time >= remaining)
+                {
+                    return true;
+                }
+                    
+                return false;
+            }
+
+            return false;
+
+        }
+
+        public override bool Equals(object obj)
+        {
+
+            Character c = obj as Character;
+            if (c == null)
+                return false;
+
+            return c.ID == ID;
+        }
+
+        public override int GetHashCode()
+        {
+            return ID.GetHashCode();
+        }
+
+        public bool ContainsStatusEffect(Int32 abilityID, Int32 casterID, bool checkCaster)
+        {
+
+            for (uint i = 0; i < 24; i++)
+            {
+                Int32 id = MemoryHandler.Instance.GetInt16(Address + _statusEffectsAddress + (i * 12));
+
+                if (id == 0 || id != abilityID)
+                    continue;
+
+                Int32 casterId = MemoryHandler.Instance.GetInt32(Address + _statusEffectsAddress + (i * 12) + 8);
+
+                if (checkCaster && casterId == casterID)
+                {
+                    return true;
+                }
+               
+                if(checkCaster == false)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+        public bool ContainsStatusEffect(Int32 abilityID, Int32 casterID, bool checkCaster, byte countLimit)
+        {
+
+            for (uint i = 0; i < 24; i++)
+            {
+                Int32 id = MemoryHandler.Instance.GetInt16(Address + _statusEffectsAddress + (i * 12));
+
+                if (id == 0 || id != abilityID)
+                    continue;
+
+                Int32 casterId = MemoryHandler.Instance.GetInt32(Address + _statusEffectsAddress + (i * 12) + 8);
+                Byte count = MemoryHandler.Instance.GetByte(Address + _statusEffectsAddress + (i * 12) + 2, false);
+
+                if (countLimit >= count)
+                {
+                    return false;
+                }
+
+                if (checkCaster && casterId == casterID)
+                {
+                    return true;
+                }
+
+                if (checkCaster == false)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+
+        public byte BuffCount(Int32 abilityID, Int32 casterID, bool checkCaster)
+        {
+
+            for (uint i = 0; i < 24; i++)
+            {
+                Int32 id = MemoryHandler.Instance.GetInt16(Address + _statusEffectsAddress + (i * 12));
+
+                if (id == 0 || id != abilityID)
+                    continue;
+
+                Int32 casterId = MemoryHandler.Instance.GetInt32(Address + _statusEffectsAddress + (i * 12) + 8);
+                Byte count = MemoryHandler.Instance.GetByte(Address + _statusEffectsAddress + (i * 12) + 2, false);
+
+                return count;
+
+            }
+
+            return 0;
+
+        }
+
+        public List<StatusEffect.StatusEffect> StatusEffects()
+        {
+            List<StatusEffect.StatusEffect> statuseffects = new List<StatusEffect.StatusEffect>();
+
+            for (uint i = 0; i < 24; i++ )
+            {
+                Int32 id = MemoryHandler.Instance.GetInt16(Address + _statusEffectsAddress + (i * 12));
+
+                if (id == 0)
+                    continue;
+
+                Int32 casterId = MemoryHandler.Instance.GetInt32(Address + _statusEffectsAddress + (i * 12) + 8);
+                Byte count = MemoryHandler.Instance.GetByte(Address + _statusEffectsAddress + (i*12) + 2, false);
+
+                statuseffects.Add(new StatusEffect.StatusEffect(casterId, id, count));
+            }
+
+
+
+            return statuseffects;
+
         }
 
         public string Name
@@ -288,7 +515,7 @@ namespace Chocobot.MemoryStructures.Character
             get { return _isMoving; }
         }
 
-        public int UsingAbilityID
+        public short UsingAbilityID
         {
             get { return _usingAbilityID; }
         }
@@ -298,11 +525,34 @@ namespace Chocobot.MemoryStructures.Character
             get { return _usingAbility; }
         }
 
+        public JOB Job
+        {
+            get { return (JOB)_job; }
+        }
+        public int JobPriority
+        {
+            get
+            {
+                if (Job == JOB.WHM || Job == JOB.SCH)
+                {
+                    return 1;
+
+                }
+                if (Job == JOB.PLD || Job == JOB.WAR)
+                {
+                    return 2;
+                }
+                
+                return 3;
+            }
+
+        }
+
         #endregion
 
         public override string ToString()
         {
-            return Health_Percent + "% " + _name;
+            return Job + " " + Health_Percent + "% " + _name;
         }
 
 
@@ -331,15 +581,15 @@ namespace Chocobot.MemoryStructures.Character
             MemoryHandler.Instance.SetUInt32(targetAddress, _address);
             MemoryHandler.Instance.SetUInt32(targetAddress + 12, _address);
             MemoryHandler.Instance.SetUInt32(targetAddress + 16, _address);
-            MemoryHandler.Instance.SetInt32(targetAddress + 72, _id);
+            MemoryHandler.Instance.SetInt32(targetAddress + 104, _id);
         }
 
         public void Refresh()
         {
 
             // Fixed
-            _id = MemoryHandler.Instance.GetInt32(Address + 116); 
-            _name = Textinfo.ToTitleCase(MemoryHandler.Instance.GetString(Address + 48, 24));
+            _id = MemoryHandler.Instance.GetInt32(Address + 0x74);
+            _name = Textinfo.ToTitleCase(MemoryHandler.Instance.GetString(Address + 0x30, 32));
     
             // Check if the name doesnt look right.... went to far on npc list?
             if(_name.Trim().Length == 0)
@@ -349,56 +599,52 @@ namespace Chocobot.MemoryStructures.Character
             }
 
             _coordinate = new Coordinate(
-                       MemoryHandler.Instance.GetFloat(Address + 160), 
-                       MemoryHandler.Instance.GetFloat(Address + 168),
-                       MemoryHandler.Instance.GetFloat(Address + 164)
+                       MemoryHandler.Instance.GetFloat(Address + 0xA0),
+                       MemoryHandler.Instance.GetFloat(Address + 0xA8),
+                       MemoryHandler.Instance.GetFloat(Address + 0xA4)
                   );
 
-            _heading = MemoryHandler.Instance.GetFloat(Address + 176);
-            //UInt32 addy = MemoryHandler.Instance.GetUInt32(Address + 0xEC);
-            //float vec1 = MemoryHandler.Instance.GetFloat(addy + 0x4C);
-            //float vec2 = MemoryHandler.Instance.GetFloat(addy + 0x44);
+            _heading = MemoryHandler.Instance.GetFloat(Address + 0xB0);
 
-            //Coordinate test = new Coordinate(1, 0, 0);
-            //test = test.Rotate2d(_heading/2);
-            //System.Diagnostics.Debug.Print(test.X.ToString() +  " " + test.Y.ToString());
-            //System.Diagnostics.Debug.Print(vec1.ToString() + "    " + vec2.ToString());
-            ////System.Diagnostics.Debug.Print((test.Angle() * 57.2957795 * 2).ToString() + " == " + (_heading * 57.2957795).ToString());
+            _type = MemoryHandler.Instance.GetByte(Address + 0x8A, false);
 
-
-
-
-
-            _type = MemoryHandler.Instance.GetByte(Address + 138,false);
-            _currenthealth = MemoryHandler.Instance.GetInt32(Address + 5776);
-            _maxhealth = MemoryHandler.Instance.GetInt32(Address + 5780); 
+            _currenthealth = MemoryHandler.Instance.GetInt32(Address + 0x17E8);
+            _maxhealth = MemoryHandler.Instance.GetInt32(Address + 0x17EC); 
             if (_maxhealth == 0)
                 _maxhealth = 1;
 
-            _currentmp = MemoryHandler.Instance.GetInt32(Address + 5784); 
-            _maxmp = MemoryHandler.Instance.GetInt32(Address + 5788); 
-            _currenttp = MemoryHandler.Instance.GetInt16(Address + 5792); 
+            _currentmp = MemoryHandler.Instance.GetInt32(Address + 0x17F0);
+            _maxmp = MemoryHandler.Instance.GetInt32(Address + 0x17F4);
+            _currenttp = MemoryHandler.Instance.GetInt16(Address + 0x17F8); 
             _maxtp = 1000;
 
-            _currentcp = MemoryHandler.Instance.GetInt16(Address + 5798);
-            _maxcp = MemoryHandler.Instance.GetInt16(Address + 5800);
-            _craftbool = MemoryHandler.Instance.GetInt32(Address + 5712);
+            _currentcp = MemoryHandler.Instance.GetInt16(Address + 0x17FE);
+            _maxcp = MemoryHandler.Instance.GetInt16(Address + 0x1800);
+            _craftbool = MemoryHandler.Instance.GetInt32(Address + 0x17A8); //?
 
-            _currentGp = MemoryHandler.Instance.GetInt16(Address + 5794);
-            _maxgp = MemoryHandler.Instance.GetInt16(Address + 5796);
+            _currentGp = MemoryHandler.Instance.GetInt16(Address + 0x17FA);
+            _maxgp = MemoryHandler.Instance.GetInt16(Address + 0x17FC);
+            _level = MemoryHandler.Instance.GetByte(Address + 0x17E1, false);
+            _job = MemoryHandler.Instance.GetByte(Address + 0x17E0, false);
+            _icon = MemoryHandler.Instance.GetByte(Address + 0x18C, false);
+            _status = MemoryHandler.Instance.GetByte(Address + 0x18E, false);
+            _hidden = MemoryHandler.Instance.GetInt32(Address + 0x10C) != 0; //?
 
-            _level = MemoryHandler.Instance.GetByte(Address + 5769, false);
-            _icon = MemoryHandler.Instance.GetByte(Address + 394, false);
-            _status = MemoryHandler.Instance.GetByte(Address + 405, false);
-            _hidden = MemoryHandler.Instance.GetInt32(Address + 284) != 0;
-            _isMoving = MemoryHandler.Instance.GetByte(Address + 532, false) == 1;
-            _usingAbilityID = MemoryHandler.Instance.GetInt32(Address + 424);  //2300
-            _usingAbility = MemoryHandler.Instance.GetByte(Address + 1956, false) == 1;
+            _isMoving = MemoryHandler.Instance.GetByte(Address + 0x224, false) == 1;
+            _owner = MemoryHandler.Instance.GetInt32(Address + 0x84);
+
+            _distance = MemoryHandler.Instance.GetByte(Address + 0x8D, false);
+            //UInt32 abilityAddress = MemoryHandler.Instance.GetUInt32(Address + 2300);
+
+            _usingAbilityID = MemoryHandler.Instance.GetInt16(Address + 0x3334);
+            _usingAbility = MemoryHandler.Instance.GetByte(Address + 0x7D4, false) == 1;
+            _statusEffectsAddress = 0x3168;
+
             // Needs Work
 
             if (_isUser == false)
             {
-                _target = MemoryHandler.Instance.GetInt32(Address + 416);
+                _target = MemoryHandler.Instance.GetInt32(Address + 0x1A8);
             } else
             {
                 int targAddress = MemoryFunctions.GetTarget();
@@ -411,9 +657,9 @@ namespace Chocobot.MemoryStructures.Character
                 }
             }
 
-            _claimed = MemoryHandler.Instance.GetByte(Address + 405, false);
+            _claimed = MemoryHandler.Instance.GetByte(Address + 0x1A0, false);
 
-            _fate = MemoryHandler.Instance.GetUInt32(Address + 228);
+            _fate = MemoryHandler.Instance.GetUInt32(Address + 0xE4);
 
             if (_target == -536870912)
                 _target = -1;

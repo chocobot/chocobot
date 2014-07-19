@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Abilities;
 using Chocobot.MemoryStructures.Character;
+using Chocobot.MemoryStructures.UIWindows;
 using Chocobot.Scripting;
 using System.Diagnostics;
 
@@ -19,6 +20,7 @@ namespace Chocobot.CombatAI.Classes
             private Recast _cooldowns;
             private int _attackStep;
             private bool _isRanged;
+            public Hotkeys Hotbar = new Hotkeys();
 
             public ScriptingObject(Character user, Character monster, Recast recast)
             {
@@ -92,7 +94,12 @@ namespace Chocobot.CombatAI.Classes
             _host.ImportNamespace("Chocobot.Utilities.Keyboard");
             _host.ImportNamespace("Chocobot.Datatypes");
             _host.ImportNamespace("Chocobot.MemoryStructures.Abilities.Recast");
-
+            _host.ImportNamespace("Chocobot.MemoryStructures.Abilities.Hotkeys");
+            _host.ImportNamespace("Chocobot.Utilities.Memory");
+            _host.ImportNamespace("Chocobot.Utilities.Memory.MemoryFunctions");
+            _host.ImportNamespace("Chocobot.MemoryStructures.Character");
+            _host.ImportNamespace("System.DateTime");
+            _host.ImportNamespace("Chocobot.Datatypes.Global");
             try
             {
                 _host.ExecuteFile(openfiledialog.FileName);
@@ -153,6 +160,12 @@ namespace Chocobot.CombatAI.Classes
             base.Fight(user, monster, recast);
 
             if (_valid == false)
+                return;
+
+            UIWindow ui = new UIWindow();
+            ui.RefreshPointers();
+
+            if (ui.GetActiveWindowName() == "chatlog")
                 return;
 
             recast.Refresh();

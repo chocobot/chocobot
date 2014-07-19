@@ -427,13 +427,16 @@ namespace Chocobot.Dialogs
             if (_gatheringThread != null)
                 if (_gatheringThread.IsAlive)
                 {
+                    _gatheringWorker._navigation.Stop();
+
+
                     _gatheringThread.Abort();
                     while (_gatheringThread.IsAlive)
                     {
                     }
                 }
 
-
+            
             _gatheringWorker.SearchItems.Clear();
             foreach (string item in lst_Items.Items)
             {
@@ -498,6 +501,31 @@ namespace Chocobot.Dialogs
         {
             if (lst_Items.SelectedItem != null)
                 lst_Items.Items.Remove(lst_Items.SelectedItem);
+        }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+            try
+            {
+                _gatheringWorker._navigation.Stop();
+            }
+            catch (Exception)
+            {
+                
+            }
+ 
+
+            if (_gatheringThread.IsAlive)
+            {
+                _gatheringThread.Abort();
+                while (_gatheringThread.IsAlive)
+                {
+                }
+
+                Debug.Print("Thread Stopped");
+            }
+            
         }
     }
 }

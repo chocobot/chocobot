@@ -4,14 +4,18 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
+using BondTech.HotKeyManagement.WPF._4;
 using Chocobot.Datatypes;
 using Chocobot.MemoryStructures.Character;
 using Chocobot.MemoryStructures.UIWindows.Crafting;
+using Chocobot.Scripting;
 using Chocobot.Utilities.FileIO;
 using Chocobot.Utilities.Input;
 using Chocobot.Utilities.Memory;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
+using Keys = Chocobot.Datatypes.Keys;
 
 namespace Chocobot.Dialogs
 {
@@ -29,6 +33,13 @@ namespace Chocobot.Dialogs
         private StatusEnum _status;
         private ObservableCollection<CraftingKey> _keyConditions;
         public int MaxCrafts;
+        public bool ScriptMode = false;
+        public CraftingAI CraftAi = null;
+        public bool Paused = false;
+
+
+
+
         public CraftWorker(ObservableCollection<CraftingKey> keyConditions)
         {
             _keyConditions = keyConditions;
@@ -49,7 +60,10 @@ namespace Chocobot.Dialogs
             while (craftAmount < MaxCrafts)
             {
                 user.Refresh();
-                System.Diagnostics.Debug.Print(user.Status.ToString() + "  -  " + user.Status.ToString("X"));
+                Debug.Print(user.Status.ToString() + "  -  " + user.Status.ToString("X"));
+
+                if(Paused)
+                    continue;
 
                 if ((user.Status == CharacterStatus.Idle || user.Status == CharacterStatus.Crafting_Idle || user.Status == CharacterStatus.Crafting_Idle2) && user.IsCrafting == false)
                 {
@@ -62,55 +76,60 @@ namespace Chocobot.Dialogs
                     }
 
                     Thread.Sleep(200);
-
-                    //WaitForCraft(user);
                     
-                    bool initialCraft = true;
-
-                restart:
-
-
-                    foreach (CraftingKey keyCondition in _keyConditions)
+                    if (ScriptMode)
                     {
-
-                        if (craftwindow.RefreshPointers() == false)
-                            break;
-
-                        user.Refresh();
-                        craftwindow.Refresh();
-
-                        if (craftwindow.CurrProgress == craftwindow.MaxProgress)
-                            break;
-
-                        if(keyCondition.CPCondition)
-                        {
-                            if (user.CurrentCP < keyCondition.CP)
-                                break;
-                        }
-
-                        if (keyCondition.DurabilityCondition)
-                        {
-                            if (craftwindow.CurrDurability <= keyCondition.Durability)
-                                break;
-                        }
-
-                        if (keyCondition.ProgressCondition)
-                        {
-                            if (craftwindow.CurrProgress > keyCondition.Progress)
-                                break;
-                        }
-
-                        if (keyCondition.ConditionCondition)
-                        {
-                            if (craftwindow.Condition.Trim().ToLower() != keyCondition.Condition.Trim().ToLower())
-                                break;
-                        }
-
-                        Utilities.Keyboard.KeyBoardHelper.KeyPress(keyCondition.Key);
-                        WaitForAbility(user);                       
-
+                        CraftAi.Craftwindow = craftwindow;
+                        CraftAi.Synth();
                     }
+                    else
+                    {
+                        foreach (CraftingKey keyCondition in _keyConditions)
+                        {
 
+
+                            while(Paused){
+                                Thread.Sleep(250);
+                            }
+
+                            if (craftwindow.RefreshPointers() == false)
+                                break;
+
+                            user.Refresh();
+                            craftwindow.Refresh();
+
+                            if (craftwindow.CurrProgress == craftwindow.MaxProgress)
+                                break;
+
+                            if (keyCondition.CPCondition)
+                            {
+                                if (user.CurrentCP < keyCondition.CP)
+                                    continue;
+                            }
+
+                            if (keyCondition.DurabilityCondition)
+                            {
+                                if (craftwindow.CurrDurability <= keyCondition.Durability)
+                                    continue;
+                            }
+
+                            if (keyCondition.ProgressCondition)
+                            {
+                                if (craftwindow.CurrProgress > keyCondition.Progress)
+                                    continue;
+                            }
+
+                            if (keyCondition.ConditionCondition)
+                            {
+                                if (craftwindow.Condition.Trim().ToLower() == keyCondition.Condition.Trim().ToLower())
+                                    continue;
+                            }
+
+                            // Utilities.Keyboard.KeyBoardHelper.KeyPress(keyCondition.Key);
+                            WaitForAbility(user, keyCondition.Key, keyCondition.ControlKey);
+
+                        }
+                    }
 
                     while (craftwindow.RefreshPointers())
                     {
@@ -125,7 +144,7 @@ namespace Chocobot.Dialogs
             }
         }
 
-        private static void WaitForAbility(Character user)
+        private static void WaitForAbility(Character user, Keys key, bool controlKey)
         {
 
             user.Refresh();
@@ -136,9 +155,22 @@ namespace Chocobot.Dialogs
             timer.Reset();
             timer.Start();
 
+            while ((user.UsingAbility) && user.IsCrafting && timer.Elapsed.Seconds < 3)
+            {
+                user.Refresh();
+            }
+
+
             while ((user.UsingAbility == false) && user.IsCrafting && timer.Elapsed.Seconds < 3)
             {
-                Debug.Print("Waiting...");
+                if (controlKey)
+                {
+                    Utilities.Keyboard.KeyBoardHelper.Ctrl(key);
+                }
+                else
+                {
+                    Utilities.Keyboard.KeyBoardHelper.KeyPress(key);
+                }
                 user.Refresh();
             }
 
@@ -165,7 +197,7 @@ namespace Chocobot.Dialogs
             //Debug.Print("After2: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
             user.Refresh();
             //Debug.Print("End: " + user.Status.ToString() + " " + user.IsCrafting.ToString());
-            Thread.Sleep(900);
+            Thread.Sleep(300);
         }
 
         private static void WaitForCraft(Character user)
@@ -190,13 +222,22 @@ namespace Chocobot.Dialogs
         private CraftWorker _craftWorker;
         private Thread _craftThread = null;
         private readonly ObservableCollection<CraftingKey> _keyConditions = new ObservableCollection<CraftingKey>();
+        private CraftingAI _craftingAI = null;
+        private HotKeyManager _hotKeyManager;
+        private GlobalHotKey _enableHK = new GlobalHotKey("Enable", ModifierKeys.None, BondTech.HotKeyManagement.WPF._4.Keys.Oem3, true);
+            
         public ObservableCollection<CraftingKey> KeyConditions
         { get { return _keyConditions; } }
 
         public dlgCrafting()
         {
             InitializeComponent();
-            
+            lst_SynthMode.Items.Add("Recipe");
+            lst_SynthMode.Items.Add("Script");
+
+            lst_SynthMode.SelectedIndex = 0;
+
+
         }
 
         private void btn_Start_Click(object sender, RoutedEventArgs e)
@@ -211,9 +252,16 @@ namespace Chocobot.Dialogs
                     }
                 }
 
+            this.Title = "Crafting Bot";
 
-            _craftWorker = new CraftWorker(_keyConditions);
-            _craftWorker.MaxCrafts = int.Parse(txt_SynthLimit.Text);
+            _craftWorker = new CraftWorker(_keyConditions) {MaxCrafts = int.Parse(txt_SynthLimit.Text), Paused = false};
+
+            if (lst_SynthMode.SelectedIndex == 1)
+            {
+                _craftWorker.ScriptMode = true;
+                _craftWorker.CraftAi = _craftingAI;
+                _craftWorker.CraftAi.Initialize();
+            }
 
             _craftThread = new Thread(new ThreadStart(_craftWorker.DoWork));
             
@@ -286,6 +334,7 @@ namespace Chocobot.Dialogs
                 ini.IniWriteValue("Key" + currkey, "progresscondition", keyCondition.ProgressCondition.ToString());
                 ini.IniWriteValue("Key" + currkey, "condition", keyCondition.Condition.ToString());
                 ini.IniWriteValue("Key" + currkey, "conditioncondition", keyCondition.ConditionCondition.ToString());
+                ini.IniWriteValue("Key" + currkey, "controlkey", keyCondition.ControlKey.ToString());
                 currkey++;
             }
             
@@ -315,6 +364,15 @@ namespace Chocobot.Dialogs
                 newkey.Durability = short.Parse(ini.IniReadValue("Key" + (i + 1), "durability"));
                 newkey.DurabilityCondition = bool.Parse(ini.IniReadValue("Key" + (i + 1), "durabilitycondition"));
 
+                try
+                {
+                    newkey.ControlKey = bool.Parse(ini.IniReadValue("Key" + (i + 1), "controlkey"));
+                } catch (Exception ex)
+                {
+                    newkey.ControlKey = false;
+                }
+                
+                
                 newkey.Condition = ini.IniReadValue("Key" + (i + 1), "condition");
                 try
                 {
@@ -332,6 +390,85 @@ namespace Chocobot.Dialogs
                 _keyConditions.Add(newkey);
             }
 
+
+        }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+
+                if (_craftThread.IsAlive)
+                {
+                    _craftThread.Abort();
+                    while (_craftThread.IsAlive)
+                    {
+                    }
+
+                    Debug.Print("Thread Stopped");
+                }
+            } catch (Exception ex)
+            {
+                
+            }
+
+        }
+
+        private void lst_SynthMode_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if(lst_SynthMode.SelectedIndex == 1)
+            {
+                List<Character> monsters = new List<Character>();
+                List<Character> fate = new List<Character>();
+                List<Character> players = new List<Character>();
+                Character user = null;
+                MemoryFunctions.GetCharacters(monsters, fate, players, ref user);
+
+                _craftingAI = new CraftingAI(user);
+                
+
+            }
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            _hotKeyManager = new HotKeyManager(this);
+
+            try
+            {
+                _hotKeyManager.AddGlobalHotKey(_enableHK);
+
+                _hotKeyManager.GlobalHotKeyPressed += new GlobalHotKeyEventHandler(hotKeyManager_GlobalHotKeyPressed);
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Unable to activate hotkeys. Make sure other bots are closed.", "Chocobot",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+        }
+
+        private void hotKeyManager_GlobalHotKeyPressed(object sender, GlobalHotKeyEventArgs e)
+        {
+            _craftWorker.Paused = !_craftWorker.Paused;
+
+            if(_craftWorker.Paused)
+            {
+                this.Title = "Paused..";
+            } else
+            {
+                this.Title = "Crafting Bot";
+            }
+
+        }
+
+        private void btn_Clear_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to clear?", "Chocobot", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                return;
+
+            _keyConditions.Clear();
 
         }
     }

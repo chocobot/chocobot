@@ -126,5 +126,10 @@ namespace Chocobot.Dialogs
             vp_radar.ShowHidden = !vp_radar.ShowHidden;
 
         }
+
+        private void mnu_ToggleCompass(object sender, RoutedEventArgs e)
+        {
+            vp_radar.CompassMode = !vp_radar.CompassMode;
+        }
     }
 }

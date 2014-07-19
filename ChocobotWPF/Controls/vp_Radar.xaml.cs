@@ -42,6 +42,16 @@ namespace Chocobot.Controls
         private readonly ImageSource _woodicon;
         private readonly ImageSource _radarheading;
 
+        private readonly ImageSource _playerBrd;
+        private readonly ImageSource _playerBlm;
+        private readonly ImageSource _playerDrg;
+        private readonly ImageSource _playerMrd;
+        private readonly ImageSource _playerMnk;
+        private readonly ImageSource _playerPld;
+        private readonly ImageSource _playerSch;
+        private readonly ImageSource _playerSmn;
+        private readonly ImageSource _playerWhm;
+
         // Toggles
         public bool ShowPlayers = true;
         public bool ShowMonsters = true;
@@ -53,6 +63,7 @@ namespace Chocobot.Controls
         public bool ShowMonsterName = false;
         public bool ShowPlayerName = false;
         public bool ShowHidden = false;
+        public bool CompassMode = false;
         public string Filter = "";
         public bool Test
         {
@@ -78,9 +89,27 @@ namespace Chocobot.Controls
                 _skullicon = new BitmapImage(new Uri("pack://application:,,/Resources/skull_16x16.png"));
                 _npcicon = new BitmapImage(new Uri("pack://application:,,/Resources/npc_16x16.png"));
                 _woodicon = new BitmapImage(new Uri("pack://application:,,/Resources/wood_16x16.png"));
-                _radarheading = new BitmapImage(new Uri("pack://application:,,/Resources/radar_heading.png")); 
+                _radarheading = new BitmapImage(new Uri("pack://application:,,/Resources/radar_heading.png"));
 
-                
+                _playerBrd = new BitmapImage(new Uri("pack://application:,,/Resources/Radar/bard.png"));
+                _playerBlm = new BitmapImage(new Uri("pack://application:,,/Resources/Radar/blackmage.png"));
+                _playerDrg = new BitmapImage(new Uri("pack://application:,,/Resources/Radar/dragoon.png"));
+                _playerMrd = new BitmapImage(new Uri("pack://application:,,/Resources/Radar/marauder.png"));
+                _playerMnk = new BitmapImage(new Uri("pack://application:,,/Resources/Radar/monk.png"));
+                _playerPld = new BitmapImage(new Uri("pack://application:,,/Resources/Radar/paladin.png"));
+                _playerSch = new BitmapImage(new Uri("pack://application:,,/Resources/Radar/scholar.png"));
+                _playerWhm = new BitmapImage(new Uri("pack://application:,,/Resources/Radar/whitemage.png"));
+                _playerSmn = new BitmapImage(new Uri("pack://application:,,/Resources/Radar/summoner.png")); 
+
+        //                private readonly ImageSource _playerBrd;
+        //private readonly ImageSource _playerBlm;
+        //private readonly ImageSource _playerDrg;
+        //private readonly ImageSource _playerMrd;
+        //private readonly ImageSource _playerMnk;
+        //private readonly ImageSource _playerPld;
+        //private readonly ImageSource _playerSch;
+        //private readonly ImageSource _playerSmn;
+        //private readonly ImageSource _playerWhm;
             } catch
             {
                 
@@ -132,11 +161,19 @@ namespace Chocobot.Controls
             }
 
            
-            drawingContext.DrawImage(_radarheading,
-                            new Rect(new Point(origin.X - 128, origin.Y - 256),
-                                    new Size(256, 256)));
+            float rotationAmount;
+            if (CompassMode)
+            {
+                rotationAmount = _user.Heading;
 
-
+                drawingContext.DrawImage(_radarheading,
+                new Rect(new Point(origin.X - 128, origin.Y - 256),
+                        new Size(256, 256)));
+            }
+            else
+                rotationAmount = (float)3.14159265;
+                
+            
             if (ShowPlayers)
             {
 
@@ -156,7 +193,7 @@ namespace Chocobot.Controls
                         continue;
 
 
-                    Coordinate offset = _user.Coordinate.Subtract(player.Coordinate).Rotate2d(_user.Heading).Scale(scale);
+                    Coordinate offset = _user.Coordinate.Subtract(player.Coordinate).Rotate2d(rotationAmount).Scale(scale);
                     Coordinate screenCoordinate = offset.Add(origin);
 
                     if (player.Address  == targetID)
@@ -175,12 +212,13 @@ namespace Chocobot.Controls
 
                     if (player.Health_Current == 0)
                         drawingContext.DrawImage(_skullicon,
-                                                 new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
-                                                          new Size(16, 16)));
+                            new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                                new Size(16, 16)));
                     else
-                        drawingContext.DrawImage(_playericon,
-                                                 new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
-                                                          new Size(16, 16)));
+                        DrawPlayerIcon(drawingContext, player, screenCoordinate);
+
+                    
+
 
                     if(ShowPlayerName)
                     {
@@ -206,7 +244,7 @@ namespace Chocobot.Controls
 
                     try
                     {
-                        offset = _user.Coordinate.Subtract(monster.Coordinate).Rotate2d(_user.Heading).Scale(scale);
+                        offset = _user.Coordinate.Subtract(monster.Coordinate).Rotate2d(rotationAmount).Scale(scale);
                     } catch
                     {
                         return;
@@ -276,7 +314,7 @@ namespace Chocobot.Controls
 
                     try
                     {
-                        offset = _user.Coordinate.Subtract(monster.Coordinate).Rotate2d(_user.Heading).Scale(scale);
+                        offset = _user.Coordinate.Subtract(monster.Coordinate).Rotate2d(rotationAmount).Scale(scale);
                     }
                     catch
                     {
@@ -347,7 +385,7 @@ namespace Chocobot.Controls
 
                     try
                     {
-                        Coordinate offset = _user.Coordinate.Subtract(NPC.Coordinate).Rotate2d(_user.Heading).Scale(scale);
+                        Coordinate offset = _user.Coordinate.Subtract(NPC.Coordinate).Rotate2d(rotationAmount).Scale(scale);
                         screenCoordinate = offset.Add(origin);
                     }
                     catch (Exception)
@@ -406,7 +444,7 @@ namespace Chocobot.Controls
                 
                     try
                     {
-                        Coordinate offset = _user.Coordinate.Subtract(gather.Coordinate).Rotate2d(_user.Heading).Scale(scale);
+                        Coordinate offset = _user.Coordinate.Subtract(gather.Coordinate).Rotate2d(rotationAmount).Scale(scale);
                         screenCoordinate = offset.Add(origin);
                     }
                     catch (Exception)
@@ -446,7 +484,89 @@ namespace Chocobot.Controls
             }
 
             drawingContext.DrawEllipse(Brushes.Green, new Pen(new SolidColorBrush(Colors.Green), 1),
-                           new Point(origin.X, origin.Y), 2, 2);
+                           new Point(origin.X, origin.Y), 4, 4);
+
+             if (!CompassMode)
+             {
+
+                 Coordinate heading = new Coordinate(0, 8, 0);
+                 heading = heading.Rotate2d(-_user.Heading);
+                 heading = heading.Add(origin);
+
+                 drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Green), 5),
+                                         new Point(origin.X, origin.Y),
+                                         new Point(heading.X, heading.Y));
+
+             }
+        }
+
+        private void DrawPlayerIcon(DrawingContext drawingContext, Character player, Coordinate screenCoordinate)
+        {
+            switch (player.Job)
+            {
+                case JOB.ACN:
+                case JOB.SCH:
+                    drawingContext.DrawImage(_playerSch,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+                case JOB.ARC:
+                case JOB.BRD:
+                    drawingContext.DrawImage(_playerBrd,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+                case JOB.THM:
+                case JOB.BLM:
+                    drawingContext.DrawImage(_playerBlm,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+                case JOB.LNC:
+                case JOB.DRG:
+                    drawingContext.DrawImage(_playerDrg,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+                case JOB.WAR:
+                case JOB.MRD:
+                    drawingContext.DrawImage(_playerMrd,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+
+                case JOB.PGL:
+                case JOB.MNK:
+                    drawingContext.DrawImage(_playerMnk,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+
+                case JOB.GLD:
+                case JOB.PLD:
+                    drawingContext.DrawImage(_playerPld,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+
+                case JOB.CNJ:
+                case JOB.WHM:
+                    drawingContext.DrawImage(_playerWhm,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+
+                case JOB.SMN:
+                    drawingContext.DrawImage(_playerSmn,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+                default:
+                    drawingContext.DrawImage(_playericon,
+                        new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                            new Size(16, 16)));
+                    break;
+            }
         }
     }
 }

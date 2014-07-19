@@ -94,66 +94,70 @@ namespace Chocobot.Utilities.Memory
             //Database.Add("GAMEMAIN", (uint) FindSignature("47616D654D61696E000000000000000000000000000000000000000000000000", 1214, ScanResultType.AddressStartOfSig));
             Database.Add("GAMEMAIN", (uint)0);
    
-  
-
-            //List<SigStruct> Sigs = new List<SigStruct>();
-
-            //Sigs.Add(new SigStruct("charmap", "F?FFFFFF??000000000000000000000000000000000000000000000000000000000000000000000000000000????????00000000DB0FC93F6F12833A00000000", 40));
-            
-
-            //Sigs.Add(new SigStruct("npcmap", "00-00-00-00-3E-00-00-00-??-??-??-??-40-00-00-00-01-00-00-00-00-00-00-00-00-01-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-??-??-??-??-DB-0F-C9-3F-6F-12-83-3A-??-??-??-??-DB-0F-C9-3F-6F-12-83-3A", 2432));
-            
-            // Sigs.Add(new SigStruct("chatlog", "4000000006000000000000000001021202380300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000????????????????00000000", 92));
-            // Sigs.Add(new SigStruct("recast", "??-00-00-00-02-00-00-00-01-01-22-20-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-01-00-00-00-??-??-??-??-??-00-00-00-??-00-00-00-??-00-00-00-??-??-??-??", 392));
-            // Sigs.Add(new SigStruct("recast_ws", "??-00-00-00-02-00-00-00-01-01-22-20-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-01-00-00-00-??-??-??-??-??-00-00-00-??-00-00-00-??-00-00-00-??-??-??-??", 1532));
 
 
-            //Database.Add("charmap", (uint)FindSignature("FFFFFFFF??000000000000000000000000000000????????00000000DB0FC93F6F12833A00", 40, ScanResultType.AddressStartOfSig));
-            //Database.Add("npcmap", (uint)FindSignature("000000003E000000????????400000000100000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000????????DB0FC93F6F12833A????????DB0FC93F6F12833A", 208, ScanResultType.AddressStartOfSig));
-
-            
-            //Database.Add("target", (uint)FindSignature("0000403F????????0000????????0000000000000000????0000????????????????0000????0000????????DB0FC93F6F12833A", 248, ScanResultType.AddressStartOfSig));
-                                                        //0000403F000000000000000000000000000000000000000000000000000000003A0200002001000000000000DB0FC93F6F12833A
-                                                        //0000403F000000000000000000000000000000000000000000000000000000000E040000E701000000000000DB0FC93F 6F12833A                                           
-
-            //Database.Add("recast", (uint)FindSignature("??00000002000000010122200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000??????????000000??000000??000000????????", 392, ScanResultType.AddressStartOfSig));
-            //Database.Add("recast_ws", (uint)FindSignature("??00000002000000010122200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000??????????000000??000000??000000????????", 1532, ScanResultType.AddressStartOfSig));
-
-            //map 010000000000000092???????0000000?80000000000000000014?????????????????????????????????????????????0000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000DB0FC93F
-            
-            //ability_read
-            //00100000000000000000002A000000310000000000000001000000FFFFFFFF010000000000000000000000000000000000000000000000000000000000000000
-            
+            // CHARMAP  + 804 dec
+            //  DB0FC93FDB0F49416F12833AFFFFFFFF000000E0000000E0DB0FC93F
 
             // crafting
             //002045440040E3430000000000000000CDCCCC3ECDCCCC3ECDCCCC3E0000003F000000000000803F000000000100000000000000DB0FC93F6F12833A0000000030003400000000000000000000000000    +384
             //002045440040E3430000000000000000CDCCCC3ECDCCCC3ECDCCCC3E0000003F000000000000803F000000000100000000000000DB0FC93F6F12833A000000003000????000000000000000000000000
             try
             {
-                Database.Add("charmap", 0x10BBD5C + MemoryHandler.Instance.BaseAddress + 64);   //+40
-                Database.Add("aggro", 0x10BBD5C + MemoryHandler.Instance.BaseAddress + 3440);  //3400
+
+                //Database.Add("charmap", 0xF643E4 + MemoryHandler.Instance.BaseAddress);
+
+                //Database.Add("npcmap", 0xF5DBD8 + MemoryHandler.Instance.BaseAddress);
+
+                //Database.Add("gathermap", 0xEA4068 + MemoryHandler.Instance.BaseAddress);
+                //Database.Add("aggro", 0xF6511C + MemoryHandler.Instance.BaseAddress);
+
+                //Database.Add("recast", 0xDFB618 + MemoryHandler.Instance.BaseAddress);
+                //Database.Add("recast_ws", 0xDFB618 + MemoryHandler.Instance.BaseAddress + 0x474);
+
+                //Database.Add("target", 0xE3C038 + MemoryHandler.Instance.BaseAddress);
+
+                //// Zoom min 1.5   Max 20... find ESI register.
+                //Database.Add("zoomHax", 0xE3BFB0 + MemoryHandler.Instance.BaseAddress);
+
+                //Database.Add("map", 0xE3E724 + MemoryHandler.Instance.BaseAddress);
+                //Database.Add("hotkeys", 0xE3E2E8 + MemoryHandler.Instance.BaseAddress);
+
+                //Database.Add("crafting", 0xE3E760 + MemoryHandler.Instance.BaseAddress);
+                //Database.Add("time", 0xE3B500 + MemoryHandler.Instance.BaseAddress);
+
+                //Database.Add("forceHotkey", 0xE91260 + MemoryHandler.Instance.BaseAddress);
+
+                //Database.Add("chatlog", MemoryHandler.Instance.GetUInt32(Database["GAMEMAIN"]) + 12);
 
 
-                Database.Add("npcmap", 0x10D7198 + MemoryHandler.Instance.BaseAddress + 2432);
-                Database.Add("gathermap", 0x10D7198 + MemoryHandler.Instance.BaseAddress + 2000);
+                Database.Add("charmap", 0x1043384 + MemoryHandler.Instance.BaseAddress); // + DEFA0
+                Database.Add("npcmap", 0x106ED38 + MemoryHandler.Instance.BaseAddress);
 
-                Database.Add("recast", 0x10CF208 + MemoryHandler.Instance.BaseAddress + 412);
-                Database.Add("recast_ws", 0x10CF208 + MemoryHandler.Instance.BaseAddress + 1572);
-
-
-                Database.Add("target", 0xF87ED4 + MemoryHandler.Instance.BaseAddress + 172);
-                Database.Add("map", 0xF8BF78 + MemoryHandler.Instance.BaseAddress + 128);
+                Database.Add("gathermap", 0x106E7C0 + MemoryHandler.Instance.BaseAddress);
+                Database.Add("aggro", 0x10440BC + MemoryHandler.Instance.BaseAddress);
 
 
+                Database.Add("recast", 0xEAF1C8 + MemoryHandler.Instance.BaseAddress); // + b3bb0
+                Database.Add("recast_ws", 0xEAF1C8 + MemoryHandler.Instance.BaseAddress + 0x474);
 
-                // 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003073EA03840300000000000000000000C0A4A610000000000000000000000000DB0FC93F6F12833A555555410000000000000000FFFFFFFF000000000000000000000000FFFFFFFF000000000000000000000000FFFFFFFF0000000000000000
-                Database.Add("crafting", 0x109C7D4 + MemoryHandler.Instance.BaseAddress);
+                Database.Add("target", 0xF1A998 + MemoryHandler.Instance.BaseAddress); // + DE960
 
-                //Database.Add("ability_ready", 0xF8BF78 + MemoryHandler.Instance.BaseAddress + 128);
+
+
+                // Zoom min 1.5   Max 20... find ESI register.
+                Database.Add("zoomHax", 0xE3BFB0 + MemoryHandler.Instance.BaseAddress);
+
+                Database.Add("map", 0xF1D0C0 + MemoryHandler.Instance.BaseAddress); //DE99C
+                Database.Add("hotkeys", 0xF1CC48 + MemoryHandler.Instance.BaseAddress);
+
+                Database.Add("crafting", 0xE3E760 + MemoryHandler.Instance.BaseAddress);
+                Database.Add("time", 0xF19E50 + MemoryHandler.Instance.BaseAddress);
+
+                Database.Add("forceHotkey", 0xE91260 + MemoryHandler.Instance.BaseAddress);
 
                 Database.Add("chatlog", MemoryHandler.Instance.GetUInt32(Database["GAMEMAIN"]) + 12);
-
-
+               
             } catch (Exception ex)
             {
                 // Exit the program.
