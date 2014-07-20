@@ -158,7 +158,7 @@ namespace Chocobot.CombatAI.Classes
 
 
             if (hotkeys[INTERNALRELEASE].PercentReady >= 99 &&
-                user.Level >= 26 && Global.DisableBuffs == false && user.TP_Current >= 40)
+                user.Level >= 26 && Global.DisableBuffs == false && user.TP_Current >= 40 && hotkeys[HEAVYSHOT].PercentReady <= 78)
             {
                 //MemoryFunctions.ForceAction(INTERNALRELEASE, 21, MemoryFunctions.ActionType.Ability);
                 hotkeys[INTERNALRELEASE].UseAbility();
@@ -196,20 +196,20 @@ namespace Chocobot.CombatAI.Classes
                 }
             }
             else if (hotkeys[INVIGORATE].PercentReady >= 100 && user.Level >= 4 &&
-                     user.TP_Current <= 500)
+                     user.TP_Current <= 550 && hotkeys[HEAVYSHOT].PercentReady <= 78)
             {
                 //MemoryFunctions.ForceAction(INVIGORATE, 20, MemoryFunctions.ActionType.Ability);
                 hotkeys[INVIGORATE].UseAbility();
 
             }
-            else if (hotkeys[RAGINGSTRIKES].PercentReady >= 100 && user.Level >= 4 && Global.DisableBuffs == false)
+            else if (hotkeys[RAGINGSTRIKES].PercentReady >= 100 && user.Level >= 4 && Global.DisableBuffs == false && hotkeys[HEAVYSHOT].PercentReady <= 78)
             {
                 //MemoryFunctions.ForceAction(RAGINGSTRIKES, 19, MemoryFunctions.ActionType.Ability);
                 hotkeys[RAGINGSTRIKES].UseAbility();
             }
             else if (hotkeys[BLOODFORBLOOD].PercentReady >= 100 && user.Level >= 38 &&
                      monster.Name.Contains("Twintania") == false &&
-                     monster.Name.Contains("Conflagration") == false && Global.DisableBuffs == false)
+                     monster.Name.Contains("Conflagration") == false && Global.DisableBuffs == false && hotkeys[HEAVYSHOT].PercentReady <= 78)
                 // && user.ContainsStatusEffect(125, 0, false) == false
             {
                 //MemoryFunctions.ForceAction(BLOODFORBLOOD, 20, MemoryFunctions.ActionType.Ability);
@@ -217,45 +217,45 @@ namespace Chocobot.CombatAI.Classes
             }
             else if (
                 hotkeys[BLOODFORBLOOD].PercentReady >= 100 && user.Level >= 38 && monster.Name.Contains("Twintania") &&
-                monster.Health_Percent <= 55 && Global.DisableBuffs == false)
+                monster.Health_Percent <= 55 && Global.DisableBuffs == false && hotkeys[HEAVYSHOT].PercentReady <= 78)
                 // && user.ContainsStatusEffect(125, 0, false) == false
             {
                 //MemoryFunctions.ForceAction(BLOODFORBLOOD, 20, MemoryFunctions.ActionType.Ability);
                 hotkeys[BLOODFORBLOOD].UseAbility();
             }
-            else if (hotkeys[HAWKSEYE].PercentReady >= 100 && user.Level >= 26 && Global.DisableBuffs == false)
+            else if (hotkeys[HAWKSEYE].PercentReady >= 100 && user.Level >= 26 && Global.DisableBuffs == false && hotkeys[HEAVYSHOT].PercentReady <= 78)
             {
                 //MemoryFunctions.ForceAction(HAWKSEYE, 15, MemoryFunctions.ActionType.Ability);
                 hotkeys[HAWKSEYE].UseAbility();
             }
             else if (hotkeys[BARRAGE].PercentReady >= 100 &&
                      user.Level >= 38 && monster.Name.Contains("Twintania") == false &&
-                     monster.Name.Contains("Conflagration") == false && Global.DisableBuffs == false)
+                     monster.Name.Contains("Conflagration") == false && Global.DisableBuffs == false && hotkeys[HEAVYSHOT].PercentReady <= 78)
             {
                 //MemoryFunctions.ForceAction(BARRAGE, 12, MemoryFunctions.ActionType.Ability);
                 hotkeys[BARRAGE].UseAbility();
             }
             else if (hotkeys[BARRAGE].PercentReady >= 100 &&
                      user.Level >= 38 && monster.Name.Contains("Twintania") &&
-                     monster.Health_Percent <= 55 && Global.DisableBuffs == false)
+                     monster.Health_Percent <= 55 && Global.DisableBuffs == false && hotkeys[HEAVYSHOT].PercentReady <= 78)
             {
                 //MemoryFunctions.ForceAction(BARRAGE, 12, MemoryFunctions.ActionType.Ability);
                 hotkeys[BARRAGE].UseAbility();
             }
 
-            else if (hotkeys[BLOODLETTER].PercentReady >= 99 && user.Level >= 12)
+            else if (hotkeys[BLOODLETTER].PercentReady >= 99 && user.Level >= 12 && hotkeys[HEAVYSHOT].PercentReady <= 78)
             {
                 //MemoryFunctions.ForceAction(BLOODLETTER, 16, MemoryFunctions.ActionType.Ability);
                 hotkeys[BLOODLETTER].UseAbility();
             }
             else if (monster.Health_Percent <= 20 &&
-                     hotkeys[MISERYSEND].PercentReady >= 99 && user.Level >= 8)
+                     hotkeys[MISERYSEND].PercentReady >= 99 && user.Level >= 8 && hotkeys[HEAVYSHOT].PercentReady <= 78)
             {
                 //MemoryFunctions.ForceAction(MISERYSEND, 16, MemoryFunctions.ActionType.Ability);
                 hotkeys[MISERYSEND].UseAbility();
             }
             else if (
-                hotkeys[BLUNTARROW].PercentReady >= 99 && user.Level >= 42 && Global.StunBotOpen == false)
+                hotkeys[BLUNTARROW].PercentReady >= 99 && user.Level >= 42 && Global.StunBotOpen == false && hotkeys[HEAVYSHOT].PercentReady <= 78)
             {
                 //MemoryFunctions.ForceAction(BLUNTARROW, 16, MemoryFunctions.ActionType.Ability);
                 hotkeys[BLUNTARROW].UseAbility();
