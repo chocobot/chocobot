@@ -55,12 +55,14 @@ namespace Chocobot.Controls
         // Toggles
         public bool ShowPlayers = true;
         public bool ShowMonsters = true;
+        public bool ShowHunts = true;
         public bool ShowNPCs = true;
         public bool ShowGathering = true;
         public bool ShowFate = true;
         public bool ShowGatheringName = true;
         public bool ShowNPCName = false;
         public bool ShowMonsterName = false;
+        public bool ShowHuntsName = false;
         public bool ShowPlayerName = false;
         public bool ShowHidden = false;
         public bool CompassMode = false;
@@ -297,7 +299,123 @@ namespace Chocobot.Controls
 
             }
 
+        if (ShowHunts)
+            {
+                foreach (Character monster in _monsters)
+                {
+                    if (monster.Name.Contains("Bloody Mary") == false &&
+                        monster.Name.Contains("Hellsclaw") == false &&
+                        monster.Name.Contains("Garlok") == false &&
+                        monster.Name.Contains("Barbastelle") == false &&
+                        monster.Name.Contains("Unktehi") == false &&
+                        monster.Name.Contains("Croakadile") == false &&
+                        monster.Name.Contains("Skogs Fru") == false &&
+                        monster.Name.Contains("Vogaal Ja") == false &&
+                        monster.Name.Contains("Croque-Mitaine") == false &&
+                        monster.Name.Contains("Vuokho") == false &&
+                        monster.Name.Contains("Cornu") == false &&
+                        monster.Name.Contains("Mahisha") == false &&
+                        monster.Name.Contains("Myradrosh") == false &&
+                        monster.Name.Contains("Marberry") == false &&
+                        monster.Name.Contains("Nandi") == false &&
+                        monster.Name.Contains("Dark Helmet") == false &&
+                        monster.Name.Contains("Nahn") == false &&
+                        monster.Name.Contains("Bonnacon") == false &&
+                        monster.Name.Contains("White Joker") == false &&
+                        monster.Name.Contains("Forneus") == false &&
+                        monster.Name.Contains("Laideronnette") == false &&
+                        monster.Name.Contains("Stinging Sophie") == false &&
+                        monster.Name.Contains("Melt") == false &&
+                        monster.Name.Contains("Wulgaru") == false &&
+                        monster.Name.Contains("Phecda") == false &&
+                        monster.Name.Contains("Girtab") == false &&
+                        monster.Name.Contains("Thousand-cast Theda") == false &&
+                        monster.Name.Contains("Ghede Ti Malice") == false &&
+                        monster.Name.Contains("Mindflayer") == false &&
+                        monster.Name.Contains("Naul") == false &&
+                        monster.Name.Contains("Marraco") == false &&
+                        monster.Name.Contains("Safat") == false &&
+                        monster.Name.Contains("Ovjang") == false &&
+                        monster.Name.Contains("Sabotender Bailarina") == false &&
+                        monster.Name.Contains("Brontes") == false &&
+                        monster.Name.Contains("Gatling") == false &&
+                        monster.Name.Contains("Maahes") == false &&
+                        monster.Name.Contains("Lampalagua") == false &&
+                        monster.Name.Contains("Flame Sergeant Dalvag") == false &&
+                        monster.Name.Contains("Dalvag's Final Flame") == false &&
+                        monster.Name.Contains("Minhocao") == false &&
+                        monster.Name.Contains("Albin the Ashen") == false &&
+                        monster.Name.Contains("Zanig'oh") == false &&
+                        monster.Name.Contains("Nunyunuwi") == false &&
+                        monster.Name.Contains("Sewer Syrup") == false &&
+                        monster.Name.Contains("Alectryon") == false &&
+                        monster.Name.Contains("Zona Seeker") == false &&
+                        monster.Name.Contains("Leech King") == false &&
+                        monster.Name.Contains("Kurrea") == false &&
+                        monster.Name.Contains("Agrippa") == false)
+                        continue;
+                  
 
+                    if (monster.IsHidden)
+                        continue;
+
+                    Coordinate offset;
+
+                    try
+                    {
+                        offset = _user.Coordinate.Subtract(monster.Coordinate).Rotate2d(rotationAmount).Scale(scale);
+                    }
+                    catch
+                    {
+                        return;
+                    }
+
+                    Coordinate screenCoordinate = offset.Add(origin);
+
+                    if (monster.Address == targetID)
+                    {
+                        drawingContext.DrawEllipse(Brushes.Transparent, new Pen(new SolidColorBrush(Colors.Cyan), 2),
+                           new Point(screenCoordinate.X, screenCoordinate.Y), 12, 12);
+                    }
+
+                    // System.Diagnostics.Debug.Print(aggroList.Count.ToString());
+                    // Check for aggro!
+                    if (aggroList.Contains(monster.ID))
+                    {
+                        drawingContext.DrawLine(targetedPen, new Point(origin.X, origin.Y),
+                                                new Point(screenCoordinate.X, screenCoordinate.Y));
+
+                        drawingContext.DrawEllipse(Brushes.Red, new Pen(new SolidColorBrush(Colors.Red), 2),
+                                                   new Point(screenCoordinate.X, screenCoordinate.Y), 8, 8);
+                    }
+
+                    screenCoordinate = screenCoordinate.Add(-8, -8, 0);
+
+
+                    if (monster.Health_Current == 0)
+                        drawingContext.DrawImage(_skullicon,
+                                                 new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                                                          new Size(16, 16)));
+                    else
+                    {
+                        drawingContext.DrawImage(monster.IsClaimed ? _monsterclaimedicon : _monstericon,
+                                                 new Rect(new Point(screenCoordinate.X, screenCoordinate.Y),
+                                                          new Size(16, 16)));
+                    }
+
+                    if (ShowHuntsName)
+                    {
+
+                        FormattedText monsterLabel = new FormattedText(monster.ToString() + " " + monster.UsingAbilityID.ToString("X"),
+                                                                       System.Globalization.CultureInfo.InvariantCulture,
+                                                                       FlowDirection.LeftToRight, new Typeface("Arial"), 8,
+                                                                       Brushes.White);
+
+                        drawingContext.DrawText(monsterLabel, new Point(screenCoordinate.X - 15, screenCoordinate.Y - 13));
+                    }
+                }
+
+            }
 
             if (ShowFate)
             {
