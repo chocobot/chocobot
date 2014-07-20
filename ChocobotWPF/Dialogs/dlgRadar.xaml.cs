@@ -53,7 +53,11 @@ namespace Chocobot.Dialogs
             vp_radar.ShowMonsters = !vp_radar.ShowMonsters;
         }
 
-
+        private void mnu_ToggleHunts(object sender, RoutedEventArgs e)
+        {
+            vp_radar.ShowHunts = !vp_radar.ShowHunts;
+        }
+        
         private void mnu_ToggleGathering(object sender, RoutedEventArgs e)
         {
             vp_radar.ShowGathering = !vp_radar.ShowGathering;
@@ -73,7 +77,12 @@ namespace Chocobot.Dialogs
         {
             vp_radar.ShowMonsterName = !vp_radar.ShowMonsterName;
         }
-
+        
+        private void mnu_ToggleHuntsName(object sender, RoutedEventArgs e)
+        {
+            vp_radar.ShowHuntsName = !vp_radar.ShowHuntsName;
+        }
+        
         private void mnu_TogglePlayerNames(object sender, RoutedEventArgs e)
         {
             vp_radar.ShowPlayerName = !vp_radar.ShowPlayerName;
