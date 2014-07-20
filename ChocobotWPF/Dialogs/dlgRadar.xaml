@@ -36,6 +36,16 @@
                           Icon="{DynamicResource Monsters}"
                           IsCheckable="True"
                           IsChecked="False" />
+                <MenuItem Click="mnu_ToggleHunts"
+                          Header="Hunts"
+                          Icon="{DynamicResource Monsters}"
+                          IsCheckable="True"
+                          IsChecked="True" />
+                <MenuItem Click="mnu_ToggleHuntsName"
+                          Header="Hunts Names"
+                          Icon="{DynamicResource Monsters}"
+                          IsCheckable="True"
+                          IsChecked="False" />
                 <MenuItem Click="mnu_TogglePlayers"
                           Header="Players"
                           Icon="{DynamicResource Players}"
