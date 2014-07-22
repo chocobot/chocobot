@@ -348,7 +348,7 @@ namespace Chocobot.Controls
                         monster.Name.Contains("Zanig'oh") == false &&
                         monster.Name.Contains("Nunyunuwi") == false &&
                         monster.Name.Contains("Sewer Syrup") == false &&
-                        monster.Name.Contains("Alectryon") == false &&
+                        monster.Name.Contains("Alectyron") == false &&
                         monster.Name.Contains("Zona Seeker") == false &&
                         monster.Name.Contains("Leech King") == false &&
                         monster.Name.Contains("Kurrea") == false &&
