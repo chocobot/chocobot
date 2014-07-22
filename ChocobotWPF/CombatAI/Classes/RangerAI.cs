@@ -172,13 +172,13 @@ namespace Chocobot.CombatAI.Classes
                     hotkeys[STRAIGHTSHOT].UseAbility();
                 }
                 else if (monster.ContainsStatusEffect(124, user.ID, true, (float) 2.5) == false &&
-                         user.Level >= 6 && user.TP_Current >= 100 && ignoreDOT == false)
+                         user.Level >= 6 && user.TP_Current >= 100 && ignoreDOT == false && monster.StatusEffects().Count < 25)
                 {
                     //MemoryFunctions.ForceAction(VENOMOUSBITE, 20, MemoryFunctions.ActionType.WS);
                     hotkeys[VENOMOUSBITE].UseAbility();
                 }
                 else if (monster.ContainsStatusEffect(129, user.ID, true, (float) 2.5) == false &&
-                         user.Level >= 30 && user.TP_Current >= 100 &&
+                         user.Level >= 30 && user.TP_Current >= 100 && monster.StatusEffects().Count < 25 && 
                          (ignoreDOT == false || monster.Name.ToLower().Contains("infernal nail")))
                 {
                     //MemoryFunctions.ForceAction(WINDBITE, 20, MemoryFunctions.ActionType.WS);
