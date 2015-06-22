@@ -8,7 +8,7 @@ namespace Chocobot.Utilities.Memory
     public class MemoryLocations2
     {
 
-        public static Dictionary<string, uint> Database = new Dictionary<string, uint>();
+        public static Dictionary<string, long> Database = new Dictionary<string, long>();
 
         public static void GetMemlocs()
         {
@@ -31,7 +31,7 @@ namespace Chocobot.Utilities.Memory
                 Regex regex1 = new Regex(search);
                 const int SearchSize = 229376;
 
-                int num2 = MemoryHandler.GetModuleEndAddress(MemoryHandler.Instance.Process);
+                long num2 = MemoryHandler.GetModuleEndAddress(MemoryHandler.Instance.Process);
                 System.Diagnostics.Debug.Print(MemoryHandler.Instance.BaseAddress.ToString("X") + "+" + num2.ToString("X"));
                 MemoryHandler.Instance.Address = MemoryHandler.Instance.BaseAddress;
 
@@ -68,7 +68,7 @@ namespace Chocobot.Utilities.Memory
                 Regex regex1 = new Regex((strPrefix + "-([0-9|A-F][0-9|A-F])-([0-9|A-F][0-9|A-F])-([0-9|A-F][0-9|A-F])-([0-9|A-F][0-9|A-F])-" + strSuffix));
                 const int StartAddress = 229376;
 
-                int num2 = MemoryHandler.GetModuleEndAddress(MemoryHandler.Instance.Process);
+                long num2 = MemoryHandler.GetModuleEndAddress(MemoryHandler.Instance.Process);
                 MemoryHandler.Instance.Address = MemoryHandler.Instance.BaseAddress;
 
                 do
@@ -100,7 +100,7 @@ namespace Chocobot.Utilities.Memory
             const int blockSize = 229376;
 
 
-            int endAddress = MemoryHandler.GetModuleEndAddress(MemoryHandler.Instance.Process);
+            long endAddress = MemoryHandler.GetModuleEndAddress(MemoryHandler.Instance.Process);
             MemoryHandler.Instance.Address = MemoryHandler.Instance.BaseAddress;
 
             do

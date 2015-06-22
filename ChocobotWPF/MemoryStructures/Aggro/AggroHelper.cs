@@ -13,14 +13,14 @@ namespace Chocobot.MemoryStructures.Aggro
 {
     class AggroHelper
     {
-        private readonly uint _address = MemoryLocations.Database["aggro"];
+        private readonly long _address = MemoryLocations.Database["aggro"];
         private const uint Structsize = 72; //64
 
        public List<int> GetAggroList()
         {
 
            List<int> monstersAggroed = new List<int>();
-           uint address = _address;
+           long address = _address;
 
            byte aggroCount = MemoryHandler.Instance.GetByte(address + 2304, false);
 
@@ -37,7 +37,7 @@ namespace Chocobot.MemoryStructures.Aggro
        {
 
            List<Tuple<int, byte>> monstersAggroed = new List<Tuple<int, byte>>();
-           uint address = _address;
+           long address = _address;
 
            byte aggroCount = MemoryHandler.Instance.GetByte(address + 2304, false);
 

@@ -166,7 +166,7 @@ namespace Chocobot.MemoryStructures.Abilities
 
         }
 
-        private readonly uint _address;
+        private readonly long _address;
         private const int Structsize = 36;
         public Dictionary<short, Hotkey> Abilities = new Dictionary<short,Hotkey>();
 
@@ -202,7 +202,7 @@ namespace Chocobot.MemoryStructures.Abilities
 
         public void RefreshAbilities()
         {
-            uint address = _address;
+            long address = _address;
             Abilities.Clear();
 
             for (int i = 0; i < 12; i++)
@@ -266,7 +266,7 @@ namespace Chocobot.MemoryStructures.Abilities
 
         public void QuickRefreshAbilities()
         {
-            uint address = _address;
+            long address = _address;
 
             for (int i = 0; i < 12; i++)
             {

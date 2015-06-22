@@ -10,8 +10,8 @@ namespace Chocobot.MemoryStructures.Abilities
         public List<int> SubAbilities = new List<int>();
         public List<int> WeaponSpecials = new List<int>();
 
-        private readonly uint _address;
-        private readonly uint _address2;
+        private readonly long _address;
+        private readonly long _address2;
 
         public enum eAbilities : int
         {

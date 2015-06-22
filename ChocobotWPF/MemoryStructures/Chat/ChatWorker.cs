@@ -121,7 +121,7 @@ namespace Chocobot.MemoryStructures.Chat
  
             _isScanning = true;
 
-            uint address = MemoryLocations.Database["chatlog"];
+            long address = MemoryLocations.Database["chatlog"];
 
             var chatPointers = MemoryHandler.Instance.GetStructure<ChatPointers>(address);
             if (_lastCount == 0)

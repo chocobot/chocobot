@@ -76,7 +76,7 @@ namespace Chocobot.Utilities.Navigation
         private void GrabUser()
         {
 
-            uint startAddress = MemoryLocations.Database["charmap"];
+            long startAddress = MemoryLocations.Database["charmap"];
             _user = new Character(startAddress);
 
         }

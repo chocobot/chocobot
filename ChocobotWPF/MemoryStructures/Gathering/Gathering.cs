@@ -19,7 +19,7 @@ namespace Chocobot.MemoryStructures.Gathering
         private byte _level;
         private byte _status;
 
-        private readonly uint _address;
+        private readonly long _address;
         //Get the culture property of the thread.
         private static readonly CultureInfo CultureInfo = Thread.CurrentThread.CurrentCulture;
         private static readonly TextInfo Textinfo = CultureInfo.TextInfo;
@@ -67,7 +67,7 @@ namespace Chocobot.MemoryStructures.Gathering
         {
             get { return _icon; }
         }
-        public uint Address
+        public long Address
         {
             get { return _address; }
         }
@@ -120,7 +120,7 @@ namespace Chocobot.MemoryStructures.Gathering
         }
 
 
-        public Gathering(uint address, bool forceAddress = false)
+        public Gathering(long address, bool forceAddress = false)
         {
 
             if (forceAddress == false)
@@ -139,12 +139,12 @@ namespace Chocobot.MemoryStructures.Gathering
 
         public void Target()
         {
-            uint targetAddress = MemoryLocations.Database["target"];
+            long targetAddress = MemoryLocations.Database["target"];
 
-            MemoryHandler.Instance.SetUInt32(targetAddress, _address);
-            MemoryHandler.Instance.SetUInt32(targetAddress + 12, _address);
-            MemoryHandler.Instance.SetUInt32(targetAddress + 16, _address);
-            MemoryHandler.Instance.SetInt32(targetAddress + 72, _id);
+           // MemoryHandler.Instance.SetUInt32(targetAddress, _address);
+           // MemoryHandler.Instance.SetUInt32(targetAddress + 12, _address);
+           // MemoryHandler.Instance.SetUInt32(targetAddress + 16, _address);
+           // MemoryHandler.Instance.SetInt32(targetAddress + 72, _id);
         }
 
         public void Refresh()

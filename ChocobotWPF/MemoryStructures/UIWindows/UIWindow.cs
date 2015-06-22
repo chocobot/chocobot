@@ -10,7 +10,7 @@ namespace Chocobot.MemoryStructures.UIWindows
 {
     class UIWindow
     {
-        private uint _address;
+        private long _address;
         private uint _windownameaddress;
 
         public UIWindow()

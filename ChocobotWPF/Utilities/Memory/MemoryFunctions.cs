@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Binarysharp.MemoryManagement;
-using Binarysharp.MemoryManagement.Assembly.CallingConvention;
-using Binarysharp.MemoryManagement.Memory;
-using Binarysharp.MemoryManagement.Native;
+//using Binarysharp.MemoryManagement;
+//using Binarysharp.MemoryManagement.Assembly.CallingConvention;
+//using Binarysharp.MemoryManagement.Memory;
+//using Binarysharp.MemoryManagement.Native;
 using Chocobot.MemoryStructures.Character;
 using Chocobot.MemoryStructures.Gathering;
 
@@ -18,14 +18,14 @@ namespace Chocobot.Utilities.Memory
         {
             Spell,WS,Ability
         }
-        private static MemorySharp Sharp = new MemorySharp(MemoryHandler.Instance.Process);
+      //  private static MemorySharp Sharp = new MemorySharp(MemoryHandler.Instance.Process);
        // public static RemoteAllocation CodeCave = Sharp.Memory.Allocate(512);
 
         public static void ForceHotkey(int slot, int bar)
         {
-            
-            
-            UInt32 esi, ecx;
+
+
+            long esi, ecx;
             esi = MemoryLocations.Database["forceHotkey"];
 
             esi = MemoryHandler.Instance.GetUInt32(esi) + 0x20;
@@ -54,13 +54,13 @@ namespace Chocobot.Utilities.Memory
             //              "retn"
             //          };
 
-            Sharp.Assembly.Execute(address, CallingConventions.Thiscall, ecx, bar, slot);
+        //    Sharp.Assembly.Execute(address, CallingConventions.Thiscall, ecx, bar, slot);
    
         }
 
         public static void HackMaxZoomLevel()
         {
-            UInt32 esi;
+            long esi;
             esi = MemoryLocations.Database["zoomHax"];
             esi = MemoryHandler.Instance.GetUInt32(esi) + 0xF0;
 
@@ -88,7 +88,7 @@ namespace Chocobot.Utilities.Memory
 
         public static int GetTarget()
         {
-            uint targetAddress = MemoryLocations.Database["target"];
+            long targetAddress = MemoryLocations.Database["target"];
             
             int result = MemoryHandler.Instance.GetInt32(targetAddress);
 
@@ -102,7 +102,7 @@ namespace Chocobot.Utilities.Memory
 
         public static int GetGroundCursor()
         {
-            uint targetAddress = MemoryLocations.Database["recast"] - 0x98;
+            long targetAddress = MemoryLocations.Database["recast"] - 0x98;
 
             int result = MemoryHandler.Instance.GetInt16(targetAddress);
 
@@ -112,12 +112,12 @@ namespace Chocobot.Utilities.Memory
 
         public static DateTime GetGameTime()
         {
-            uint startAddress = MemoryLocations.Database["time"];
+            long startAddress = MemoryLocations.Database["time"];
 
-            byte hour = MemoryHandler.Instance.GetByte(startAddress, false);
-            byte minute = MemoryHandler.Instance.GetByte(startAddress + 4, false);
+          //  byte hour = MemoryHandler.Instance.GetByte(startAddress, false);
+          //  byte minute = MemoryHandler.Instance.GetByte(startAddress + 4, false);
 
-            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, minute, 0);
+            return new DateTime(); //(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hour, minute, 0);
 
         }
 
@@ -128,7 +128,7 @@ namespace Chocobot.Utilities.Memory
 
         public static void GetCharacters(List<Character> monsters, List<Character> fate, List<Character> players, ref Character user)
         {
-            uint startAddress = MemoryLocations.Database["charmap"];
+            long startAddress = MemoryLocations.Database["charmap"];
             const uint length = 396;
 
             players.Clear();
@@ -169,7 +169,7 @@ namespace Chocobot.Utilities.Memory
 
             try
             {
-                uint startAddress = MemoryLocations.Database["npcmap"];
+                long startAddress = MemoryLocations.Database["npcmap"];
                 const uint length = 256;
 
                 NPCs.Clear();
@@ -194,7 +194,7 @@ namespace Chocobot.Utilities.Memory
 
             try
             {
-                uint startAddress = MemoryLocations.Database["gathermap"];
+                long startAddress = MemoryLocations.Database["gathermap"];
                 const uint length = 156;
 
                 gather.Clear();

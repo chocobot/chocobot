@@ -4,7 +4,7 @@ namespace Chocobot.MemoryStructures.UIWindows.Crafting
 {
     public class CraftWindow
     {
-        private uint _address;
+        private long _address;
         private uint _windownameaddress;
         private short _currDurability;
         private short _maxDurability;

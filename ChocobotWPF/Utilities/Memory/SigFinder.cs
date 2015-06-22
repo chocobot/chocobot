@@ -82,7 +82,7 @@ namespace Chocobot.Utilities.Memory
 
         #endregion
 
-        public static Dictionary<string, uint> Database = new Dictionary<string, uint>();
+        public static Dictionary<string, long> Database = new Dictionary<string, long>();
 
         public static void GetMemlocs()
         {
@@ -131,7 +131,7 @@ namespace Chocobot.Utilities.Memory
                 //Database.Add("chatlog", MemoryHandler.Instance.GetUInt32(Database["GAMEMAIN"]) + 12);
 
 
-                Database.Add("charmap", 0x1043384 + MemoryHandler.Instance.BaseAddress); // + DEFA0
+                Database.Add("charmap", 0x147E818 + MemoryHandler.Instance.BaseAddress);
                 Database.Add("npcmap", 0x106ED38 + MemoryHandler.Instance.BaseAddress);
 
                 Database.Add("gathermap", 0x106E7C0 + MemoryHandler.Instance.BaseAddress);

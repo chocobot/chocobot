@@ -45,7 +45,7 @@ namespace Chocobot.MemoryStructures.Character
         private int _owner;
         private byte _distance;
 
-        private readonly uint _address;
+        private readonly long _address;
         //Get the culture property of the thread.
         private static readonly CultureInfo CultureInfo = Thread.CurrentThread.CurrentCulture;
         private static readonly TextInfo Textinfo = CultureInfo.TextInfo;
@@ -197,7 +197,7 @@ namespace Chocobot.MemoryStructures.Character
         {
             get { return _icon; }
         }
-        public uint Address
+        public long Address
         {
             get { return _address; }
         }
@@ -556,7 +556,7 @@ namespace Chocobot.MemoryStructures.Character
         }
 
 
-        public Character(uint address, bool forceAddress = false, bool isUser = false)
+        public Character(long address, bool forceAddress = false, bool isUser = false)
         {
 
             if (forceAddress == false)
@@ -576,12 +576,12 @@ namespace Chocobot.MemoryStructures.Character
 
         public void Target()
         {
-            uint targetAddress = MemoryLocations.Database["target"];
+            long targetAddress = MemoryLocations.Database["target"];
 
-            MemoryHandler.Instance.SetUInt32(targetAddress, _address);
-            MemoryHandler.Instance.SetUInt32(targetAddress + 12, _address);
-            MemoryHandler.Instance.SetUInt32(targetAddress + 16, _address);
-            MemoryHandler.Instance.SetInt32(targetAddress + 104, _id);
+            //MemoryHandler.Instance.SetUInt32(targetAddress, _address);
+            //MemoryHandler.Instance.SetUInt32(targetAddress + 12, _address);
+            //MemoryHandler.Instance.SetUInt32(targetAddress + 16, _address);
+            //MemoryHandler.Instance.SetInt32(targetAddress + 104, _id);
         }
 
         public void Refresh()
@@ -599,70 +599,144 @@ namespace Chocobot.MemoryStructures.Character
             }
 
             _coordinate = new Coordinate(
-                       MemoryHandler.Instance.GetFloat(Address + 0xA0),
-                       MemoryHandler.Instance.GetFloat(Address + 0xA8),
-                       MemoryHandler.Instance.GetFloat(Address + 0xA4)
+                       MemoryHandler.Instance.GetFloat(Address + 0xB0),
+                       MemoryHandler.Instance.GetFloat(Address + 0xB8),
+                       MemoryHandler.Instance.GetFloat(Address + 0xB4)
                   );
 
-            _heading = MemoryHandler.Instance.GetFloat(Address + 0xB0);
+            _heading = MemoryHandler.Instance.GetFloat(Address + 0xC0);
 
-            _type = MemoryHandler.Instance.GetByte(Address + 0x8A, false);
+            _type = MemoryHandler.Instance.GetByte(Address + 0x8A, false);//Check
 
-            _currenthealth = MemoryHandler.Instance.GetInt32(Address + 0x17E8);
-            _maxhealth = MemoryHandler.Instance.GetInt32(Address + 0x17EC); 
+            _owner = MemoryHandler.Instance.GetInt32(Address + 0x84);//Check
+            _distance = MemoryHandler.Instance.GetByte(Address + 0x8D, false); //Check
+    
+
+            _currenthealth = MemoryHandler.Instance.GetInt32(Address + 0x16f8);
+            _maxhealth = MemoryHandler.Instance.GetInt32(Address + 0x16fc);
             if (_maxhealth == 0)
                 _maxhealth = 1;
 
-            _currentmp = MemoryHandler.Instance.GetInt32(Address + 0x17F0);
-            _maxmp = MemoryHandler.Instance.GetInt32(Address + 0x17F4);
-            _currenttp = MemoryHandler.Instance.GetInt16(Address + 0x17F8); 
+            _currentmp = MemoryHandler.Instance.GetInt32(Address + 0x1700);
+            _maxmp = MemoryHandler.Instance.GetInt32(Address + 0x1704);
+            _currenttp = MemoryHandler.Instance.GetInt16(Address + 0x1708);
             _maxtp = 1000;
 
-            _currentcp = MemoryHandler.Instance.GetInt16(Address + 0x17FE);
-            _maxcp = MemoryHandler.Instance.GetInt16(Address + 0x1800);
-            _craftbool = MemoryHandler.Instance.GetInt32(Address + 0x17A8); //?
+            _currentcp = 0;//MemoryHandler.Instance.GetInt16(Address + 0x17FE);
+            _maxcp = 0;//MemoryHandler.Instance.GetInt16(Address + 0x1800);
+            _craftbool = 0;//MemoryHandler.Instance.GetInt32(Address + 0x17A8); 
 
-            _currentGp = MemoryHandler.Instance.GetInt16(Address + 0x17FA);
-            _maxgp = MemoryHandler.Instance.GetInt16(Address + 0x17FC);
-            _level = MemoryHandler.Instance.GetByte(Address + 0x17E1, false);
-            _job = MemoryHandler.Instance.GetByte(Address + 0x17E0, false);
-            _icon = MemoryHandler.Instance.GetByte(Address + 0x18C, false);
-            _status = MemoryHandler.Instance.GetByte(Address + 0x18E, false);
-            _hidden = MemoryHandler.Instance.GetInt32(Address + 0x10C) != 0; //?
+            _currentGp = 0;//MemoryHandler.Instance.GetInt16(Address + 0x17FA);
+            _maxgp = 0;// MemoryHandler.Instance.GetInt16(Address + 0x17FC);
+            _level = MemoryHandler.Instance.GetByte(Address + 0x16f1, false);
+            _job = MemoryHandler.Instance.GetByte(Address + 0x16f0, false);
 
-            _isMoving = MemoryHandler.Instance.GetByte(Address + 0x224, false) == 1;
-            _owner = MemoryHandler.Instance.GetInt32(Address + 0x84);
 
-            _distance = MemoryHandler.Instance.GetByte(Address + 0x8D, false);
-            //UInt32 abilityAddress = MemoryHandler.Instance.GetUInt32(Address + 2300);
 
-            _usingAbilityID = MemoryHandler.Instance.GetInt16(Address + 0x3334);
-            _usingAbility = MemoryHandler.Instance.GetByte(Address + 0x7D4, false) == 1;
-            _statusEffectsAddress = 0x3168;
+            _claimed = MemoryHandler.Instance.GetByte(Address + 0x1C4, false);//Check
+            _fate = MemoryHandler.Instance.GetUInt32(Address + 0xE4); //Check
+
+
+            _icon = MemoryHandler.Instance.GetByte(Address + 0x1B0, false);
+            _status = MemoryHandler.Instance.GetByte(Address + 0x1B2, false);
+            _hidden = MemoryHandler.Instance.GetInt32(Address + 0x130) != 0; 
+
+            _isMoving = MemoryHandler.Instance.GetByte(Address + 0x3E8, false) == 1;
+
+
+
+            _usingAbilityID = MemoryHandler.Instance.GetInt16(Address + 0x38C4);
+            _usingAbility = MemoryHandler.Instance.GetByte(Address + 0x618, false) == 1;
+
+            _statusEffectsAddress = 0x3740;
 
             // Needs Work
 
             if (_isUser == false)
             {
-                _target = MemoryHandler.Instance.GetInt32(Address + 0x1A8);
-            } else
+                _target = MemoryHandler.Instance.GetInt32(Address + 0x1CC);
+            }
+            else
             {
                 int targAddress = MemoryFunctions.GetTarget();
-                if(targAddress == -1)
+                if (targAddress == -1)
                 {
                     _target = -1;
-                } else
+                }
+                else
                 {
                     _target = new Character((uint)targAddress, true).ID;
                 }
             }
-
-            _claimed = MemoryHandler.Instance.GetByte(Address + 0x1A0, false);
-
-            _fate = MemoryHandler.Instance.GetUInt32(Address + 0xE4);
-
+            
             if (_target == -536870912)
                 _target = -1;
+
+            //_coordinate = new Coordinate(
+            //           MemoryHandler.Instance.GetFloat(Address + 0xA0),
+            //           MemoryHandler.Instance.GetFloat(Address + 0xA8),
+            //           MemoryHandler.Instance.GetFloat(Address + 0xA4)
+            //      );
+
+            //_heading = MemoryHandler.Instance.GetFloat(Address + 0xB0);
+
+            //_type = MemoryHandler.Instance.GetByte(Address + 0x8A, false);
+
+            //_currenthealth = MemoryHandler.Instance.GetInt32(Address + 0x17E8);
+            //_maxhealth = MemoryHandler.Instance.GetInt32(Address + 0x17EC); 
+            //if (_maxhealth == 0)
+            //    _maxhealth = 1;
+
+            //_currentmp = MemoryHandler.Instance.GetInt32(Address + 0x17F0);
+            //_maxmp = MemoryHandler.Instance.GetInt32(Address + 0x17F4);
+            //_currenttp = MemoryHandler.Instance.GetInt16(Address + 0x17F8); 
+            //_maxtp = 1000;
+
+            //_currentcp = MemoryHandler.Instance.GetInt16(Address + 0x17FE);
+            //_maxcp = MemoryHandler.Instance.GetInt16(Address + 0x1800);
+            //_craftbool = MemoryHandler.Instance.GetInt32(Address + 0x17A8); //?
+
+            //_currentGp = MemoryHandler.Instance.GetInt16(Address + 0x17FA);
+            //_maxgp = MemoryHandler.Instance.GetInt16(Address + 0x17FC);
+            //_level = MemoryHandler.Instance.GetByte(Address + 0x17E1, false);
+            //_job = MemoryHandler.Instance.GetByte(Address + 0x17E0, false);
+            //_icon = MemoryHandler.Instance.GetByte(Address + 0x18C, false);
+            //_status = MemoryHandler.Instance.GetByte(Address + 0x18E, false);
+            //_hidden = MemoryHandler.Instance.GetInt32(Address + 0x10C) != 0; //?
+
+            //_isMoving = MemoryHandler.Instance.GetByte(Address + 0x224, false) == 1;
+            //_owner = MemoryHandler.Instance.GetInt32(Address + 0x84);
+
+            //_distance = MemoryHandler.Instance.GetByte(Address + 0x8D, false);
+            ////UInt32 abilityAddress = MemoryHandler.Instance.GetUInt32(Address + 2300);
+
+            //_usingAbilityID = MemoryHandler.Instance.GetInt16(Address + 0x3334);
+            //_usingAbility = MemoryHandler.Instance.GetByte(Address + 0x7D4, false) == 1;
+            //_statusEffectsAddress = 0x3168;
+
+            //// Needs Work
+
+            //if (_isUser == false)
+            //{
+            //    _target = MemoryHandler.Instance.GetInt32(Address + 0x1A8);
+            //} else
+            //{
+            //    int targAddress = MemoryFunctions.GetTarget();
+            //    if(targAddress == -1)
+            //    {
+            //        _target = -1;
+            //    } else
+            //    {
+            //        _target = new Character((uint)targAddress, true).ID;
+            //    }
+            //}
+
+            //_claimed = MemoryHandler.Instance.GetByte(Address + 0x1A0, false);
+
+            //_fate = MemoryHandler.Instance.GetUInt32(Address + 0xE4);
+
+            //if (_target == -536870912)
+            //    _target = -1;
         }
 
     }

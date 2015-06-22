@@ -16,8 +16,8 @@ namespace Chocobot.Utilities.Memory
         #region Property Bindings
 
         public Process Process { get; set; }
-        public uint Address {  get; set; }
-        public uint BaseAddress { get; set; }
+        public long Address {  get; set; }
+        public long BaseAddress { get; set; }
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace Chocobot.Utilities.Memory
 
         #endregion
 
-        public static MemoryHandler Instance = new MemoryHandler("ffxiv");
+        public static MemoryHandler Instance = new MemoryHandler("ffxiv_dx11");
 
         public static Process FindProcess(string pName)
         {
@@ -62,7 +62,7 @@ namespace Chocobot.Utilities.Memory
         /// </summary>
         /// <param name="process"> </param>
         /// <param name="address"> </param>
-        public MemoryHandler(Process process, uint address)
+        public MemoryHandler(Process process, long address)
         {
             Process = process;
             Address = address;
@@ -80,7 +80,7 @@ namespace Chocobot.Utilities.Memory
             Process = FindProcess(Name);
             GetModuleEndAddress(Process);
             Datatypes.Constants.ProcessHandle = Process.MainWindowHandle;
-            BaseAddress = (uint)Process.MainModule.BaseAddress.ToInt32();
+            BaseAddress = (long)Process.MainModule.BaseAddress;
         }
 
         public string GetOpcode(int Size)
@@ -89,12 +89,12 @@ namespace Chocobot.Utilities.Memory
             return BitConverter.ToString(buffer1);
         }
 
-        public static int GetModuleEndAddress(Process ProcessInstance)
+        public static long GetModuleEndAddress(Process ProcessInstance)
         {
 
             try
             {
-                int EndAddress = ProcessInstance.MainModule.BaseAddress.ToInt32() + ProcessInstance.MainModule.ModuleMemorySize;
+                long EndAddress = (long)ProcessInstance.MainModule.BaseAddress + ProcessInstance.MainModule.ModuleMemorySize;
 
                 return EndAddress;
             }
@@ -111,7 +111,7 @@ namespace Chocobot.Utilities.Memory
         /// <param name="target"> </param>
         /// <param name="data"> </param>
         /// <returns> </returns>
-        private static bool Poke(Process process, uint target, byte[] data)
+        private static bool Poke(Process process, long target, byte[] data)
         {
             var byteWritten = new IntPtr(0);
             return UnsafeNativeMethods.WriteProcessMemory(process.Handle, new IntPtr(target), data, new UIntPtr((UInt32)data.Length), ref byteWritten);
@@ -123,7 +123,7 @@ namespace Chocobot.Utilities.Memory
         /// <param name="address"> </param>
         /// <param name="buffer"> </param>
         /// <returns> </returns>
-        private static bool Peek(Process process, uint address, byte[] buffer)
+        private static bool Peek(Process process, long address, byte[] buffer)
         {
             try
             {
@@ -540,7 +540,7 @@ namespace Chocobot.Utilities.Memory
         /// <summary>
         /// </summary>
         /// <returns> </returns>
-        public byte GetByte(uint Address, bool Temp)
+        public byte GetByte(long Address, bool Temp)
         {
             var data = new byte[1];
             Peek(Process, Address, data);
@@ -551,7 +551,7 @@ namespace Chocobot.Utilities.Memory
         /// </summary>
         /// <param name="offset"> </param>
         /// <returns> </returns>
-        public byte GetByte(uint Address, uint offset)
+        public byte GetByte(long Address, uint offset)
         {
             var data = new byte[1];
             Peek(Process, Address + offset, data);
@@ -562,7 +562,7 @@ namespace Chocobot.Utilities.Memory
         /// </summary>
         /// <param name="num"> </param>
         /// <returns> </returns>
-        public byte[] GetByteArray(uint Address, int num)
+        public byte[] GetByteArray(long Address, int num)
         {
             var data = new byte[num];
             Peek(Process, Address, data);
@@ -572,7 +572,7 @@ namespace Chocobot.Utilities.Memory
         /// <summary>
         /// </summary>
         /// <returns> </returns>
-        public double GetDouble(uint Address)
+        public double GetDouble(long Address)
         {
             var value = new byte[8];
             Peek(Process, Address, value);
@@ -582,7 +582,7 @@ namespace Chocobot.Utilities.Memory
         /// <summary>
         /// </summary>
         /// <returns> </returns>
-        public float GetFloat(uint Address)
+        public float GetFloat(long Address)
         {
             var value = new byte[4];
             Peek(Process, Address, value);
@@ -592,7 +592,7 @@ namespace Chocobot.Utilities.Memory
         /// <summary>
         /// </summary>
         /// <returns> </returns>
-        public short GetInt16(uint Address)
+        public short GetInt16(long Address)
         {
             var value = new byte[2];
             Peek(Process, Address, value);
@@ -602,7 +602,7 @@ namespace Chocobot.Utilities.Memory
         /// <summary>
         /// </summary>
         /// <returns> </returns>
-        public int GetInt32(uint Address)
+        public int GetInt32(long Address)
         {
             var value = new byte[4];
             Peek(Process, Address, value);
@@ -612,7 +612,7 @@ namespace Chocobot.Utilities.Memory
         /// <summary>
         /// </summary>
         /// <returns> </returns>
-        public long GetInt64(uint Address)
+        public long GetInt64(long Address)
         {
             var value = new byte[8];
             Peek(Process, Address, value);
@@ -622,7 +622,7 @@ namespace Chocobot.Utilities.Memory
         /// <summary>
         /// </summary>
         /// <returns> </returns>
-        public string GetString(uint Address)
+        public string GetString(long Address)
         {
             var bytes = new byte[24];
             Peek(Process, Address, bytes);
@@ -633,7 +633,7 @@ namespace Chocobot.Utilities.Memory
         /// </summary>
         /// <param name="maxSize"> </param>
         /// <returns> </returns>
-        public string GetString(uint Address, int maxSize)
+        public string GetString(long Address, int maxSize)
         {
             var bytes = new byte[maxSize];
             Peek(Process, Address, bytes);
@@ -655,7 +655,7 @@ namespace Chocobot.Utilities.Memory
         /// </summary>
         /// <param name="size"> </param>
         /// <returns> </returns>
-        public string GetStringBySize(uint Address, int size)
+        public string GetStringBySize(long Address, int size)
         {
             var bytes = new byte[size];
             Peek(Process, Address, bytes);
@@ -666,7 +666,7 @@ namespace Chocobot.Utilities.Memory
         /// <summary>
         /// </summary>
         /// <returns> </returns>
-        public UInt32 GetUInt32(uint Address)
+        public UInt32 GetUInt32(long Address)
         {
             var value = new byte[4];
             Peek(Process, Address, value);
@@ -676,7 +676,7 @@ namespace Chocobot.Utilities.Memory
         /// <summary>
         /// </summary>
         /// <returns> </returns>
-        public UInt16 GetUInt16(uint Address)
+        public UInt16 GetUInt16(long Address)
         {
             var value = new byte[4];
             Peek(Process, Address, value);
@@ -701,7 +701,7 @@ namespace Chocobot.Utilities.Memory
         /// </summary>
         /// <typeparam name="T"> </typeparam>
         /// <returns> </returns>
-        public T GetStructure<T>(uint Address)
+        public T GetStructure<T>(long Address)
         {
             var lpBytesWritten = 0;
             var buffer = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(T)));
@@ -811,55 +811,55 @@ namespace Chocobot.Utilities.Memory
 
 
 
-        public void SetByte(uint Address, byte value)
+        public void SetByte(long Address, byte value)
         {
             byte[] data = BitConverter.GetBytes(value);
             Poke(Process, Address, data);
         }
 
-        public void SetByteArray(uint Address, byte[] value)
+        public void SetByteArray(long Address, byte[] value)
         {
             Poke(Process, Address, value);
         }
 
-        public void SetDouble(uint Address, double value)
+        public void SetDouble(long Address, double value)
         {
             byte[] data = BitConverter.GetBytes(value);
             Poke(Process, Address, data);
         }
 
-        public void SetFloat(uint Address, float value)
+        public void SetFloat(long Address, float value)
         {
             byte[] data = BitConverter.GetBytes(value);
             Poke(Process, Address, data);
         }
 
-        public void SetShort(uint Address, short value)
+        public void SetShort(long Address, short value)
         {
             byte[] data = BitConverter.GetBytes(value);
             Poke(Process, Address, data);
         }
 
-        public void SetInt32(uint Address, int value)
+        public void SetInt32(long Address, int value)
         {
             byte[] data = BitConverter.GetBytes(value);
             Poke(Process, Address, data);
         }
 
 
-        public void SetInt64(uint Address, long value)
+        public void SetInt64(long Address, long value)
         {
             byte[] data = BitConverter.GetBytes(value);
             Poke(Process, Address, data);
         }
 
-        public void SetUInt16(uint Address, UInt16 value)
+        public void SetUInt16(long Address, UInt16 value)
         {
             byte[] data = BitConverter.GetBytes(value);
             Poke(Process, Address, data);
         }
 
-        public void SetUInt32(uint Address, UInt32 value)
+        public void SetUInt32(long Address, UInt32 value)
         {
             byte[] data = BitConverter.GetBytes(value);
             Poke(Process, Address, data);

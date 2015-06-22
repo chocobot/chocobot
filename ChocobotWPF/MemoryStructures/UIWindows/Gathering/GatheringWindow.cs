@@ -6,8 +6,8 @@ namespace Chocobot.MemoryStructures.UIWindows.Gathering
     class GatheringWindow
     {
 
-        private uint _address;
-        private uint _windownameaddress;
+        private long _address;
+        private long _windownameaddress;
 
         public List<GatheringItems> Items = new List<GatheringItems>();
         private string _windowName;

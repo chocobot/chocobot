@@ -9,10 +9,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Binarysharp.MemoryManagement;
-using Binarysharp.MemoryManagement.Assembly.CallingConvention;
-using Binarysharp.MemoryManagement.Memory;
-using Binarysharp.MemoryManagement.Native;
+//using Binarysharp.MemoryManagement;
+//using Binarysharp.MemoryManagement.Assembly.CallingConvention;
+//using Binarysharp.MemoryManagement.Memory;
+//using Binarysharp.MemoryManagement.Native;
 using BondTech.HotKeyManagement.WPF._4;
 using Chocobot.Datatypes;
 using Chocobot.Dialogs;
@@ -128,24 +128,11 @@ namespace Chocobot
             MemoryLocations.GetMemlocs();
 
             MemoryFunctions.GetCharacters(_monsters, _fate, _players, ref _user);
-            MemoryFunctions.GetNPCs(_npcs);
-            MemoryFunctions.GetGathering(_gathering);
+          //  MemoryFunctions.GetNPCs(_npcs);
+          //  MemoryFunctions.GetGathering(_gathering);
 
             RefreshCharacterList();
 
-            string debugMsg="";
-            Recast test = new Recast();
-            test.Refresh();
-            foreach(int a in test.Abilities)
-                debugMsg += "\n" + ("Ability: " + a.ToString());
-
-            foreach (int a in test.WeaponSpecials)
-                debugMsg += "\n" + ("WS: " + a.ToString());
-
-            foreach (int a in test.SubAbilities)
-                debugMsg += "\n" + ("Sub Ability: " + a.ToString());
-            
-            System.Diagnostics.Debug.Print(debugMsg);
             _refresh.Interval = new TimeSpan(0, 0, 0, 0, 500);
             _refresh.Tick += RefreshUser_Tick;
 
