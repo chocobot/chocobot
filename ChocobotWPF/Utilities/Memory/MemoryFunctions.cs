@@ -102,7 +102,7 @@ namespace Chocobot.Utilities.Memory
 
         public static int GetGroundCursor()
         {
-            long targetAddress = MemoryLocations.Database["recast"] - 0x98;
+            long targetAddress = MemoryLocations.Database["recast"] - 0x140;
 
             int result = MemoryHandler.Instance.GetInt16(targetAddress);
 
@@ -129,13 +129,13 @@ namespace Chocobot.Utilities.Memory
         public static void GetCharacters(List<Character> monsters, List<Character> fate, List<Character> players, ref Character user)
         {
             long startAddress = MemoryLocations.Database["charmap"];
-            const uint length = 396;
+            const uint length = 396 * 2;
 
             players.Clear();
             monsters.Clear();
             fate.Clear();
 
-            for (uint i = 0; i <= length; i += 4)
+            for (uint i = 0; i <= length; i += 8)
             {
                 Character newChar = new Character(startAddress + i);
 

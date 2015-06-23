@@ -191,11 +191,11 @@ namespace Chocobot.MemoryStructures.Abilities
         public Hotkeys()
         {
             _address = MemoryLocations.Database["hotkeys"];
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x20;
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0xC;
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x18;
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x20;
-            _address = MemoryHandler.Instance.GetUInt32(_address) + 0x20; // Start of Hotkeys
+            _address = MemoryHandler.Instance.GetUInt64(_address) + 0x38;
+            _address = MemoryHandler.Instance.GetUInt64(_address) + 0x10;
+            _address = MemoryHandler.Instance.GetUInt64(_address) + 0x30;
+            _address = MemoryHandler.Instance.GetUInt64(_address) + 0x20;
+            _address = MemoryHandler.Instance.GetUInt64(_address) + 0x1C; // Start of Hotkeys
 
             RefreshAbilities();
         }
@@ -210,7 +210,7 @@ namespace Chocobot.MemoryStructures.Abilities
                 short id = MemoryHandler.Instance.GetInt16(address);
                 short slot = (short)(i + 1);
                 byte highlighted = MemoryHandler.Instance.GetByte(address + 9, false);
-                byte inrange = MemoryHandler.Instance.GetByte(address + 20, false);
+                byte inrange = MemoryHandler.Instance.GetByte(address + 14, false);
                 byte percentReady = MemoryHandler.Instance.GetByte(address + 8, false);
                 byte activated = MemoryHandler.Instance.GetByte(address + 12, false);
 

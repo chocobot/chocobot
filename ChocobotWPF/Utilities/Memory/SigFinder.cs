@@ -138,10 +138,10 @@ namespace Chocobot.Utilities.Memory
                 Database.Add("aggro", 0x10440BC + MemoryHandler.Instance.BaseAddress);
 
 
-                Database.Add("recast", 0xEAF1C8 + MemoryHandler.Instance.BaseAddress); // + b3bb0
-                Database.Add("recast_ws", 0xEAF1C8 + MemoryHandler.Instance.BaseAddress + 0x474);
+                Database.Add("recast", 0x144DB20 + MemoryHandler.Instance.BaseAddress); // + b3bb0
+                Database.Add("recast_ws", 0x144DB20 + MemoryHandler.Instance.BaseAddress + 0x3FC);
 
-                Database.Add("target", 0xF1A998 + MemoryHandler.Instance.BaseAddress); // + DE960
+                Database.Add("target", 0x147E760 + MemoryHandler.Instance.BaseAddress); // + DE960
 
 
 
@@ -149,7 +149,7 @@ namespace Chocobot.Utilities.Memory
                 Database.Add("zoomHax", 0xE3BFB0 + MemoryHandler.Instance.BaseAddress);
 
                 Database.Add("map", 0xF1D0C0 + MemoryHandler.Instance.BaseAddress); //DE99C
-                Database.Add("hotkeys", 0xF1CC48 + MemoryHandler.Instance.BaseAddress);
+                Database.Add("hotkeys", 0x1483758 + MemoryHandler.Instance.BaseAddress);
 
                 Database.Add("crafting", 0xE3E760 + MemoryHandler.Instance.BaseAddress);
                 Database.Add("time", 0xF19E50 + MemoryHandler.Instance.BaseAddress);

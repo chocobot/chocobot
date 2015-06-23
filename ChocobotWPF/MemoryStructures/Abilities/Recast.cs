@@ -105,7 +105,7 @@ namespace Chocobot.MemoryStructures.Abilities
             i = 0;
             while (i < 5)
             {
-                int id = Utilities.Memory.MemoryHandler.Instance.GetInt32((uint)(_address - 0x30 + (i * 4)));
+                int id = Utilities.Memory.MemoryHandler.Instance.GetInt32((uint)(_address - 0xA8 + (i * 4)));
                 AbilityIDs.Add(id);
                 i += 1;
             }
@@ -118,7 +118,7 @@ namespace Chocobot.MemoryStructures.Abilities
             // Get Sub Abilities
             while (i < 5)
             {
-                float recasttimer = Utilities.Memory.MemoryHandler.Instance.GetFloat(_address + 0x320 + counter);
+                float recasttimer = Utilities.Memory.MemoryHandler.Instance.GetFloat(_address + 0x2A8 + counter);
                 int recastid = AbilityIDs[i];
 
                 if (Math.Abs(recasttimer) < 0.00001)

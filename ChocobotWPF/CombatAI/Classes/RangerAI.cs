@@ -64,8 +64,8 @@ namespace Chocobot.CombatAI.Classes
             if (hotkeys[STRAIGHTSHOT].InRange == 0)
                 return;
 
-            UIWindow ui = new UIWindow();
-            ui.RefreshPointers();
+            //UIWindow ui = new UIWindow();
+            //ui.RefreshPointers();
 
             //  if (ui.GetActiveWindowName() == "chatlog")
             //      return;

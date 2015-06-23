@@ -672,6 +672,15 @@ namespace Chocobot.Utilities.Memory
             Peek(Process, Address, value);
             return BitConverter.ToUInt32(value, 0);
         }
+        /// <summary>
+        /// </summary>
+        /// <returns> </returns>
+        public long GetUInt64(long Address)
+        {
+            var value = new byte[8];
+            Peek(Process, Address, value);
+            return BitConverter.ToInt64(value, 0);
+        }
 
         /// <summary>
         /// </summary>

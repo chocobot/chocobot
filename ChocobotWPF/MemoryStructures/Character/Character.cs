@@ -215,16 +215,16 @@ namespace Chocobot.MemoryStructures.Character
             set { 
                 
                 // Server side change
-                MemoryHandler.Instance.SetFloat(Address + 176, value);
+                MemoryHandler.Instance.SetFloat(Address + 0xC0, value); 
                 _heading = value;
 
                 // Client side change
-                UInt32 addy = MemoryHandler.Instance.GetUInt32(Address + 0xEC);
-                Coordinate headingvector = new Coordinate(1, 0, 0);
-                headingvector = headingvector.Rotate2d(_heading / 2);
+                //UInt32 addy = MemoryHandler.Instance.GetUInt32(Address + 0xEC);
+                //Coordinate headingvector = new Coordinate(1, 0, 0);
+                //headingvector = headingvector.Rotate2d(_heading / 2);
 
-                MemoryHandler.Instance.SetFloat(addy + 0x4C, headingvector.X);
-                MemoryHandler.Instance.SetFloat(addy + 0x44, headingvector.Y);
+                //MemoryHandler.Instance.SetFloat(addy + 0x4C, headingvector.X);
+                //MemoryHandler.Instance.SetFloat(addy + 0x44, headingvector.Y);
 
             }
         }
@@ -609,7 +609,7 @@ namespace Chocobot.MemoryStructures.Character
             _type = MemoryHandler.Instance.GetByte(Address + 0x8A, false);//Check
 
             _owner = MemoryHandler.Instance.GetInt32(Address + 0x84);//Check
-            _distance = MemoryHandler.Instance.GetByte(Address + 0x8D, false); //Check
+            _distance = MemoryHandler.Instance.GetByte(Address + 0x91, false); //Check
     
 
             _currenthealth = MemoryHandler.Instance.GetInt32(Address + 0x16f8);
